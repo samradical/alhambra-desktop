@@ -1,0 +1,47 @@
+{
+  "name": "alhambra-desktop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "license": "MIT",
+  "author": {
+    "name": "Sam Elie",
+    "email": "sam@add.dog",
+    "url": "https://github.com/samelie"
+  },
+  "dependencies": {
+    "choo": "^4.1.0",
+    "choo-log": "^3.0.1",
+    "fastclick": "^1.0.6",
+    "intrinsic-scale": "^3.0.3"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.18.0",
+    "babelify": "^7.3.0",
+    "browserify": "^13.1.1",
+    "budo": "^9.2.2",
+    "gulp": "^3.9.1",
+    "gulp-base64": "^0.1.3",
+    "gulp-sass": "^3.1.0",
+    "minimist": "^1.2.0",
+    "node-reset-scss": "^1.0.1",
+    "sass-breakpoints": "^2.1.0",
+    "sass-ems": "^1.0.3",
+    "sass-module-importer": "^1.4.0",
+    "uglify-js": "^2.7.5"
+  },
+  "scripts": {
+    "start:js": "budo src/index.js:bundle.js --live --dir app -- -t babelify",
+    "start:css": "gulp watch",
+    "build": "browserify src/index.js -t babelify | uglifyjs -m -c warnings=false > app/bundle.js && gulp bundle --production"
+  },
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/samelie/alhambra-desktop.git"
+  },
+  "homepage": "https://github.com/samelie/alhambra-desktop",
+  "bugs": {
+    "url": "https://github.com/samelie/alhambra-desktop/issues"
+  }
+}
