@@ -11,7 +11,11 @@ const resetCSS = require('node-reset-scss').includePath
 //our CSS pre-processor
 gulp.task('sass', function() {
   gulp.src('./src/scss/main.scss')
-    .pipe(base64())
+    .pipe(base64({
+            baseDir: '',
+            extensions: ['svg', 'png', /\.jpg#datauri$/i],
+            debug: true
+        }))
     .pipe(sass({
       outputStyle: argv.production ? 'compressed' : undefined,
       includePaths: [ resetCSS ]

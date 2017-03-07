@@ -10,10 +10,14 @@ app.use(log())
 //VIEWS
 var mapView = require('./views/map')
 var tourView = require('./views/tour')
+var pinWheelsView = require('./views/pin_wheels')
 
+var Locations = require('./locations')
+console.log(Locations);
 //APP MODEL
 app.model({
   state: {
+    locations:Locations,
     map: {
       width: 0,
       height: 0
@@ -41,7 +45,8 @@ app.model({
 function mainView(state, prev, send) {
   return html `
     <div class="app">
-        <div class="pinWheels">
+        <div class="pinWheelsContainer">
+            ${pinWheelsView(state, prev, send)}
         </div>
         <div class="appContent">
           <div class="contentContainer"  style="width: ${state.map.width}px; height: ${state.map.height}px; ">
