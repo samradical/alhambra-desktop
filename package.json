@@ -33,7 +33,7 @@
   "scripts": {
     "start:js": "budo src/index.js:bundle.js --live --dir app -- -t babelify",
     "start:css": "gulp watch",
-    "build": "browserify src/index.js -t babelify | uglifyjs -m -c warnings=false > app/bundle.js && gulp bundle --production"
+    "build": "browserify src/index.js -t babelify | uglifyjs -m -c warnings=true > app/bundle.js && gulp sass --production"
   },
   "keywords": [],
   "repository": {
