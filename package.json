@@ -31,9 +31,9 @@
     "uglify-js": "^2.7.5"
   },
   "scripts": {
-    "start:js": "budo src/index.js:bundle.js --live --dir app -- -t babelify",
+    "start:js": "NODE_ENV=development budo src/index.js:bundle.js --live --dir app -- -t babelify -t envify",
     "start:css": "gulp watch",
-    "build": "browserify src/index.js -t babelify | uglifyjs -m -c warnings=true > app/bundle.js && gulp sass --production"
+    "build": "NODE_ENV=production browserify src/index.js -t babelify | envify > app/bundle.js && gulp sass --production"
   },
   "keywords": [],
   "repository": {

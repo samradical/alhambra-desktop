@@ -1,4 +1,12 @@
 import { cover, contain } from 'intrinsic-scale';
+
+let IS_PROD;
+if (process.env.NODE_ENV === 'development') {
+  IS_PROD = false;
+} else {
+  IS_PROD = true;
+}
+
 require('fastclick')(document.body);
 var html = require('choo/html')
 var log = require('choo-log')
@@ -14,6 +22,7 @@ var pinWheelsView = require('./views/pin_wheels')
 
 var Locations = require('./locations')
 console.log(Locations);
+
 //APP MODEL
 app.model({
   state: {
@@ -42,6 +51,8 @@ app.model({
   }
 })
 
+console.log(process.env);
+
 function mainView(state, prev, send) {
   return html `
     <div class="app">
@@ -58,7 +69,14 @@ function mainView(state, prev, send) {
   `
 }
 
-app.router(['/', mainView])
+
+/*app.router({ default: '/alhambra-desktop' }, [
+  [ '/alhambra-desktop', require('./views/empty') ],
+])
+
+*/
+const baseRoute = IS_PROD ? "alhambra-desktop" : ""
+app.router([`/${baseRoute}`, mainView])
 
 var tree = app.start()
 document.body.appendChild(tree)

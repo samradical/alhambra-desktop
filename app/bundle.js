@@ -1,2 +1,5187 @@
-!function e(t,n,r){function o(a,u){if(!n[a]){if(!t[a]){var s="function"==typeof require&&require;if(!u&&s)return s(a,!0);if(i)return i(a,!0);var c=new Error("Cannot find module '"+a+"'");throw c.code="MODULE_NOT_FOUND",c}var l=n[a]={exports:{}};t[a][0].call(l.exports,function(e){var n=t[a][1][e];return o(n?n:e)},l,l.exports,e,t,n,r)}return n[a].exports}for(var i="function"==typeof require&&require,a=0;a<r.length;a++)o(r[a]);return o}({1:[function(e,t,n){(function(n){"use strict";function r(e,t){if(e===t)return 0;for(var n=e.length,r=t.length,o=0,i=Math.min(n,r);o<i;++o)if(e[o]!==t[o]){n=e[o],r=t[o];break}return n<r?-1:r<n?1:0}function o(e){return n.Buffer&&"function"==typeof n.Buffer.isBuffer?n.Buffer.isBuffer(e):!(null==e||!e._isBuffer)}function i(e){return Object.prototype.toString.call(e)}function a(e){return!o(e)&&("function"==typeof n.ArrayBuffer&&("function"==typeof ArrayBuffer.isView?ArrayBuffer.isView(e):!!e&&(e instanceof DataView||!!(e.buffer&&e.buffer instanceof ArrayBuffer))))}function u(e){if(w.isFunction(e)){if(k)return e.name;var t=e.toString(),n=t.match(/\s*function\s+([^\(\s]*)\s*/);return n&&n[1]}}function s(e,t){return"string"==typeof e?e.length<t?e:e.slice(0,t):e}function c(e){if(k||!w.isFunction(e))return w.inspect(e);var t=u(e);return"[Function"+(t?": "+t:"")+"]"}function l(e){return s(c(e.actual),128)+" "+e.operator+" "+s(c(e.expected),128)}function f(e,t,n,r,o){throw new S.AssertionError({message:n,actual:e,expected:t,operator:r,stackStartFunction:o})}function p(e,t){e||f(e,!0,t,"==",S.ok)}function d(e,t,n,u){if(e===t)return!0;if(o(e)&&o(t))return 0===r(e,t);if(w.isDate(e)&&w.isDate(t))return e.getTime()===t.getTime();if(w.isRegExp(e)&&w.isRegExp(t))return e.source===t.source&&e.global===t.global&&e.multiline===t.multiline&&e.lastIndex===t.lastIndex&&e.ignoreCase===t.ignoreCase;if(null!==e&&"object"==typeof e||null!==t&&"object"==typeof t){if(a(e)&&a(t)&&i(e)===i(t)&&!(e instanceof Float32Array||e instanceof Float64Array))return 0===r(new Uint8Array(e.buffer),new Uint8Array(t.buffer));if(o(e)!==o(t))return!1;u=u||{actual:[],expected:[]};var s=u.actual.indexOf(e);return s!==-1&&s===u.expected.indexOf(t)||(u.actual.push(e),u.expected.push(t),g(e,t,n,u))}return n?e===t:e==t}function h(e){return"[object Arguments]"==Object.prototype.toString.call(e)}function g(e,t,n,r){if(null===e||void 0===e||null===t||void 0===t)return!1;if(w.isPrimitive(e)||w.isPrimitive(t))return e===t;if(n&&Object.getPrototypeOf(e)!==Object.getPrototypeOf(t))return!1;var o=h(e),i=h(t);if(o&&!i||!o&&i)return!1;if(o)return e=x.call(e),t=x.call(t),d(e,t,n);var a,u,s=C(e),c=C(t);if(s.length!==c.length)return!1;for(s.sort(),c.sort(),u=s.length-1;u>=0;u--)if(s[u]!==c[u])return!1;for(u=s.length-1;u>=0;u--)if(a=s[u],!d(e[a],t[a],n,r))return!1;return!0}function m(e,t,n){d(e,t,!0)&&f(e,t,n,"notDeepStrictEqual",m)}function v(e,t){if(!e||!t)return!1;if("[object RegExp]"==Object.prototype.toString.call(t))return t.test(e);try{if(e instanceof t)return!0}catch(e){}return!Error.isPrototypeOf(t)&&t.call({},e)===!0}function y(e){var t;try{e()}catch(e){t=e}return t}function b(e,t,n,r){var o;if("function"!=typeof t)throw new TypeError('"block" argument must be a function');"string"==typeof n&&(r=n,n=null),o=y(t),r=(n&&n.name?" ("+n.name+").":".")+(r?" "+r:"."),e&&!o&&f(o,n,"Missing expected exception"+r);var i="string"==typeof r,a=!e&&w.isError(o),u=!e&&o&&!n;if((a&&i&&v(o,n)||u)&&f(o,n,"Got unwanted exception"+r),e&&o&&n&&!v(o,n)||!e&&o)throw o}var w=e("util/"),E=Object.prototype.hasOwnProperty,x=Array.prototype.slice,k=function(){return"foo"===function(){}.name}(),S=t.exports=p;S.AssertionError=function(e){this.name="AssertionError",this.actual=e.actual,this.expected=e.expected,this.operator=e.operator,e.message?(this.message=e.message,this.generatedMessage=!1):(this.message=l(this),this.generatedMessage=!0);var t=e.stackStartFunction||f;if(Error.captureStackTrace)Error.captureStackTrace(this,t);else{var n=new Error;if(n.stack){var r=n.stack,o=u(t),i=r.indexOf("\n"+o);if(i>=0){var a=r.indexOf("\n",i+1);r=r.substring(a+1)}this.stack=r}}},w.inherits(S.AssertionError,Error),S.fail=f,S.ok=p,S.equal=function(e,t,n){e!=t&&f(e,t,n,"==",S.equal)},S.notEqual=function(e,t,n){e==t&&f(e,t,n,"!=",S.notEqual)},S.deepEqual=function(e,t,n){d(e,t,!1)||f(e,t,n,"deepEqual",S.deepEqual)},S.deepStrictEqual=function(e,t,n){d(e,t,!0)||f(e,t,n,"deepStrictEqual",S.deepStrictEqual)},S.notDeepEqual=function(e,t,n){d(e,t,!1)&&f(e,t,n,"notDeepEqual",S.notDeepEqual)},S.notDeepStrictEqual=m,S.strictEqual=function(e,t,n){e!==t&&f(e,t,n,"===",S.strictEqual)},S.notStrictEqual=function(e,t,n){e===t&&f(e,t,n,"!==",S.notStrictEqual)},S.throws=function(e,t,n){b(!0,e,t,n)},S.doesNotThrow=function(e,t,n){b(!1,e,t,n)},S.ifError=function(e){if(e)throw e};var C=Object.keys||function(e){var t=[];for(var n in e)E.call(e,n)&&t.push(n);return t}}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{"util/":34}],2:[function(e,t,n){function r(e,t,n,r,o,i){e.forEach(function(e){e(t,n,r,o,i)})}t.exports=r},{}],3:[function(e,t,n){function r(e){function t(e){l.equal(typeof e,"object","barracks.use: hooks should be an object"),l.ok(!e.onError||"function"==typeof e.onError,"barracks.use: onError should be undefined or a function"),l.ok(!e.onAction||"function"==typeof e.onAction,"barracks.use: onAction should be undefined or a function"),l.ok(!e.onStateChange||"function"==typeof e.onStateChange,"barracks.use: onStateChange should be undefined or a function"),e.onStateChange&&g.push(e.onStateChange),e.onError&&v.push(a(e.onError)),e.onAction&&m.push(e.onAction),e.wrapSubscriptions&&y.push(e.wrapSubscriptions),e.wrapInitialState&&b.push(e.wrapInitialState),e.wrapReducers&&w.push(e.wrapReducers),e.wrapEffects&&E.push(e.wrapEffects),e.models&&e.models.forEach(n)}function n(e){l.equal(typeof e,"object","barracks.store.model: model should be an object"),N.push(e)}function r(e){e=e||{},l.equal(typeof e,"object","barracks.store.state: opts should be an object");var t=e.state;if(!e.state&&e.freeze===!1)return f(q);if(!e.state)return Object.freeze(f(q));l.equal(typeof t,"object","barracks.store.state: state should be an object");var n=[],r={};N.forEach(function(e){var i=e.namespace;n.push(i);var a=e.state||{};i?(r[i]=r[i]||{},o(i,a,r),r[i]=f(r[i],t[i])):s(r,a)}),Object.keys(t).forEach(function(e){n.indexOf(e)===-1&&(r[e]=t[e])});var i=f(q,f(t,r)),a=u(i,b);return e.freeze===!1?a:Object.freeze(a)}function d(e){function t(e,t){return l.equal(typeof e,"string","barracks.store.start.createSend: selfName should be a string"),l.ok(!t||"boolean"==typeof t,"barracks.store.start.send: callOnError should be undefined or a boolean"),function(r,o,i){function a(e){e=e||null,e&&p(v,e,q,function(e){return function(t,r){l.equal(typeof t,"string","barracks.store.start.send: name should be a string"),r=void 0===r?null:r,n(t,r,e,u)}})}i||t||(i=o,o=null),o=void 0===o?null:o,l.equal(typeof r,"string","barracks.store.start.send: name should be a string"),l.ok(!i||"function"==typeof i,"barracks.store.start.send: cb should be a function");var u=t?a:i;n(r,o,e,u)}}function n(e,n,r,o){A||(l.equal(typeof e,"string","barracks._send: name should be a string"),l.equal(typeof r,"string","barracks._send: caller should be a string"),l.equal(typeof o,"function","barracks._send: cb should be a function"),D(function(){var i=!1,a=!1,u=f(q);m.length&&p(m,q,n,e,r,t);var c=e;if(/:/.test(e)){var l=e.split(":"),d=l.shift();c=l.join(":")}var h=d?O[d]:O;if(h&&h[c]){if(d){var v=h[c](q[d],n);u[d]=f(q[d],v)}else s(u,O[c](q,n));i=!0,g.length&&p(g,u,n,q,c,t),q=u,o(null,u)}var y=d?j[d]:j;if(!i&&y&&y[c]){var b=t("effect: "+e);d?y[c](q[d],n,b,o):y[c](q,n,b,o),a=!0}if(!i&&!a)throw new Error("Could not find action "+c)})())}return e=e||{},l.equal(typeof e,"object","barracks.store.start: opts should be undefined or an object"),N.forEach(function(n){var r=n.namespace;if(!S&&n.state&&e.state!==!1){var i=n.state||{};r?(q[r]=q[r]||{},o(r,i,q)):s(q,i)}!x&&n.reducers&&e.reducers!==!1&&o(r,n.reducers,O,function(e){return u(e,w)}),!k&&n.effects&&e.effects!==!1&&o(r,n.effects,j,function(e){return u(e,E)}),!C&&n.subscriptions&&e.subscriptions!==!1&&o(r,n.subscriptions,T,function(e,n){var o=t("subscription: "+(r?r+":"+n:n));return e=u(e,y),e(o,function(e){p(v,e,q,t)}),e})}),S||e.state===!1||(q=u(q,b)),e.noSubscriptions||(C=!0),e.noReducers||(x=!0),e.noEffects||(k=!0),e.noState||(S=!0),v.length||v.push(a(i)),t}function h(){A=!0}e=e||{},l.equal(typeof e,"object","barracks: hooks should be undefined or an object");var g=[],m=[],v=[],y=[],b=[],w=[],E=[];t(e);var x=!1,k=!1,S=!1,C=!1,A=!1,T=d._subscriptions={},O=d._reducers={},j=d._effects={},N=d._models=[],q={},D=c();return d.model=n,d.state=r,d.start=d,d.stop=h,d.use=t,d}function o(e,t,n,r){e&&!n[e]&&(n[e]={}),Object.keys(t).forEach(function(o){var i=r?r(t[o],o):t[o];e?n[e][o]=i:n[o]=i})}function i(e){throw e}function a(e){return function(t,n,r){t&&e(t,n,r)}}function u(e,t){return t.forEach(function(t){e=t(e)}),e}var s=e("xtend/mutable"),c=e("nanotick"),l=e("assert"),f=e("xtend"),p=e("./apply-hook");t.exports=r},{"./apply-hook":2,assert:1,nanotick:19,xtend:38,"xtend/mutable":39}],4:[function(e,t,n){function r(e,t,n){function i(e){if(Array.isArray(e))for(var t=0;t<e.length;t++){var n=e[t];if(Array.isArray(n))i(n);else{if(("number"==typeof n||"boolean"==typeof n||n instanceof Date||n instanceof RegExp)&&(n=n.toString()),"string"==typeof n){if(c.lastChild&&"#text"===c.lastChild.nodeName){c.lastChild.nodeValue+=n;continue}n=o.createTextNode(n)}n&&n.nodeType&&c.appendChild(n)}}}var c;s.indexOf(e)!==-1&&(t.namespace="http://www.w3.org/2000/svg");var l=!1;if(t.namespace&&(l=t.namespace,delete t.namespace),c=l?o.createElementNS(l,e):o.createElement(e),t.onload||t.onunload){var f=t.onload||function(){},p=t.onunload||function(){};a(c,function(){f(c)},function(){p(c)},r.caller.caller.caller),delete t.onload,delete t.onunload}for(var d in t)if(t.hasOwnProperty(d)){var h=d.toLowerCase(),g=t[d];if("classname"===h&&(h="class",d="class"),"htmlFor"===d&&(d="for"),u[h])if("true"===g)g=h;else if("false"===g)continue;"on"===h.slice(0,2)?c[d]=g:l?"xlink:href"===d?c.setAttributeNS("http://www.w3.org/1999/xlink",d,g):/^xmlns($|:)/i.test(d)||c.setAttributeNS(null,d,g):c.setAttribute(d,g)}return i(n),c}var o=e("global/document"),i=e("hyperx"),a=e("on-load"),u={autofocus:1,checked:1,defaultchecked:1,disabled:1,formnovalidate:1,indeterminate:1,readonly:1,required:1,selected:1,willvalidate:1},s=["svg","altGlyph","altGlyphDef","altGlyphItem","animate","animateColor","animateMotion","animateTransform","circle","clipPath","color-profile","cursor","defs","desc","ellipse","feBlend","feColorMatrix","feComponentTransfer","feComposite","feConvolveMatrix","feDiffuseLighting","feDisplacementMap","feDistantLight","feFlood","feFuncA","feFuncB","feFuncG","feFuncR","feGaussianBlur","feImage","feMerge","feMergeNode","feMorphology","feOffset","fePointLight","feSpecularLighting","feSpotLight","feTile","feTurbulence","filter","font","font-face","font-face-format","font-face-name","font-face-src","font-face-uri","foreignObject","g","glyph","glyphRef","hkern","image","line","linearGradient","marker","mask","metadata","missing-glyph","mpath","path","pattern","polygon","polyline","radialGradient","rect","set","stop","switch","symbol","text","textPath","title","tref","tspan","use","view","vkern"];t.exports=i(r),t.exports.default=t.exports,t.exports.createElement=r},{"global/document":12,hyperx:15,"on-load":20}],5:[function(e,t,n){},{}],6:[function(e,t,n){function r(){function e(e,t,n,f,p){function d(e,n){console.log("action name:",e),console.log("data:",t)}const h=f.split(":"),g=h[0].trim(),m=h[1]&&h[1].trim()||"unknown",v=[];s("lightGray",c(r)+" ",v),s("gray",a("action")+" ",v),s("gray",u(g)+" ",v),s("default","''"+m+"''",v),s("default","->",v),s("default","'"+n+"'",v),l()?(o(v),d(n,t),console.groupEnd()):(i(v),d(n,t))}function t(e,t,n){function u(e){console.error(e)}const f=[];s("lightGray",c(r)+" ",f),s("red",a("error")+" ",f),s("default",e.message+" ",f),l()?(o(f),u(e),console.groupEnd()):(i(f),u(e))}function n(e,t,n,u){function f(e,t){console.log("prev ",e),console.log("state",t)}const p=[];s("lightGray",c(r)+" ",p),s("gray",a("state")+" ",p),l()?(o(p),f(n,e),console.groupEnd()):(i(p),f(n,e))}const r=Date.now();return{onAction:e,onError:t,onStateChange:n}}function o(e){console.groupCollapsed.apply(console,e)}function i(e){console.log.apply(console,e)}function a(e){const t=g.type,n=g.actionType+t+2;return"state"===e||"error"===e?f(p(e,t," "),n," "):p(e,t," ")}function u(e){const t=g.actionType;return"subscription"===e&&(e="subs"),f(e,t," ")}function s(e,t,n){var r="%c"+t,o="color: "+h[e]+";";return n?(n[0]||(n[0]=""),n[0]+=" "+r,"firefox"===d.name?(n[1]||(n[1]=""),n[1]+=" "+o):n.push(o),n):n=[r,o]}function c(e){return"["+p(String(Math.round((Date.now()-e)/1e3)%1e4),4,"0")+"]"}function l(){return console.groupCollapsed&&"firefox"!==d.name}const f=e("pad-right"),p=e("pad-left"),d=e("detect-browser");t.exports=r;const h={green:"#2ECC40",red:"#FF4136",blue:"#7FDBFF",lightGray:"#DDDDDD",gray:"#AAAAAA",yellow:"#FFDC00",default:"#293037"},g={type:7,actionType:7}},{"detect-browser":9,"pad-left":21,"pad-right":22}],7:[function(e,t,n){t.exports=e("yo-yo")},{"yo-yo":40}],8:[function(e,t,n){function r(e){function t(e,t){function n(){return function(){d.ok(!1,"choo: send() cannot be called from Node")}}t=t||{},d.equal(typeof e,"string","choo.app.toString: route must be a string"),d.equal(typeof t,"object","choo.app.toString: serverState must be an object"),v.start({subscriptions:!1,reducers:!1,effects:!1});const r=v.state({state:t}),o=m(b,E,n),i=o(e,r);return i.outerHTML||i.toString()}function n(){function t(e){w=e}v.model(o(e));const r=v.start(e);y=n._router=m(b,E,r);const i=v.state({state:{}}),a=y(i.location.href,i);return d.ok(a,"choo.start: the router should always return a valid DOM node"),d.equal(typeof a,"object","choo.start: the router should always return a valid DOM node"),w=a,a.done=t,a}function r(e,t,n,r,o){x||(x=p(function(e,t){const n=y(e.location.href,e,t);w=g.update(w,n)})),x(e,n)}function i(e,t){b=e,E=t}function a(e){v.model(e)}function s(e){d.equal(typeof e,"object","choo.use: hooks should be an object"),v.use(e)}function m(t,n,r){function o(t,n){const o=r("view: "+t,!0);return function(t){return function(r){const a=h(r);a.location=h(a.location,{params:t});const u=i;return i=a,e.freeze!==!1&&Object.freeze(a),n(a,u,o)}}}var i=null;n||(n=t,t={}),t=l({thunk:"match"},t);const a=u(t,n);return c(a,o),a}e=e||{};const v=n._store=f();var y=n._router=null,b=null,w=null,E=null,x=null;return"undefined"!=typeof window&&v.use({onStateChange:r}),v.use(e),n.toString=t,n.router=i,n.model=a,n.start=n,n.stop=v.stop,n.use=s,n}function o(e){function t(t,n){if(e.history!==!1&&n.hash&&n.hash!==t.hash)try{const r=document.querySelector(n.hash);r&&r.scrollIntoView(!0)}catch(e){return n}return n}function n(e,t,n,r){n("location:update",i(e,t),r)}function r(t,n,r,o){const a=i(t,n);e.history!==!1&&a.href!==t.href&&window.history.pushState({},null,a.href),r("location:update",a,o)}function o(e){const t={};return e.history!==!1&&(t.handleHistory=function(e,t){a(function(n){e("location:touch",n,t)})}),e.href!==!1&&(t.handleHref=function(e,t){s(function(n){e("location:set",n,t)})}),t}return{namespace:"location",state:l(i(),{params:{}}),subscriptions:o(e),effects:{set:r,touch:n},reducers:{update:t}}}const i=e("sheet-router/create-location"),a=e("sheet-router/history"),u=e("sheet-router"),s=e("sheet-router/href"),c=e("sheet-router/walk"),l=e("xtend/mutable"),f=e("barracks"),p=e("nanoraf"),d=e("assert"),h=e("xtend"),g=e("yo-yo");t.exports=r},{assert:1,barracks:3,nanoraf:18,"sheet-router":29,"sheet-router/create-location":26,"sheet-router/history":27,"sheet-router/href":28,"sheet-router/walk":31,xtend:38,"xtend/mutable":39,"yo-yo":40}],9:[function(e,t,n){var r=e("./lib/detectBrowser");t.exports=r(navigator.userAgent)},{"./lib/detectBrowser":10}],10:[function(e,t,n){t.exports=function(e){return[["edge",/Edge\/([0-9\._]+)/],["yandexbrowser",/YaBrowser\/([0-9\._]+)/],["chrome",/(?!Chrom.*OPR)Chrom(?:e|ium)\/([0-9\.]+)(:?\s|$)/],["crios",/CriOS\/([0-9\.]+)(:?\s|$)/],["firefox",/Firefox\/([0-9\.]+)(?:\s|$)/],["opera",/Opera\/([0-9\.]+)(?:\s|$)/],["opera",/OPR\/([0-9\.]+)(:?\s|$)$/],["ie",/Trident\/7\.0.*rv\:([0-9\.]+)\).*Gecko$/],["ie",/MSIE\s([0-9\.]+);.*Trident\/[4-7].0/],["ie",/MSIE\s(7\.0)/],["bb10",/BB10;\sTouch.*Version\/([0-9\.]+)/],["android",/Android\s([0-9\.]+)/],["ios",/Version\/([0-9\._]+).*Mobile.*Safari.*/],["safari",/Version\/([0-9\._]+).*Safari/]].map(function(t){if(t[1].test(e)){var n=t[1].exec(e),r=n&&n[1].split(/[._]/).slice(0,3);return r&&r.length<3&&Array.prototype.push.apply(r,1==r.length?[0,0]:[0]),{name:t[0],version:r.join(".")}}}).filter(Boolean).shift()}},{}],11:[function(e,t,n){!function(){"use strict";function e(t,n){function o(e,t){return function(){return e.apply(t,arguments)}}var i;if(n=n||{},this.trackingClick=!1,this.trackingClickStart=0,this.targetElement=null,this.touchStartX=0,this.touchStartY=0,this.lastTouchIdentifier=0,this.touchBoundary=n.touchBoundary||10,this.layer=t,this.tapDelay=n.tapDelay||200,this.tapTimeout=n.tapTimeout||700,!e.notNeeded(t)){for(var a=["onMouse","onClick","onTouchStart","onTouchMove","onTouchEnd","onTouchCancel"],u=this,s=0,c=a.length;s<c;s++)u[a[s]]=o(u[a[s]],u);r&&(t.addEventListener("mouseover",this.onMouse,!0),t.addEventListener("mousedown",this.onMouse,!0),t.addEventListener("mouseup",this.onMouse,!0)),t.addEventListener("click",this.onClick,!0),t.addEventListener("touchstart",this.onTouchStart,!1),t.addEventListener("touchmove",this.onTouchMove,!1),t.addEventListener("touchend",this.onTouchEnd,!1),t.addEventListener("touchcancel",this.onTouchCancel,!1),Event.prototype.stopImmediatePropagation||(t.removeEventListener=function(e,n,r){var o=Node.prototype.removeEventListener;"click"===e?o.call(t,e,n.hijacked||n,r):o.call(t,e,n,r)},t.addEventListener=function(e,n,r){var o=Node.prototype.addEventListener;"click"===e?o.call(t,e,n.hijacked||(n.hijacked=function(e){e.propagationStopped||n(e)}),r):o.call(t,e,n,r)}),"function"==typeof t.onclick&&(i=t.onclick,t.addEventListener("click",function(e){i(e)},!1),t.onclick=null)}}var n=navigator.userAgent.indexOf("Windows Phone")>=0,r=navigator.userAgent.indexOf("Android")>0&&!n,o=/iP(ad|hone|od)/.test(navigator.userAgent)&&!n,i=o&&/OS 4_\d(_\d)?/.test(navigator.userAgent),a=o&&/OS [6-7]_\d/.test(navigator.userAgent),u=navigator.userAgent.indexOf("BB10")>0;e.prototype.needsClick=function(e){switch(e.nodeName.toLowerCase()){case"button":case"select":case"textarea":if(e.disabled)return!0;break;case"input":if(o&&"file"===e.type||e.disabled)return!0;break;case"label":case"iframe":case"video":return!0}return/\bneedsclick\b/.test(e.className)},e.prototype.needsFocus=function(e){switch(e.nodeName.toLowerCase()){case"textarea":return!0;case"select":return!r;case"input":switch(e.type){case"button":case"checkbox":case"file":case"image":case"radio":case"submit":return!1}return!e.disabled&&!e.readOnly;default:return/\bneedsfocus\b/.test(e.className)}},e.prototype.sendClick=function(e,t){var n,r;document.activeElement&&document.activeElement!==e&&document.activeElement.blur(),r=t.changedTouches[0],n=document.createEvent("MouseEvents"),n.initMouseEvent(this.determineEventType(e),!0,!0,window,1,r.screenX,r.screenY,r.clientX,r.clientY,!1,!1,!1,!1,0,null),n.forwardedTouchEvent=!0,e.dispatchEvent(n)},e.prototype.determineEventType=function(e){return r&&"select"===e.tagName.toLowerCase()?"mousedown":"click"},e.prototype.focus=function(e){var t;o&&e.setSelectionRange&&0!==e.type.indexOf("date")&&"time"!==e.type&&"month"!==e.type?(t=e.value.length,e.setSelectionRange(t,t)):e.focus()},e.prototype.updateScrollParent=function(e){var t,n;if(t=e.fastClickScrollParent,!t||!t.contains(e)){n=e;do{if(n.scrollHeight>n.offsetHeight){t=n,e.fastClickScrollParent=n;break}n=n.parentElement}while(n)}t&&(t.fastClickLastScrollTop=t.scrollTop)},e.prototype.getTargetElementFromEventTarget=function(e){return e.nodeType===Node.TEXT_NODE?e.parentNode:e},e.prototype.onTouchStart=function(e){var t,n,r;if(e.targetTouches.length>1)return!0;if(t=this.getTargetElementFromEventTarget(e.target),n=e.targetTouches[0],o){if(r=window.getSelection(),r.rangeCount&&!r.isCollapsed)return!0;if(!i){if(n.identifier&&n.identifier===this.lastTouchIdentifier)return e.preventDefault(),!1;this.lastTouchIdentifier=n.identifier,this.updateScrollParent(t)}}return this.trackingClick=!0,this.trackingClickStart=e.timeStamp,this.targetElement=t,this.touchStartX=n.pageX,this.touchStartY=n.pageY,e.timeStamp-this.lastClickTime<this.tapDelay&&e.preventDefault(),!0},e.prototype.touchHasMoved=function(e){var t=e.changedTouches[0],n=this.touchBoundary;return Math.abs(t.pageX-this.touchStartX)>n||Math.abs(t.pageY-this.touchStartY)>n},e.prototype.onTouchMove=function(e){return!this.trackingClick||((this.targetElement!==this.getTargetElementFromEventTarget(e.target)||this.touchHasMoved(e))&&(this.trackingClick=!1,this.targetElement=null),!0)},e.prototype.findControl=function(e){return void 0!==e.control?e.control:e.htmlFor?document.getElementById(e.htmlFor):e.querySelector("button, input:not([type=hidden]), keygen, meter, output, progress, select, textarea")},e.prototype.onTouchEnd=function(e){var t,n,u,s,c,l=this.targetElement;if(!this.trackingClick)return!0;if(e.timeStamp-this.lastClickTime<this.tapDelay)return this.cancelNextClick=!0,!0;if(e.timeStamp-this.trackingClickStart>this.tapTimeout)return!0;if(this.cancelNextClick=!1,this.lastClickTime=e.timeStamp,n=this.trackingClickStart,this.trackingClick=!1,this.trackingClickStart=0,a&&(c=e.changedTouches[0],l=document.elementFromPoint(c.pageX-window.pageXOffset,c.pageY-window.pageYOffset)||l,l.fastClickScrollParent=this.targetElement.fastClickScrollParent),u=l.tagName.toLowerCase(),"label"===u){if(t=this.findControl(l)){if(this.focus(l),r)return!1;l=t}}else if(this.needsFocus(l))return e.timeStamp-n>100||o&&window.top!==window&&"input"===u?(this.targetElement=null,!1):(this.focus(l),this.sendClick(l,e),o&&"select"===u||(this.targetElement=null,e.preventDefault()),!1);return!(!o||i||(s=l.fastClickScrollParent,!s||s.fastClickLastScrollTop===s.scrollTop))||(this.needsClick(l)||(e.preventDefault(),this.sendClick(l,e)),!1)},e.prototype.onTouchCancel=function(){this.trackingClick=!1,this.targetElement=null},e.prototype.onMouse=function(e){return!this.targetElement||(!!e.forwardedTouchEvent||(!e.cancelable||(!(!this.needsClick(this.targetElement)||this.cancelNextClick)||(e.stopImmediatePropagation?e.stopImmediatePropagation():e.propagationStopped=!0,e.stopPropagation(),e.preventDefault(),!1))))},e.prototype.onClick=function(e){var t;return this.trackingClick?(this.targetElement=null,this.trackingClick=!1,!0):"submit"===e.target.type&&0===e.detail||(t=this.onMouse(e),t||(this.targetElement=null),t)},e.prototype.destroy=function(){var e=this.layer;r&&(e.removeEventListener("mouseover",this.onMouse,!0),e.removeEventListener("mousedown",this.onMouse,!0),e.removeEventListener("mouseup",this.onMouse,!0)),e.removeEventListener("click",this.onClick,!0),e.removeEventListener("touchstart",this.onTouchStart,!1),e.removeEventListener("touchmove",this.onTouchMove,!1),e.removeEventListener("touchend",this.onTouchEnd,!1),e.removeEventListener("touchcancel",this.onTouchCancel,!1)},e.notNeeded=function(e){var t,n,o,i;if(void 0===window.ontouchstart)return!0;if(n=+(/Chrome\/([0-9]+)/.exec(navigator.userAgent)||[,0])[1]){if(!r)return!0;if(t=document.querySelector("meta[name=viewport]")){if(t.content.indexOf("user-scalable=no")!==-1)return!0;if(n>31&&document.documentElement.scrollWidth<=window.outerWidth)return!0}}if(u&&(o=navigator.userAgent.match(/Version\/([0-9]*)\.([0-9]*)/),o[1]>=10&&o[2]>=3&&(t=document.querySelector("meta[name=viewport]")))){if(t.content.indexOf("user-scalable=no")!==-1)return!0;if(document.documentElement.scrollWidth<=window.outerWidth)return!0}return"none"===e.style.msTouchAction||"manipulation"===e.style.touchAction||(i=+(/Firefox\/([0-9]+)/.exec(navigator.userAgent)||[,0])[1],!!(i>=27&&(t=document.querySelector("meta[name=viewport]"),t&&(t.content.indexOf("user-scalable=no")!==-1||document.documentElement.scrollWidth<=window.outerWidth)))||("none"===e.style.touchAction||"manipulation"===e.style.touchAction))},e.attach=function(t,n){return new e(t,n)},"function"==typeof define&&"object"==typeof define.amd&&define.amd?define(function(){return e}):void 0!==t&&t.exports?(t.exports=e.attach,t.exports.FastClick=e):window.FastClick=e}()},{}],12:[function(e,t,n){(function(n){var r=void 0!==n?n:"undefined"!=typeof window?window:{},o=e("min-document");if("undefined"!=typeof document)t.exports=document;else{var i=r["__GLOBAL_DOCUMENT_CACHE@4"];i||(i=r["__GLOBAL_DOCUMENT_CACHE@4"]=o),t.exports=i}}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{"min-document":5}],13:[function(e,t,n){(function(e){"undefined"!=typeof window?t.exports=window:void 0!==e?t.exports=e:"undefined"!=typeof self?t.exports=self:t.exports={}}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],14:[function(e,t,n){function r(e){return function(t,n,r){for(var i in n)i in o&&(n[o[i]]=n[i],delete n[i]);return e(t,n,r)}}t.exports=r;var o={class:"className",for:"htmlFor","http-equiv":"httpEquiv"}},{}],15:[function(e,t,n){function r(e){return 9===e||10===e}function o(e){return a.test(e)}var i=e("hyperscript-attribute-to-property");t.exports=function(e,t){function n(e){return"function"==typeof e?e:"string"==typeof e?e:e&&"object"==typeof e?e:a("",e)}e=i(e),t||(t={});var a=t.concat||function(e,t){return String(e)+String(t)};return function(t){function i(e){var t=[];7===u&&(u=4);for(var n=0;n<e.length;n++){var o=e.charAt(n);1===u&&"<"===o?(s.length&&t.push([1,s]),s="",u=2):">"!==o||r(u)?1===u?s+=o:2===u&&/\s/.test(o)?(t.push([2,s]),s="",u=4):2===u?s+=o:4===u&&/[\w-]/.test(o)?(u=5,s=o):4===u&&/\s/.test(o)?(s.length&&t.push([5,s]),t.push([12])):5===u&&/\s/.test(o)?(t.push([5,s]),s="",u=6):5===u&&"="===o?(t.push([5,s],[11]),s="",u=7):5===u?s+=o:6!==u&&4!==u||"="!==o?6!==u&&4!==u||/\s/.test(o)?7===u&&'"'===o?u=10:7===u&&"'"===o?u=9:10===u&&'"'===o?(t.push([8,s],[12]),s="",u=4):9===u&&"'"===o?(t.push([8,s],[12]),s="",u=4):7!==u||/\s/.test(o)?8===u&&/\s/.test(o)?(t.push([8,s],[12]),s="",u=4):8!==u&&9!==u&&10!==u||(s+=o):(u=8,n--):(t.push([12]),/[\w-]/.test(o)?(s+=o,u=5):u=4):(t.push([11]),u=7):(2===u?t.push([2,s]):5===u?t.push([5,s]):8===u&&s.length&&t.push([8,s]),t.push([3]),s="",u=1)}return 1===u&&s.length?(t.push([1,s]),s=""):8===u&&s.length?(t.push([8,s]),s=""):10===u&&s.length?(t.push([8,s]),s=""):9===u&&s.length?(t.push([8,s]),s=""):5===u&&(t.push([5,s]),s=""),t}for(var u=1,s="",c=arguments.length,l=[],f=0;f<t.length;f++)if(f<c-1){var p=arguments[f+1],d=i(t[f]),h=u;10===h&&(h=8),9===h&&(h=8),7===h&&(h=8),4===h&&(h=5),d.push([0,h,p]),l.push.apply(l,d)}else l.push.apply(l,i(t[f]));for(var g=[null,{},[]],m=[[g,-1]],f=0;f<l.length;f++){var v=m[m.length-1][0],d=l[f],y=d[0];if(2===y&&/^\//.test(d[1])){var b=m[m.length-1][1];m.length>1&&(m.pop(),m[m.length-1][0][2][b]=e(v[0],v[1],v[2].length?v[2]:void 0))}else if(2===y){var w=[d[1],{},[]];v[2].push(w),m.push([w,v[2].length-1])}else if(5===y||0===y&&5===d[1]){for(var E,x="";f<l.length;f++)if(5===l[f][0])x=a(x,l[f][1]);else{if(0!==l[f][0]||5!==l[f][1])break;if("object"!=typeof l[f][2]||x)x=a(x,l[f][2]);else for(E in l[f][2])l[f][2].hasOwnProperty(E)&&!v[1][E]&&(v[1][E]=l[f][2][E])}11===l[f][0]&&f++;for(var k=f;f<l.length;f++)if(8===l[f][0]||5===l[f][0])v[1][x]?v[1][x]=a(v[1][x],l[f][1]):v[1][x]=n(l[f][1]);else{if(0!==l[f][0]||8!==l[f][1]&&5!==l[f][1]){!x.length||v[1][x]||f!==k||3!==l[f][0]&&12!==l[f][0]||(v[1][x]=x.toLowerCase());break}v[1][x]?v[1][x]=a(v[1][x],l[f][2]):v[1][x]=n(l[f][2])}}else if(5===y)v[1][d[1]]=!0;else if(0===y&&5===d[1])v[1][d[2]]=!0;else if(3===y){if(o(v[0])&&m.length){var b=m[m.length-1][1];m.pop(),m[m.length-1][0][2][b]=e(v[0],v[1],v[2].length?v[2]:void 0)}}else if(0===y&&1===d[1])void 0===d[2]||null===d[2]?d[2]="":d[2]||(d[2]=a("",d[2])),Array.isArray(d[2][0])?v[2].push.apply(v[2],d[2]):v[2].push(d[2]);else if(1===y)v[2].push(d[1]);else if(11!==y&&12!==y)throw new Error("unhandled: "+y)}if(g[2].length>1&&/^\s*$/.test(g[2][0])&&g[2].shift(),g[2].length>2||2===g[2].length&&/\S/.test(g[2][1]))throw new Error("multiple root elements must be wrapped in an enclosing tag");return Array.isArray(g[2][0])&&"string"==typeof g[2][0][0]&&Array.isArray(g[2][0][2])&&(g[2][0]=e(g[2][0][0],g[2][0][1],g[2][0][2])),g[2][0]}};var a=(Object.prototype.hasOwnProperty,RegExp("^("+["area","base","basefont","bgsound","br","col","command","embed","frame","hr","img","input","isindex","keygen","link","meta","param","source","track","wbr","animate","animateTransform","circle","cursor","desc","ellipse","feBlend","feColorMatrix","feComposite","feConvolveMatrix","feDiffuseLighting","feDisplacementMap","feDistantLight","feFlood","feFuncA","feFuncB","feFuncG","feFuncR","feGaussianBlur","feImage","feMergeNode","feMorphology","feOffset","fePointLight","feSpecularLighting","feSpotLight","feTile","feTurbulence","font-face-format","font-face-name","font-face-uri","glyph","glyphRef","hkern","image","line","missing-glyph","mpath","path","polygon","polyline","rect","set","stop","tref","use","view","vkern"].join("|")+")(?:[.#][a-zA-Z0-9-￿_:-]+)*$"))},{"hyperscript-attribute-to-property":14}],16:[function(e,t,n){"use strict";function r(e){return function(t,n,r,o){var i,a,u=r/o,s=t/n;return(e?u>s:u<s)?(i=t,a=i/u):(a=n,i=a*u),{width:i,height:a,x:(t-i)/2,y:(n-a)/2}}}Object.defineProperty(n,"__esModule",{value:!0});var o=r(!0),i=r(!1);n.contain=o,n.cover=i},{}],17:[function(e,t,n){"use strict";function r(e){!p&&h.createRange&&(p=h.createRange(),p.selectNode(h.body));var t;return p&&p.createContextualFragment?t=p.createContextualFragment(e):(t=h.createElement("body"),t.innerHTML=e),t.childNodes[0]}function o(e,t){var n=e.nodeName,r=t.nodeName;return n===r||!!(t.actualize&&n.charCodeAt(0)<91&&r.charCodeAt(0)>90)&&n===r.toUpperCase()}function i(e,t){return t&&"http://www.w3.org/1999/xhtml"!==t?h.createElementNS(t,e):h.createElement(e)}function a(e,t){for(var n=e.firstChild;n;){var r=n.nextSibling;t.appendChild(n),n=r}return t}function u(e,t){var n,r,o,i,a,u,s=t.attributes;for(n=s.length-1;n>=0;--n)r=s[n],o=r.name,i=r.namespaceURI,a=r.value,i?(o=r.localName||o,u=e.getAttributeNS(i,o),u!==a&&e.setAttributeNS(i,o,a)):(u=e.getAttribute(o),u!==a&&e.setAttribute(o,a));for(s=e.attributes,n=s.length-1;n>=0;--n)r=s[n],r.specified!==!1&&(o=r.name,i=r.namespaceURI,i?(o=r.localName||o,m(t,i,o)||e.removeAttributeNS(i,o)):m(t,null,o)||e.removeAttribute(o))}function s(e,t,n){e[n]!==t[n]&&(e[n]=t[n],e[n]?e.setAttribute(n,""):e.removeAttribute(n,""))}function c(){}function l(e){return e.id}function f(e){return function(t,n,u){function s(e){b?b.push(e):b=[e]}function f(e,t){if(1===e.nodeType)for(var n=e.firstChild;n;){var r=void 0;t&&(r=w(n))?s(r):(A(n),n.firstChild&&f(n,t)),n=n.nextSibling}}function p(e,t,n){C(e)!==!1&&(t&&t.removeChild(e),A(e),f(e,n))}function d(e){if(1===e.nodeType)for(var t=e.firstChild;t;){var n=w(t);n&&(j[n]=t),d(t),t=t.nextSibling}}function g(e){x(e);for(var t=e.firstChild;t;){var n=t.nextSibling,r=w(t);if(r){var i=j[r];i&&o(t,i)&&(t.parentNode.replaceChild(i,t),m(i,t))}g(t),t=n}}function m(r,i,a){var u,c=w(i);if(c&&delete j[c],!n.isSameNode||!n.isSameNode(t)){if(!a){if(k(r,i)===!1)return;if(e(r,i),S(r),T(r,i)===!1)return}if("TEXTAREA"!==r.nodeName){var l,f,d,y,b=i.firstChild,x=r.firstChild;e:for(;b;){for(d=b.nextSibling,l=w(b);x;){if(f=x.nextSibling,b.isSameNode&&b.isSameNode(x)){b=d,x=f;continue e}u=w(x);var C=x.nodeType,A=void 0;if(C===b.nodeType&&(1===C?(l?l!==u&&((y=j[l])?x.nextSibling===y?A=!1:(r.insertBefore(y,x),f=x.nextSibling,
-u?s(u):p(x,r,!0),x=y):A=!1):u&&(A=!1),A=A!==!1&&o(x,b),A&&m(x,b)):3!==C&&8!=C||(A=!0,x.nodeValue=b.nodeValue)),A){b=d,x=f;continue e}u?s(u):p(x,r,!0),x=f}if(l&&(y=j[l])&&o(y,b))r.appendChild(y),m(y,b);else{var O=E(b);O!==!1&&(O&&(b=O),b.actualize&&(b=b.actualize(r.ownerDocument||h)),r.appendChild(b),g(b))}b=d,x=f}for(;x;)f=x.nextSibling,(u=w(x))?s(u):p(x,r,!0),x=f}var N=v[r.nodeName];N&&N(r,i)}}if(u||(u={}),"string"==typeof n)if("#document"===t.nodeName||"HTML"===t.nodeName){var y=n;n=h.createElement("html"),n.innerHTML=y}else n=r(n);var b,w=u.getNodeKey||l,E=u.onBeforeNodeAdded||c,x=u.onNodeAdded||c,k=u.onBeforeElUpdated||c,S=u.onElUpdated||c,C=u.onBeforeNodeDiscarded||c,A=u.onNodeDiscarded||c,T=u.onBeforeElChildrenUpdated||c,O=u.childrenOnly===!0,j={};d(t);var N=t,q=N.nodeType,D=n.nodeType;if(!O)if(1===q)1===D?o(t,n)||(A(t),N=a(t,i(n.nodeName,n.namespaceURI))):N=n;else if(3===q||8===q){if(D===q)return N.nodeValue=n.nodeValue,N;N=n}if(N===n)A(t);else if(m(N,n,O),b)for(var _=0,L=b.length;_<L;_++){var M=j[b[_]];M&&p(M,M.parentNode,!1)}return!O&&N!==t&&t.parentNode&&(N.actualize&&(N=N.actualize(t.ownerDocument||h)),t.parentNode.replaceChild(N,t)),N}}var p,d,h="undefined"==typeof document?void 0:document,g=h?h.body||h.createElement("div"):{};d=g.hasAttributeNS?function(e,t,n){return e.hasAttributeNS(t,n)}:g.hasAttribute?function(e,t,n){return e.hasAttribute(n)}:function(e,t,n){return null!=e.getAttributeNode(t,n)};var m=d,v={OPTION:function(e,t){s(e,t,"selected")},INPUT:function(e,t){s(e,t,"checked"),s(e,t,"disabled"),e.value!==t.value&&(e.value=t.value),m(t,null,"value")||e.removeAttribute("value")},TEXTAREA:function(e,t){var n=t.value;if(e.value!==n&&(e.value=n),e.firstChild){if(""===n&&e.firstChild.nodeValue===e.placeholder)return;e.firstChild.nodeValue=n}},SELECT:function(e,t){if(!m(t,null,"multiple")){for(var n=0,r=t.firstChild;r;){var o=r.nodeName;if(o&&"OPTION"===o.toUpperCase()){if(m(r,null,"selected")){n;break}n++}r=r.nextSibling}e.selectedIndex=n}}},y=f(u);t.exports=y},{}],18:[function(e,t,n){function r(e,t){i.equal(typeof e,"function","nanoraf: render should be a function"),i.ok("function"==typeof t||void 0===t,"nanoraf: raf should be a function or undefined"),t=t||o.requestAnimationFrame;var n=!1,r=!1,a=null;return function(o,u){i.equal(typeof o,"object","nanoraf: state should be an object"),i.equal(typeof u,"object","nanoraf: prev should be an object"),i.equal(n,!1,"nanoraf: new frame was created before previous frame finished"),null!==a||r||(r=!0,t(function(){r=!1,a&&(n=!0,e(a,u),n=!1,a=null)})),a=o}}var o=e("global/window"),i=e("assert");t.exports=r},{assert:1,"global/window":13}],19:[function(require,module,exports){function nanotick(){function e(e){t.push(e),n||(n=!0,delay(function(){for(;t.length>0;)t.shift()();n=!1}))}var t=[],n=!1;return function(t){assert.equal(typeof t,"function","nanotick.tick: cb should be a function");var n=!1;return e(function(){n=!0}),function(){for(var r=arguments.length,o=new Array(r),i=0;i<r;i++)o[i]=arguments[i];n?t.apply(t,o):e(function(){t.apply(t,o)})}}}var assert=require("assert");module.exports=nanotick;var delay="undefined"!=typeof window&&window.document?"undefined"!=typeof setImmediate?setImmediate:setTimeout:eval("process.nextTick")},{assert:1}],20:[function(e,t,n){function r(e,t){l[e][0]&&0===l[e][2]&&(l[e][0](t),l[e][2]=1)}function o(e,t){l[e][1]&&1===l[e][2]&&(l[e][1](t),l[e][2]=0)}function i(e,t,n){var r=e.target.getAttribute(p);if(a(e.oldValue,r))return void(l[r]=l[e.oldValue]);l[e.oldValue]&&n(e.oldValue,e.target),l[r]&&t(r,e.target)}function a(e,t){return!(!e||!t)&&l[e][3]===l[t][3]}function u(e,t){for(var n=Object.keys(l),r=0;r<e.length;r++){if(e[r]&&e[r].getAttribute&&e[r].getAttribute(p)){var o=e[r].getAttribute(p);n.forEach(function(n){o===n&&t(n,e[r])})}e[r].childNodes.length>0&&u(e[r].childNodes,t)}}var s=e("global/document"),c=e("global/window"),l=Object.create(null),f="onloadid"+(new Date%9e6).toString(36),p="data-"+f,d=0;if(c&&c.MutationObserver){new MutationObserver(function(e){if(!(Object.keys(l).length<1))for(var t=0;t<e.length;t++)e[t].attributeName!==p?(u(e[t].removedNodes,o),u(e[t].addedNodes,r)):i(e[t],r,o)}).observe(s.body,{childList:!0,subtree:!0,attributes:!0,attributeOldValue:!0,attributeFilter:[p]})}t.exports=function e(t,n,r,o){return n=n||function(){},r=r||function(){},t.setAttribute(p,"o"+d),l["o"+d]=[n,r,0,o||e.caller],d+=1,t}},{"global/document":12,"global/window":13}],21:[function(e,t,n){"use strict";var r=e("repeat-string");t.exports=function(e,t,n){return e=e.toString(),void 0===t?e:(n=0===n?"0":n?n.toString():" ",r(n,t-e.length)+e)}},{"repeat-string":24}],22:[function(e,t,n){"use strict";var r=e("repeat-string");t.exports=function(e,t,n){var o="",i=t-e.length;if(i<=5&&!n)o="00000";else{if(!(i<=25)||n)return e+r(n||"0",i);o="000000000000000000000000000"}return e+o.slice(0,i)}},{"repeat-string":24}],23:[function(e,t,n){function r(){throw new Error("setTimeout has not been defined")}function o(){throw new Error("clearTimeout has not been defined")}function i(e){if(f===setTimeout)return setTimeout(e,0);if((f===r||!f)&&setTimeout)return f=setTimeout,setTimeout(e,0);try{return f(e,0)}catch(t){try{return f.call(null,e,0)}catch(t){return f.call(this,e,0)}}}function a(e){if(p===clearTimeout)return clearTimeout(e);if((p===o||!p)&&clearTimeout)return p=clearTimeout,clearTimeout(e);try{return p(e)}catch(t){try{return p.call(null,e)}catch(t){return p.call(this,e)}}}function u(){m&&h&&(m=!1,h.length?g=h.concat(g):v=-1,g.length&&s())}function s(){if(!m){var e=i(u);m=!0;for(var t=g.length;t;){for(h=g,g=[];++v<t;)h&&h[v].run();v=-1,t=g.length}h=null,m=!1,a(e)}}function c(e,t){this.fun=e,this.array=t}function l(){}var f,p,d=t.exports={};!function(){try{f="function"==typeof setTimeout?setTimeout:r}catch(e){f=r}try{p="function"==typeof clearTimeout?clearTimeout:o}catch(e){p=o}}();var h,g=[],m=!1,v=-1;d.nextTick=function(e){var t=new Array(arguments.length-1);if(arguments.length>1)for(var n=1;n<arguments.length;n++)t[n-1]=arguments[n];g.push(new c(e,t)),1!==g.length||m||i(s)},c.prototype.run=function(){this.fun.apply(null,this.array)},d.title="browser",d.browser=!0,d.env={},d.argv=[],d.version="",d.versions={},d.on=l,d.addListener=l,d.once=l,d.off=l,d.removeListener=l,d.removeAllListeners=l,d.emit=l,d.binding=function(e){throw new Error("process.binding is not supported")},d.cwd=function(){return"/"},d.chdir=function(e){throw new Error("process.chdir is not supported")},d.umask=function(){return 0}},{}],24:[function(e,t,n){"use strict";function r(e,t){if("string"!=typeof e)throw new TypeError("expected a string");if(1===t)return e;if(2===t)return e+e;var n=e.length*t;if(o!==e||void 0===o)o=e,i="";else if(i.length>=n)return i.substr(0,n);for(;n>i.length&&t>1;)1&t&&(i+=e),t>>=1,e+=e;return i+=e,i=i.substr(0,n)}var o,i="";t.exports=r},{}],25:[function(e,t,n){function r(e,t){return e=t?e.replace(o,""):e.replace(i,""),e.replace(u,"").replace(a,"/")}var o=new RegExp("^(file://|/)(.*.html?/?)?"),i=new RegExp("^(http(s)?(://))?(www.)?[a-zA-Z0-9-_.]+(:[0-9]{1,5})?(/{1})?"),a=new RegExp("#"),u=new RegExp("[?].*$");t.exports=r},{}],26:[function(e,t,n){function r(e,t){function n(e){var t=o.createElement("a");return t.href=e,{href:t.href,pathname:t.pathname,search:t.search?u(t.search):{},hash:t.hash}}return e?(i.equal(typeof e,"object","sheet-router/create-location: state should be an object"),"string"==typeof t?n(t):(i.equal(typeof t,"object","sheet-router/create-location: patch should be an object"),a(e,t))):{pathname:o.location.pathname,search:o.location.search?u(o.location.search):{},hash:o.location.hash,href:o.location.href}}var o=e("global/document"),i=e("assert"),a=e("xtend"),u=e("./qs");t.exports=r},{"./qs":30,assert:1,"global/document":12,xtend:38}],27:[function(e,t,n){function r(e){a.equal(typeof e,"function","sheet-router/history: cb must be a function"),i.onpopstate=function(){e({pathname:o.location.pathname,search:o.location.search,href:o.location.href,hash:o.location.hash})}}var o=e("global/document"),i=e("global/window"),a=e("assert");t.exports=r},{assert:1,"global/document":12,"global/window":13}],28:[function(e,t,n){function r(e,t){i.equal(typeof e,"function","sheet-router/href: cb must be a function"),o.onclick=function(n){if(!(n.button&&0!==n.button||n.ctrlKey||n.metaKey||n.altKey||n.shiftKey)){var r=function e(n){if(n&&n!==t)return"a"!==n.localName?e(n.parentNode):void 0===n.href?e(n.parentNode):o.location.host!==n.host?e(n.parentNode):n}(n.target);if(r){r.hasAttribute("data-no-routing")||(n.preventDefault(),e({pathname:r.pathname,search:r.search?a(r.search):{},href:r.href,hash:r.hash}))}}}}var o=e("global/window"),i=e("assert"),a=e("./qs");t.exports=r},{"./qs":30,assert:1,"global/window":13}],29:[function(e,t,n){function r(e,t){function n(t,n,r,o,a,p){return u.equal(typeof t,"string","sheet-router: route must be a string"),e.thunk===!1?c(i(t,s),n,r,o,a,p):t===f?l(n,r,o,a,p):(f=i(t,s),(l=c(f))(n,r,o,a,p))}t||(t=e,e={}),u.equal(typeof e,"object","sheet-router: opts must be a object"),u.ok(Array.isArray(t),"sheet-router: tree must be an array");var r=e.default||"/404";u.equal(typeof r,"string","sheet-router: dft must be a string");var c=a(r),l=null,f=null;return n._router=c,function t(n,r){if("string"==typeof n[0])var i=n[0].replace(/^[#\/]/,"");else var a=n[0];var u="function"==typeof n[1]?n[1]:null,s=Array.isArray(n[1])?n[1]:Array.isArray(n[2])?n[2]:null;if(a&&n.forEach(function(e){t(e,r)}),u){var l=i?r.concat(i).join("/"):r.length?r.join("/"):i,f=e.thunk===!1||"match"===e.thunk?u:o(u);c.on(l,f)}Array.isArray(s)&&t(s,r.concat(i))}(t,[]),n}function o(e){return function(t){return function(n,r,o,i,a){return e(t,n,r,o,i,a)}}}var i=e("./_pathname"),a=e("wayfarer"),u=e("assert"),s=/file:\/\//.test("object"==typeof window&&window.location&&window.location.origin);t.exports=r},{"./_pathname":25,assert:1,wayfarer:35}],30:[function(e,t,n){function r(e){function t(e,t,r,o){n[i(t)]=i(o)}var n={};return e.replace(/^.*\?/,"").replace(a,t),n}var o=e("global/window"),i=o.decodeURIComponent,a=new RegExp("([^?=&]+)(=([^&]*))?","g");t.exports=r},{"global/window":13}],31:[function(e,t,n){function r(e,t){return i.equal(typeof e,"function","sheet-router/walk: router should be a function"),i.equal(typeof t,"function","sheet-router/walk: cb should be a function"),e=e._router,o(e,t)}const o=e("wayfarer/walk"),i=e("assert");t.exports=r},{assert:1,"wayfarer/walk":37}],32:[function(e,t,n){"function"==typeof Object.create?t.exports=function(e,t){e.super_=t,e.prototype=Object.create(t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}})}:t.exports=function(e,t){e.super_=t;var n=function(){};n.prototype=t.prototype,e.prototype=new n,e.prototype.constructor=e}},{}],33:[function(e,t,n){t.exports=function(e){return e&&"object"==typeof e&&"function"==typeof e.copy&&"function"==typeof e.fill&&"function"==typeof e.readUInt8}},{}],34:[function(e,t,n){(function(t,r){function o(e,t){var r={seen:[],stylize:a};return arguments.length>=3&&(r.depth=arguments[2]),arguments.length>=4&&(r.colors=arguments[3]),g(t)?r.showHidden=t:t&&n._extend(r,t),E(r.showHidden)&&(r.showHidden=!1),E(r.depth)&&(r.depth=2),E(r.colors)&&(r.colors=!1),E(r.customInspect)&&(r.customInspect=!0),r.colors&&(r.stylize=i),s(r,e,r.depth)}function i(e,t){var n=o.styles[t];return n?"["+o.colors[n][0]+"m"+e+"["+o.colors[n][1]+"m":e}function a(e,t){return e}function u(e){var t={};return e.forEach(function(e,n){t[e]=!0}),t}function s(e,t,r){if(e.customInspect&&t&&A(t.inspect)&&t.inspect!==n.inspect&&(!t.constructor||t.constructor.prototype!==t)){var o=t.inspect(r,e);return b(o)||(o=s(e,o,r)),o}var i=c(e,t);if(i)return i;var a=Object.keys(t),g=u(a);if(e.showHidden&&(a=Object.getOwnPropertyNames(t)),C(t)&&(a.indexOf("message")>=0||a.indexOf("description")>=0))return l(t);if(0===a.length){if(A(t)){var m=t.name?": "+t.name:"";return e.stylize("[Function"+m+"]","special")}if(x(t))return e.stylize(RegExp.prototype.toString.call(t),"regexp");if(S(t))return e.stylize(Date.prototype.toString.call(t),"date");if(C(t))return l(t)}var v="",y=!1,w=["{","}"];if(h(t)&&(y=!0,w=["[","]"]),A(t)){v=" [Function"+(t.name?": "+t.name:"")+"]"}if(x(t)&&(v=" "+RegExp.prototype.toString.call(t)),S(t)&&(v=" "+Date.prototype.toUTCString.call(t)),C(t)&&(v=" "+l(t)),0===a.length&&(!y||0==t.length))return w[0]+v+w[1];if(r<0)return x(t)?e.stylize(RegExp.prototype.toString.call(t),"regexp"):e.stylize("[Object]","special");e.seen.push(t);var E;return E=y?f(e,t,r,g,a):a.map(function(n){return p(e,t,r,g,n,y)}),e.seen.pop(),d(E,v,w)}function c(e,t){if(E(t))return e.stylize("undefined","undefined");if(b(t)){var n="'"+JSON.stringify(t).replace(/^"|"$/g,"").replace(/'/g,"\\'").replace(/\\"/g,'"')+"'";return e.stylize(n,"string")}return y(t)?e.stylize(""+t,"number"):g(t)?e.stylize(""+t,"boolean"):m(t)?e.stylize("null","null"):void 0}function l(e){return"["+Error.prototype.toString.call(e)+"]"}function f(e,t,n,r,o){for(var i=[],a=0,u=t.length;a<u;++a)q(t,String(a))?i.push(p(e,t,n,r,String(a),!0)):i.push("");return o.forEach(function(o){o.match(/^\d+$/)||i.push(p(e,t,n,r,o,!0))}),i}function p(e,t,n,r,o,i){var a,u,c;if(c=Object.getOwnPropertyDescriptor(t,o)||{value:t[o]},c.get?u=c.set?e.stylize("[Getter/Setter]","special"):e.stylize("[Getter]","special"):c.set&&(u=e.stylize("[Setter]","special")),q(r,o)||(a="["+o+"]"),u||(e.seen.indexOf(c.value)<0?(u=m(n)?s(e,c.value,null):s(e,c.value,n-1),u.indexOf("\n")>-1&&(u=i?u.split("\n").map(function(e){return"  "+e}).join("\n").substr(2):"\n"+u.split("\n").map(function(e){return"   "+e}).join("\n"))):u=e.stylize("[Circular]","special")),E(a)){if(i&&o.match(/^\d+$/))return u;a=JSON.stringify(""+o),a.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)?(a=a.substr(1,a.length-2),a=e.stylize(a,"name")):(a=a.replace(/'/g,"\\'").replace(/\\"/g,'"').replace(/(^"|"$)/g,"'"),a=e.stylize(a,"string"))}return a+": "+u}function d(e,t,n){var r=0;return e.reduce(function(e,t){return r++,t.indexOf("\n")>=0&&r++,e+t.replace(/\u001b\[\d\d?m/g,"").length+1},0)>60?n[0]+(""===t?"":t+"\n ")+" "+e.join(",\n  ")+" "+n[1]:n[0]+t+" "+e.join(", ")+" "+n[1]}function h(e){return Array.isArray(e)}function g(e){return"boolean"==typeof e}function m(e){return null===e}function v(e){return null==e}function y(e){return"number"==typeof e}function b(e){return"string"==typeof e}function w(e){return"symbol"==typeof e}function E(e){return void 0===e}function x(e){return k(e)&&"[object RegExp]"===O(e)}function k(e){return"object"==typeof e&&null!==e}function S(e){return k(e)&&"[object Date]"===O(e)}function C(e){return k(e)&&("[object Error]"===O(e)||e instanceof Error)}function A(e){return"function"==typeof e}function T(e){return null===e||"boolean"==typeof e||"number"==typeof e||"string"==typeof e||"symbol"==typeof e||void 0===e}function O(e){return Object.prototype.toString.call(e)}function j(e){return e<10?"0"+e.toString(10):e.toString(10)}function N(){var e=new Date,t=[j(e.getHours()),j(e.getMinutes()),j(e.getSeconds())].join(":");return[e.getDate(),L[e.getMonth()],t].join(" ")}function q(e,t){return Object.prototype.hasOwnProperty.call(e,t)}n.format=function(e){if(!b(e)){for(var t=[],n=0;n<arguments.length;n++)t.push(o(arguments[n]));return t.join(" ")}for(var n=1,r=arguments,i=r.length,a=String(e).replace(/%[sdj%]/g,function(e){if("%%"===e)return"%";if(n>=i)return e;switch(e){case"%s":return String(r[n++]);case"%d":return Number(r[n++]);case"%j":try{return JSON.stringify(r[n++])}catch(e){return"[Circular]"}default:return e}}),u=r[n];n<i;u=r[++n])a+=m(u)||!k(u)?" "+u:" "+o(u);return a},n.deprecate=function(e,o){function i(){if(!a){if(t.throwDeprecation)throw new Error(o);t.traceDeprecation?console.trace(o):console.error(o),a=!0}return e.apply(this,arguments)}if(E(r.process))return function(){return n.deprecate(e,o).apply(this,arguments)};if(t.noDeprecation===!0)return e;var a=!1;return i};var D,_={};n.debuglog=function(e){if(E(D)&&(D=t.env.NODE_DEBUG||""),e=e.toUpperCase(),!_[e])if(new RegExp("\\b"+e+"\\b","i").test(D)){var r=t.pid;_[e]=function(){var t=n.format.apply(n,arguments);console.error("%s %d: %s",e,r,t)}}else _[e]=function(){};return _[e]},n.inspect=o,o.colors={bold:[1,22],italic:[3,23],underline:[4,24],inverse:[7,27],white:[37,39],grey:[90,39],black:[30,39],blue:[34,39],cyan:[36,39],green:[32,39],magenta:[35,39],red:[31,39],yellow:[33,39]},o.styles={special:"cyan",number:"yellow",boolean:"yellow",undefined:"grey",null:"bold",string:"green",date:"magenta",regexp:"red"},n.isArray=h,n.isBoolean=g,n.isNull=m,n.isNullOrUndefined=v,n.isNumber=y,n.isString=b,n.isSymbol=w,n.isUndefined=E,n.isRegExp=x,n.isObject=k,n.isDate=S,n.isError=C,n.isFunction=A,n.isPrimitive=T,n.isBuffer=e("./support/isBuffer");var L=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];n.log=function(){console.log("%s - %s",N(),n.format.apply(n,arguments))},n.inherits=e("inherits"),n._extend=function(e,t){if(!t||!k(t))return e;for(var n=Object.keys(t),r=n.length;r--;)e[n[r]]=t[n[r]];return e}}).call(this,e("_process"),"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{"./support/isBuffer":33,_process:23,inherits:32}],35:[function(e,t,n){function r(e){function t(e,t){if(o.equal(typeof e,"string"),o.equal(typeof t,"function"),e=e||"/",t&&t._wayfarer&&t._trie)u.mount(e,t._trie.trie);else{u.create(e).cb=t}return n}function n(e){o.notEqual(e,void 0,"'route' must be defined");for(var t=new Array(arguments.length),n=1;n<t.length;n++)t[n]=arguments[n];var r=u.match(e);if(r&&r.cb)return t[0]=r.params,r.cb.apply(null,t);var i=u.match(a);if(i&&i.cb)return t[0]=i.params,i.cb.apply(null,t);throw new Error("route '"+e+"' did not match")}if(!(this instanceof r))return new r(e);var a=(e||"").replace(/^\//,""),u=i();return n._trie=u,n.emit=n,n.on=t,n._wayfarer=!0,n}var o=e("assert"),i=e("./trie");t.exports=r},{"./trie":36,assert:1}],36:[function(e,t,n){function r(){if(!(this instanceof r))return new r;this.trie={nodes:{}}}var o=e("xtend/mutable"),i=e("assert"),a=e("xtend");t.exports=r,r.prototype.create=function(e){i.equal(typeof e,"string","route should be a string");var t=e.replace(/^\//,"").split("/");return function e(n,r){var o=t[0];if(void 0===o)return r;var i=null;return/^:/.test(o)?(r.nodes.$$?i=r.nodes.$$:(i={nodes:{}},r.nodes.$$=i),r.name=o.replace(/^:/,"")):r.nodes[o]?i=r.nodes[o]:(i={nodes:{}},r.nodes[o]=i),e(1,i)}(0,this.trie)},r.prototype.match=function(e){i.equal(typeof e,"string","route should be a string");var t=e.replace(/^\//,"").split("/"),n={},r=function e(r,o){if(void 0!==o){var i=t[0];return void 0===i?o:o.nodes[i]?e(1,o.nodes[i]):o.name?(n[o.name]=decodeURIComponent(i),e(1,o.nodes.$$)):e(1)}}(0,this.trie);if(r)return r=a(r),r.params=n,r},r.prototype.mount=function(e,t){i.equal(typeof e,"string","route should be a string"),i.equal(typeof t,"object","trie should be a object");var n=e.replace(/^\//,"").split("/"),r=null,a=null;if(1===n.length)a=n[0],r=this.create(a);else{var u=n.splice(0,n.length-1),s=u.join("/");a=n[0],r=this.create(s)}o(r.nodes,t.nodes),t.name&&(r.name=t.name),r.nodes[""]&&(Object.keys(r.nodes[""]).forEach(function(e){"nodes"!==e&&(r[e]=r.nodes[""][e])}),o(r.nodes,r.nodes[""].nodes),delete r.nodes[""].nodes)}},{assert:1,xtend:38,"xtend/mutable":39}],37:[function(e,t,n){function r(e,t){o.equal(typeof e,"function","wayfarer.walk: router should be an function"),o.equal(typeof t,"function","wayfarer.walk: transform should be a function");var n=e._trie;o.equal(typeof n,"object","wayfarer.walk: trie should be an object"),function e(n,r){if(r.cb&&(r.cb=t("",r.cb)),r.nodes){var o=r.nodes;Object.keys(o).forEach(function(t){var n=o[t];e("$$"===t?"/:"+r.name:"/"+t,n)})}}("",n.trie)}var o=e("assert");t.exports=r},{assert:1}],38:[function(e,t,n){function r(){for(var e={},t=0;t<arguments.length;t++){var n=arguments[t];for(var r in n)o.call(n,r)&&(e[r]=n[r])}return e}t.exports=r;var o=Object.prototype.hasOwnProperty},{}],39:[function(e,t,n){function r(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var r in n)o.call(n,r)&&(e[r]=n[r])}return e}t.exports=r;var o=Object.prototype.hasOwnProperty},{}],40:[function(e,t,n){var r=e("bel"),o=e("morphdom"),i=e("./update-events.js");t.exports=r,t.exports.update=function(e,t,n){function r(e,t){for(var r=n.events||i,o=0;o<r.length;o++){var a=r[o];t[a]?e[a]=t[a]:e[a]&&(e[a]=void 0)}var u=e.value,s=t.value;"INPUT"===e.nodeName&&"file"!==e.type||"SELECT"===e.nodeName?s?s!==u&&(e.value=s):t.value=e.value:"TEXTAREA"===e.nodeName&&null===t.getAttribute("value")&&(e.value=t.value)}return n||(n={}),n.events!==!1&&(n.onBeforeElUpdated||(n.onBeforeElUpdated=r)),o(e,t,n)}},{"./update-events.js":41,bel:4,morphdom:17}],41:[function(e,t,n){t.exports=["onclick","ondblclick","onmousedown","onmouseup","onmouseover","onmousemove","onmouseout","ondragstart","ondrag","ondragenter","ondragleave","ondragover","ondrop","ondragend","onkeydown","onkeypress","onkeyup","onunload","onabort","onerror","onresize","onscroll","onselect","onchange","onsubmit","onreset","onfocus","onblur","oninput","oncontextmenu","onfocusin","onfocusout"]},{}],42:[function(e,t,n){"use strict";function r(e,t){return Object.freeze(Object.defineProperties(e,{raw:{value:Object.freeze(t)}}))}function o(e,t,n){return u(i,d(e,t,n),e.map.width,e.map.height,f(e,t,n),p(e,t,n))}var i=r(['\n    <div class="app">\n        <div class="pinWheelsContainer">\n            ','\n        </div>\n        <div class="appContent">\n          <div class="contentContainer"  style="width: ',"px; height: ",'px; ">\n            ',"\n            ","\n          </div>\n        </div>\n    </div>\n  "],['\n    <div class="app">\n        <div class="pinWheelsContainer">\n            ','\n        </div>\n        <div class="appContent">\n          <div class="contentContainer"  style="width: ',"px; height: ",'px; ">\n            ',"\n            ","\n          </div>\n        </div>\n    </div>\n  "]),a=e("intrinsic-scale");e("fastclick")(document.body);var u=e("choo/html"),s=e("choo-log"),c=e("choo"),l=c();l.use(s());var f=e("./views/map"),p=e("./views/tour"),d=e("./views/pin_wheels"),h=e("./locations");console.log(h),l.model({state:{locations:h,map:{width:0,height:0}},reducers:{resize:function(e,t){var n=document.querySelector(".appContent"),r=(0,a.contain)(n.offsetWidth,.75*n.offsetHeight,1731,1300),o=r.width,i=r.height;r.x,r.y;return{map:{width:o,height:i}}}},effects:{},subscriptions:{"called-once-when-the-app-loads":function(e,t){window.addEventListener("resize",function(){return e("resize",t)},!1),e("resize",t)}}}),l.router(["/",o]);var g=l.start();document.body.appendChild(g)},{"./locations":43,"./views/map":44,"./views/pin_wheels":46,"./views/tour":47,choo:8,"choo-log":6,"choo/html":7,fastclick:11,"intrinsic-scale":16}],43:[function(e,t,n){"use strict";var r=new Array(17).fill(0),o=r.map(function(e,t){return{id:t,even:t%2===0,rotation:t%2===0?15:25}});t.exports=o},{}],44:[function(e,t,n){"use strict";function r(e,t){return Object.freeze(Object.defineProperties(e,{raw:{value:Object.freeze(t)}}))}function o(e,t,n){return a(i)}var i=r(['\n        <span class="map--image"></span>\n  '],['\n        <span class="map--image"></span>\n  ']),a=e("choo/html");t.exports=o},{"choo/html":7}],45:[function(e,t,n){"use strict";function r(e,t){return Object.freeze(Object.defineProperties(e,{raw:{value:Object.freeze(t)}}))}function o(e,t,n){var r="transform:rotate("+e.rotation+"deg);-webkit-transform:rotate("+e.rotation+"deg);";return console.log(r),a(i,r)}var i=r(['\n        <div class="pinwheel--image" style="','"></div>\n  '],['\n        <div class="pinwheel--image" style="','"></div>\n  ']),a=e("choo/html");t.exports=o},{"choo/html":7}],46:[function(e,t,n){"use strict";function r(e,t){return Object.freeze(Object.defineProperties(e,{raw:{value:Object.freeze(t)}}))}function o(e,t,n){var r=e.locations.filter(function(e,t){return e.even}),o=e.locations.filter(function(e,t){return!e.even});return a(i,r.map(function(e){return u(e,t,n)}),o.map(function(e){return u(e,t,n)}))}var i=r(['\n        <div class="pinwheels">\n          <div class="pinwheel--column">\n            ','\n          </div>\n        <div class="pinwheel--column">\n          ',"\n        </div>\n      </div>\n  "],['\n        <div class="pinwheels">\n          <div class="pinwheel--column">\n            ','\n          </div>\n        <div class="pinwheel--column">\n          ',"\n        </div>\n      </div>\n  "]),a=e("choo/html"),u=e("./pin_wheel");t.exports=o},{"./pin_wheel":45,"choo/html":7}],47:[function(e,t,n){"use strict";function r(e,t){return Object.freeze(Object.defineProperties(e,{raw:{value:Object.freeze(t)}}))}function o(e,t,n){return a(i)}var i=r(['\n    <iframe class="tour--frame" src="https://rad.wtf/alhambra-web/" width="667" height="375">\n    </iframe>\n  '],['\n    <iframe class="tour--frame" src="https://rad.wtf/alhambra-web/" width="667" height="375">\n    </iframe>\n  ']),a=e("choo/html");t.exports=o},{"choo/html":7}]},{},[42]);
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function (global){
+'use strict';
+
+// compare and isBuffer taken from https://github.com/feross/buffer/blob/680e9e5e488f22aac27599a57dc844a6315928dd/index.js
+// original notice:
+
+/*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * @license  MIT
+ */
+function compare(a, b) {
+  if (a === b) {
+    return 0;
+  }
+
+  var x = a.length;
+  var y = b.length;
+
+  for (var i = 0, len = Math.min(x, y); i < len; ++i) {
+    if (a[i] !== b[i]) {
+      x = a[i];
+      y = b[i];
+      break;
+    }
+  }
+
+  if (x < y) {
+    return -1;
+  }
+  if (y < x) {
+    return 1;
+  }
+  return 0;
+}
+function isBuffer(b) {
+  if (global.Buffer && typeof global.Buffer.isBuffer === 'function') {
+    return global.Buffer.isBuffer(b);
+  }
+  return !!(b != null && b._isBuffer);
+}
+
+// based on node assert, original notice:
+
+// http://wiki.commonjs.org/wiki/Unit_Testing/1.0
+//
+// THIS IS NOT TESTED NOR LIKELY TO WORK OUTSIDE V8!
+//
+// Originally from narwhal.js (http://narwhaljs.org)
+// Copyright (c) 2009 Thomas Robinson <280north.com>
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the 'Software'), to
+// deal in the Software without restriction, including without limitation the
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+// sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+// ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+var util = require('util/');
+var hasOwn = Object.prototype.hasOwnProperty;
+var pSlice = Array.prototype.slice;
+var functionsHaveNames = (function () {
+  return function foo() {}.name === 'foo';
+}());
+function pToString (obj) {
+  return Object.prototype.toString.call(obj);
+}
+function isView(arrbuf) {
+  if (isBuffer(arrbuf)) {
+    return false;
+  }
+  if (typeof global.ArrayBuffer !== 'function') {
+    return false;
+  }
+  if (typeof ArrayBuffer.isView === 'function') {
+    return ArrayBuffer.isView(arrbuf);
+  }
+  if (!arrbuf) {
+    return false;
+  }
+  if (arrbuf instanceof DataView) {
+    return true;
+  }
+  if (arrbuf.buffer && arrbuf.buffer instanceof ArrayBuffer) {
+    return true;
+  }
+  return false;
+}
+// 1. The assert module provides functions that throw
+// AssertionError's when particular conditions are not met. The
+// assert module must conform to the following interface.
+
+var assert = module.exports = ok;
+
+// 2. The AssertionError is defined in assert.
+// new assert.AssertionError({ message: message,
+//                             actual: actual,
+//                             expected: expected })
+
+var regex = /\s*function\s+([^\(\s]*)\s*/;
+// based on https://github.com/ljharb/function.prototype.name/blob/adeeeec8bfcc6068b187d7d9fb3d5bb1d3a30899/implementation.js
+function getName(func) {
+  if (!util.isFunction(func)) {
+    return;
+  }
+  if (functionsHaveNames) {
+    return func.name;
+  }
+  var str = func.toString();
+  var match = str.match(regex);
+  return match && match[1];
+}
+assert.AssertionError = function AssertionError(options) {
+  this.name = 'AssertionError';
+  this.actual = options.actual;
+  this.expected = options.expected;
+  this.operator = options.operator;
+  if (options.message) {
+    this.message = options.message;
+    this.generatedMessage = false;
+  } else {
+    this.message = getMessage(this);
+    this.generatedMessage = true;
+  }
+  var stackStartFunction = options.stackStartFunction || fail;
+  if (Error.captureStackTrace) {
+    Error.captureStackTrace(this, stackStartFunction);
+  } else {
+    // non v8 browsers so we can have a stacktrace
+    var err = new Error();
+    if (err.stack) {
+      var out = err.stack;
+
+      // try to strip useless frames
+      var fn_name = getName(stackStartFunction);
+      var idx = out.indexOf('\n' + fn_name);
+      if (idx >= 0) {
+        // once we have located the function frame
+        // we need to strip out everything before it (and its line)
+        var next_line = out.indexOf('\n', idx + 1);
+        out = out.substring(next_line + 1);
+      }
+
+      this.stack = out;
+    }
+  }
+};
+
+// assert.AssertionError instanceof Error
+util.inherits(assert.AssertionError, Error);
+
+function truncate(s, n) {
+  if (typeof s === 'string') {
+    return s.length < n ? s : s.slice(0, n);
+  } else {
+    return s;
+  }
+}
+function inspect(something) {
+  if (functionsHaveNames || !util.isFunction(something)) {
+    return util.inspect(something);
+  }
+  var rawname = getName(something);
+  var name = rawname ? ': ' + rawname : '';
+  return '[Function' +  name + ']';
+}
+function getMessage(self) {
+  return truncate(inspect(self.actual), 128) + ' ' +
+         self.operator + ' ' +
+         truncate(inspect(self.expected), 128);
+}
+
+// At present only the three keys mentioned above are used and
+// understood by the spec. Implementations or sub modules can pass
+// other keys to the AssertionError's constructor - they will be
+// ignored.
+
+// 3. All of the following functions must throw an AssertionError
+// when a corresponding condition is not met, with a message that
+// may be undefined if not provided.  All assertion methods provide
+// both the actual and expected values to the assertion error for
+// display purposes.
+
+function fail(actual, expected, message, operator, stackStartFunction) {
+  throw new assert.AssertionError({
+    message: message,
+    actual: actual,
+    expected: expected,
+    operator: operator,
+    stackStartFunction: stackStartFunction
+  });
+}
+
+// EXTENSION! allows for well behaved errors defined elsewhere.
+assert.fail = fail;
+
+// 4. Pure assertion tests whether a value is truthy, as determined
+// by !!guard.
+// assert.ok(guard, message_opt);
+// This statement is equivalent to assert.equal(true, !!guard,
+// message_opt);. To test strictly for the value true, use
+// assert.strictEqual(true, guard, message_opt);.
+
+function ok(value, message) {
+  if (!value) fail(value, true, message, '==', assert.ok);
+}
+assert.ok = ok;
+
+// 5. The equality assertion tests shallow, coercive equality with
+// ==.
+// assert.equal(actual, expected, message_opt);
+
+assert.equal = function equal(actual, expected, message) {
+  if (actual != expected) fail(actual, expected, message, '==', assert.equal);
+};
+
+// 6. The non-equality assertion tests for whether two objects are not equal
+// with != assert.notEqual(actual, expected, message_opt);
+
+assert.notEqual = function notEqual(actual, expected, message) {
+  if (actual == expected) {
+    fail(actual, expected, message, '!=', assert.notEqual);
+  }
+};
+
+// 7. The equivalence assertion tests a deep equality relation.
+// assert.deepEqual(actual, expected, message_opt);
+
+assert.deepEqual = function deepEqual(actual, expected, message) {
+  if (!_deepEqual(actual, expected, false)) {
+    fail(actual, expected, message, 'deepEqual', assert.deepEqual);
+  }
+};
+
+assert.deepStrictEqual = function deepStrictEqual(actual, expected, message) {
+  if (!_deepEqual(actual, expected, true)) {
+    fail(actual, expected, message, 'deepStrictEqual', assert.deepStrictEqual);
+  }
+};
+
+function _deepEqual(actual, expected, strict, memos) {
+  // 7.1. All identical values are equivalent, as determined by ===.
+  if (actual === expected) {
+    return true;
+  } else if (isBuffer(actual) && isBuffer(expected)) {
+    return compare(actual, expected) === 0;
+
+  // 7.2. If the expected value is a Date object, the actual value is
+  // equivalent if it is also a Date object that refers to the same time.
+  } else if (util.isDate(actual) && util.isDate(expected)) {
+    return actual.getTime() === expected.getTime();
+
+  // 7.3 If the expected value is a RegExp object, the actual value is
+  // equivalent if it is also a RegExp object with the same source and
+  // properties (`global`, `multiline`, `lastIndex`, `ignoreCase`).
+  } else if (util.isRegExp(actual) && util.isRegExp(expected)) {
+    return actual.source === expected.source &&
+           actual.global === expected.global &&
+           actual.multiline === expected.multiline &&
+           actual.lastIndex === expected.lastIndex &&
+           actual.ignoreCase === expected.ignoreCase;
+
+  // 7.4. Other pairs that do not both pass typeof value == 'object',
+  // equivalence is determined by ==.
+  } else if ((actual === null || typeof actual !== 'object') &&
+             (expected === null || typeof expected !== 'object')) {
+    return strict ? actual === expected : actual == expected;
+
+  // If both values are instances of typed arrays, wrap their underlying
+  // ArrayBuffers in a Buffer each to increase performance
+  // This optimization requires the arrays to have the same type as checked by
+  // Object.prototype.toString (aka pToString). Never perform binary
+  // comparisons for Float*Arrays, though, since e.g. +0 === -0 but their
+  // bit patterns are not identical.
+  } else if (isView(actual) && isView(expected) &&
+             pToString(actual) === pToString(expected) &&
+             !(actual instanceof Float32Array ||
+               actual instanceof Float64Array)) {
+    return compare(new Uint8Array(actual.buffer),
+                   new Uint8Array(expected.buffer)) === 0;
+
+  // 7.5 For all other Object pairs, including Array objects, equivalence is
+  // determined by having the same number of owned properties (as verified
+  // with Object.prototype.hasOwnProperty.call), the same set of keys
+  // (although not necessarily the same order), equivalent values for every
+  // corresponding key, and an identical 'prototype' property. Note: this
+  // accounts for both named and indexed properties on Arrays.
+  } else if (isBuffer(actual) !== isBuffer(expected)) {
+    return false;
+  } else {
+    memos = memos || {actual: [], expected: []};
+
+    var actualIndex = memos.actual.indexOf(actual);
+    if (actualIndex !== -1) {
+      if (actualIndex === memos.expected.indexOf(expected)) {
+        return true;
+      }
+    }
+
+    memos.actual.push(actual);
+    memos.expected.push(expected);
+
+    return objEquiv(actual, expected, strict, memos);
+  }
+}
+
+function isArguments(object) {
+  return Object.prototype.toString.call(object) == '[object Arguments]';
+}
+
+function objEquiv(a, b, strict, actualVisitedObjects) {
+  if (a === null || a === undefined || b === null || b === undefined)
+    return false;
+  // if one is a primitive, the other must be same
+  if (util.isPrimitive(a) || util.isPrimitive(b))
+    return a === b;
+  if (strict && Object.getPrototypeOf(a) !== Object.getPrototypeOf(b))
+    return false;
+  var aIsArgs = isArguments(a);
+  var bIsArgs = isArguments(b);
+  if ((aIsArgs && !bIsArgs) || (!aIsArgs && bIsArgs))
+    return false;
+  if (aIsArgs) {
+    a = pSlice.call(a);
+    b = pSlice.call(b);
+    return _deepEqual(a, b, strict);
+  }
+  var ka = objectKeys(a);
+  var kb = objectKeys(b);
+  var key, i;
+  // having the same number of owned properties (keys incorporates
+  // hasOwnProperty)
+  if (ka.length !== kb.length)
+    return false;
+  //the same set of keys (although not necessarily the same order),
+  ka.sort();
+  kb.sort();
+  //~~~cheap key test
+  for (i = ka.length - 1; i >= 0; i--) {
+    if (ka[i] !== kb[i])
+      return false;
+  }
+  //equivalent values for every corresponding key, and
+  //~~~possibly expensive deep test
+  for (i = ka.length - 1; i >= 0; i--) {
+    key = ka[i];
+    if (!_deepEqual(a[key], b[key], strict, actualVisitedObjects))
+      return false;
+  }
+  return true;
+}
+
+// 8. The non-equivalence assertion tests for any deep inequality.
+// assert.notDeepEqual(actual, expected, message_opt);
+
+assert.notDeepEqual = function notDeepEqual(actual, expected, message) {
+  if (_deepEqual(actual, expected, false)) {
+    fail(actual, expected, message, 'notDeepEqual', assert.notDeepEqual);
+  }
+};
+
+assert.notDeepStrictEqual = notDeepStrictEqual;
+function notDeepStrictEqual(actual, expected, message) {
+  if (_deepEqual(actual, expected, true)) {
+    fail(actual, expected, message, 'notDeepStrictEqual', notDeepStrictEqual);
+  }
+}
+
+
+// 9. The strict equality assertion tests strict equality, as determined by ===.
+// assert.strictEqual(actual, expected, message_opt);
+
+assert.strictEqual = function strictEqual(actual, expected, message) {
+  if (actual !== expected) {
+    fail(actual, expected, message, '===', assert.strictEqual);
+  }
+};
+
+// 10. The strict non-equality assertion tests for strict inequality, as
+// determined by !==.  assert.notStrictEqual(actual, expected, message_opt);
+
+assert.notStrictEqual = function notStrictEqual(actual, expected, message) {
+  if (actual === expected) {
+    fail(actual, expected, message, '!==', assert.notStrictEqual);
+  }
+};
+
+function expectedException(actual, expected) {
+  if (!actual || !expected) {
+    return false;
+  }
+
+  if (Object.prototype.toString.call(expected) == '[object RegExp]') {
+    return expected.test(actual);
+  }
+
+  try {
+    if (actual instanceof expected) {
+      return true;
+    }
+  } catch (e) {
+    // Ignore.  The instanceof check doesn't work for arrow functions.
+  }
+
+  if (Error.isPrototypeOf(expected)) {
+    return false;
+  }
+
+  return expected.call({}, actual) === true;
+}
+
+function _tryBlock(block) {
+  var error;
+  try {
+    block();
+  } catch (e) {
+    error = e;
+  }
+  return error;
+}
+
+function _throws(shouldThrow, block, expected, message) {
+  var actual;
+
+  if (typeof block !== 'function') {
+    throw new TypeError('"block" argument must be a function');
+  }
+
+  if (typeof expected === 'string') {
+    message = expected;
+    expected = null;
+  }
+
+  actual = _tryBlock(block);
+
+  message = (expected && expected.name ? ' (' + expected.name + ').' : '.') +
+            (message ? ' ' + message : '.');
+
+  if (shouldThrow && !actual) {
+    fail(actual, expected, 'Missing expected exception' + message);
+  }
+
+  var userProvidedMessage = typeof message === 'string';
+  var isUnwantedException = !shouldThrow && util.isError(actual);
+  var isUnexpectedException = !shouldThrow && actual && !expected;
+
+  if ((isUnwantedException &&
+      userProvidedMessage &&
+      expectedException(actual, expected)) ||
+      isUnexpectedException) {
+    fail(actual, expected, 'Got unwanted exception' + message);
+  }
+
+  if ((shouldThrow && actual && expected &&
+      !expectedException(actual, expected)) || (!shouldThrow && actual)) {
+    throw actual;
+  }
+}
+
+// 11. Expected to throw an error:
+// assert.throws(block, Error_opt, message_opt);
+
+assert.throws = function(block, /*optional*/error, /*optional*/message) {
+  _throws(true, block, error, message);
+};
+
+// EXTENSION! This is annoying to write outside this module.
+assert.doesNotThrow = function(block, /*optional*/error, /*optional*/message) {
+  _throws(false, block, error, message);
+};
+
+assert.ifError = function(err) { if (err) throw err; };
+
+var objectKeys = Object.keys || function (obj) {
+  var keys = [];
+  for (var key in obj) {
+    if (hasOwn.call(obj, key)) keys.push(key);
+  }
+  return keys;
+};
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"util/":34}],2:[function(require,module,exports){
+module.exports = applyHook
+
+// apply arguments onto an array of functions, useful for hooks
+// (arr, any?, any?, any?, any?, any?) -> null
+function applyHook (arr, arg1, arg2, arg3, arg4, arg5) {
+  arr.forEach(function (fn) {
+    fn(arg1, arg2, arg3, arg4, arg5)
+  })
+}
+
+},{}],3:[function(require,module,exports){
+var mutate = require('xtend/mutable')
+var nanotick = require('nanotick')
+var assert = require('assert')
+var xtend = require('xtend')
+
+var applyHook = require('./apply-hook')
+
+module.exports = dispatcher
+
+// initialize a new barracks instance
+// obj -> obj
+function dispatcher (hooks) {
+  hooks = hooks || {}
+  assert.equal(typeof hooks, 'object', 'barracks: hooks should be undefined or an object')
+
+  var onStateChangeHooks = []
+  var onActionHooks = []
+  var onErrorHooks = []
+
+  var subscriptionWraps = []
+  var initialStateWraps = []
+  var reducerWraps = []
+  var effectWraps = []
+
+  use(hooks)
+
+  var reducersCalled = false
+  var effectsCalled = false
+  var stateCalled = false
+  var subsCalled = false
+  var stopped = false
+
+  var subscriptions = start._subscriptions = {}
+  var reducers = start._reducers = {}
+  var effects = start._effects = {}
+  var models = start._models = []
+  var _state = {}
+
+  var tick = nanotick()
+
+  start.model = setModel
+  start.state = getState
+  start.start = start
+  start.stop = stop
+  start.use = use
+
+  return start
+
+  // push an object of hooks onto an array
+  // obj -> null
+  function use (hooks) {
+    assert.equal(typeof hooks, 'object', 'barracks.use: hooks should be an object')
+    assert.ok(!hooks.onError || typeof hooks.onError === 'function', 'barracks.use: onError should be undefined or a function')
+    assert.ok(!hooks.onAction || typeof hooks.onAction === 'function', 'barracks.use: onAction should be undefined or a function')
+    assert.ok(!hooks.onStateChange || typeof hooks.onStateChange === 'function', 'barracks.use: onStateChange should be undefined or a function')
+
+    if (hooks.onStateChange) onStateChangeHooks.push(hooks.onStateChange)
+    if (hooks.onError) onErrorHooks.push(wrapOnError(hooks.onError))
+    if (hooks.onAction) onActionHooks.push(hooks.onAction)
+    if (hooks.wrapSubscriptions) subscriptionWraps.push(hooks.wrapSubscriptions)
+    if (hooks.wrapInitialState) initialStateWraps.push(hooks.wrapInitialState)
+    if (hooks.wrapReducers) reducerWraps.push(hooks.wrapReducers)
+    if (hooks.wrapEffects) effectWraps.push(hooks.wrapEffects)
+    if (hooks.models) hooks.models.forEach(setModel)
+  }
+
+  // push a model to be initiated
+  // obj -> null
+  function setModel (model) {
+    assert.equal(typeof model, 'object', 'barracks.store.model: model should be an object')
+    models.push(model)
+  }
+
+  // get the current state from the store
+  // obj? -> obj
+  function getState (opts) {
+    opts = opts || {}
+    assert.equal(typeof opts, 'object', 'barracks.store.state: opts should be an object')
+
+    var state = opts.state
+    if (!opts.state && opts.freeze === false) return xtend(_state)
+    else if (!opts.state) return Object.freeze(xtend(_state))
+    assert.equal(typeof state, 'object', 'barracks.store.state: state should be an object')
+
+    var namespaces = []
+    var newState = {}
+
+    // apply all fields from the model, and namespaced fields from the passed
+    // in state
+    models.forEach(function (model) {
+      var ns = model.namespace
+      namespaces.push(ns)
+      var modelState = model.state || {}
+      if (ns) {
+        newState[ns] = newState[ns] || {}
+        apply(ns, modelState, newState)
+        newState[ns] = xtend(newState[ns], state[ns])
+      } else {
+        mutate(newState, modelState)
+      }
+    })
+
+    // now apply all fields that weren't namespaced from the passed in state
+    Object.keys(state).forEach(function (key) {
+      if (namespaces.indexOf(key) !== -1) return
+      newState[key] = state[key]
+    })
+
+    var tmpState = xtend(_state, xtend(state, newState))
+    var wrappedState = wrapHook(tmpState, initialStateWraps)
+
+    return (opts.freeze === false)
+      ? wrappedState
+      : Object.freeze(wrappedState)
+  }
+
+  // initialize the store hooks, get the send() function
+  // obj? -> fn
+  function start (opts) {
+    opts = opts || {}
+    assert.equal(typeof opts, 'object', 'barracks.store.start: opts should be undefined or an object')
+
+    // register values from the models
+    models.forEach(function (model) {
+      var ns = model.namespace
+      if (!stateCalled && model.state && opts.state !== false) {
+        var modelState = model.state || {}
+        if (ns) {
+          _state[ns] = _state[ns] || {}
+          apply(ns, modelState, _state)
+        } else {
+          mutate(_state, modelState)
+        }
+      }
+      if (!reducersCalled && model.reducers && opts.reducers !== false) {
+        apply(ns, model.reducers, reducers, function (cb) {
+          return wrapHook(cb, reducerWraps)
+        })
+      }
+      if (!effectsCalled && model.effects && opts.effects !== false) {
+        apply(ns, model.effects, effects, function (cb) {
+          return wrapHook(cb, effectWraps)
+        })
+      }
+      if (!subsCalled && model.subscriptions && opts.subscriptions !== false) {
+        apply(ns, model.subscriptions, subscriptions, function (cb, key) {
+          var send = createSend('subscription: ' + (ns ? ns + ':' + key : key))
+          cb = wrapHook(cb, subscriptionWraps)
+          cb(send, function (err) {
+            applyHook(onErrorHooks, err, _state, createSend)
+          })
+          return cb
+        })
+      }
+    })
+
+    // the state wrap is special because we want to operate on the full
+    // state rather than indvidual chunks, so we apply it outside the loop
+    if (!stateCalled && opts.state !== false) {
+      _state = wrapHook(_state, initialStateWraps)
+    }
+
+    if (!opts.noSubscriptions) subsCalled = true
+    if (!opts.noReducers) reducersCalled = true
+    if (!opts.noEffects) effectsCalled = true
+    if (!opts.noState) stateCalled = true
+
+    if (!onErrorHooks.length) onErrorHooks.push(wrapOnError(defaultOnError))
+
+    return createSend
+
+    // call an action from a view
+    // (str, bool?) -> (str, any?, fn?) -> null
+    function createSend (selfName, callOnError) {
+      assert.equal(typeof selfName, 'string', 'barracks.store.start.createSend: selfName should be a string')
+      assert.ok(!callOnError || typeof callOnError === 'boolean', 'barracks.store.start.send: callOnError should be undefined or a boolean')
+
+      return function send (name, data, cb) {
+        if (!cb && !callOnError) {
+          cb = data
+          data = null
+        }
+        data = (typeof data === 'undefined' ? null : data)
+
+        assert.equal(typeof name, 'string', 'barracks.store.start.send: name should be a string')
+        assert.ok(!cb || typeof cb === 'function', 'barracks.store.start.send: cb should be a function')
+
+        var done = callOnError ? onErrorCallback : cb
+        _send(name, data, selfName, done)
+
+        function onErrorCallback (err) {
+          err = err || null
+          if (err) {
+            applyHook(onErrorHooks, err, _state, function createSend (selfName) {
+              return function send (name, data) {
+                assert.equal(typeof name, 'string', 'barracks.store.start.send: name should be a string')
+                data = (typeof data === 'undefined' ? null : data)
+                _send(name, data, selfName, done)
+              }
+            })
+          }
+        }
+      }
+    }
+
+    // call an action
+    // (str, str, any, fn) -> null
+    function _send (name, data, caller, cb) {
+      if (stopped) return
+
+      assert.equal(typeof name, 'string', 'barracks._send: name should be a string')
+      assert.equal(typeof caller, 'string', 'barracks._send: caller should be a string')
+      assert.equal(typeof cb, 'function', 'barracks._send: cb should be a function')
+
+      ;(tick(function () {
+        var reducersCalled = false
+        var effectsCalled = false
+        var newState = xtend(_state)
+
+        if (onActionHooks.length) {
+          applyHook(onActionHooks, _state, data, name, caller, createSend)
+        }
+
+        // validate if a namespace exists. Namespaces are delimited by ':'.
+        var actionName = name
+        if (/:/.test(name)) {
+          var arr = name.split(':')
+          var ns = arr.shift()
+          actionName = arr.join(':')
+        }
+
+        var _reducers = ns ? reducers[ns] : reducers
+        if (_reducers && _reducers[actionName]) {
+          if (ns) {
+            var reducedState = _reducers[actionName](_state[ns], data)
+            newState[ns] = xtend(_state[ns], reducedState)
+          } else {
+            mutate(newState, reducers[actionName](_state, data))
+          }
+          reducersCalled = true
+          if (onStateChangeHooks.length) {
+            applyHook(onStateChangeHooks, newState, data, _state, actionName, createSend)
+          }
+          _state = newState
+          cb(null, newState)
+        }
+
+        var _effects = ns ? effects[ns] : effects
+        if (!reducersCalled && _effects && _effects[actionName]) {
+          var send = createSend('effect: ' + name)
+          if (ns) _effects[actionName](_state[ns], data, send, cb)
+          else _effects[actionName](_state, data, send, cb)
+          effectsCalled = true
+        }
+
+        if (!reducersCalled && !effectsCalled) {
+          throw new Error('Could not find action ' + actionName)
+        }
+      }))()
+    }
+  }
+
+  // stop an app, essentially turns
+  // all send() calls into no-ops.
+  // () -> null
+  function stop () {
+    stopped = true
+  }
+}
+
+// compose an object conditionally
+// optionally contains a namespace
+// which is used to nest properties.
+// (str, obj, obj, fn?) -> null
+function apply (ns, source, target, wrap) {
+  if (ns && !target[ns]) target[ns] = {}
+  Object.keys(source).forEach(function (key) {
+    var cb = wrap ? wrap(source[key], key) : source[key]
+    if (ns) target[ns][key] = cb
+    else target[key] = cb
+  })
+}
+
+// handle errors all the way at the top of the trace
+// err? -> null
+function defaultOnError (err) {
+  throw err
+}
+
+function wrapOnError (onError) {
+  return function onErrorWrap (err, state, createSend) {
+    if (err) onError(err, state, createSend)
+  }
+}
+
+// take a apply an array of transforms onto a value. The new value
+// must be returned synchronously from the transform
+// (any, [fn]) -> any
+function wrapHook (value, transforms) {
+  transforms.forEach(function (transform) {
+    value = transform(value)
+  })
+  return value
+}
+
+},{"./apply-hook":2,"assert":1,"nanotick":19,"xtend":38,"xtend/mutable":39}],4:[function(require,module,exports){
+var document = require('global/document')
+var hyperx = require('hyperx')
+var onload = require('on-load')
+
+var SVGNS = 'http://www.w3.org/2000/svg'
+var XLINKNS = 'http://www.w3.org/1999/xlink'
+
+var BOOL_PROPS = {
+  autofocus: 1,
+  checked: 1,
+  defaultchecked: 1,
+  disabled: 1,
+  formnovalidate: 1,
+  indeterminate: 1,
+  readonly: 1,
+  required: 1,
+  selected: 1,
+  willvalidate: 1
+}
+var SVG_TAGS = [
+  'svg',
+  'altGlyph', 'altGlyphDef', 'altGlyphItem', 'animate', 'animateColor',
+  'animateMotion', 'animateTransform', 'circle', 'clipPath', 'color-profile',
+  'cursor', 'defs', 'desc', 'ellipse', 'feBlend', 'feColorMatrix',
+  'feComponentTransfer', 'feComposite', 'feConvolveMatrix', 'feDiffuseLighting',
+  'feDisplacementMap', 'feDistantLight', 'feFlood', 'feFuncA', 'feFuncB',
+  'feFuncG', 'feFuncR', 'feGaussianBlur', 'feImage', 'feMerge', 'feMergeNode',
+  'feMorphology', 'feOffset', 'fePointLight', 'feSpecularLighting',
+  'feSpotLight', 'feTile', 'feTurbulence', 'filter', 'font', 'font-face',
+  'font-face-format', 'font-face-name', 'font-face-src', 'font-face-uri',
+  'foreignObject', 'g', 'glyph', 'glyphRef', 'hkern', 'image', 'line',
+  'linearGradient', 'marker', 'mask', 'metadata', 'missing-glyph', 'mpath',
+  'path', 'pattern', 'polygon', 'polyline', 'radialGradient', 'rect',
+  'set', 'stop', 'switch', 'symbol', 'text', 'textPath', 'title', 'tref',
+  'tspan', 'use', 'view', 'vkern'
+]
+
+function belCreateElement (tag, props, children) {
+  var el
+
+  // If an svg tag, it needs a namespace
+  if (SVG_TAGS.indexOf(tag) !== -1) {
+    props.namespace = SVGNS
+  }
+
+  // If we are using a namespace
+  var ns = false
+  if (props.namespace) {
+    ns = props.namespace
+    delete props.namespace
+  }
+
+  // Create the element
+  if (ns) {
+    el = document.createElementNS(ns, tag)
+  } else {
+    el = document.createElement(tag)
+  }
+
+  // If adding onload events
+  if (props.onload || props.onunload) {
+    var load = props.onload || function () {}
+    var unload = props.onunload || function () {}
+    onload(el, function belOnload () {
+      load(el)
+    }, function belOnunload () {
+      unload(el)
+    },
+    // We have to use non-standard `caller` to find who invokes `belCreateElement`
+    belCreateElement.caller.caller.caller)
+    delete props.onload
+    delete props.onunload
+  }
+
+  // Create the properties
+  for (var p in props) {
+    if (props.hasOwnProperty(p)) {
+      var key = p.toLowerCase()
+      var val = props[p]
+      // Normalize className
+      if (key === 'classname') {
+        key = 'class'
+        p = 'class'
+      }
+      // The for attribute gets transformed to htmlFor, but we just set as for
+      if (p === 'htmlFor') {
+        p = 'for'
+      }
+      // If a property is boolean, set itself to the key
+      if (BOOL_PROPS[key]) {
+        if (val === 'true') val = key
+        else if (val === 'false') continue
+      }
+      // If a property prefers being set directly vs setAttribute
+      if (key.slice(0, 2) === 'on') {
+        el[p] = val
+      } else {
+        if (ns) {
+          if (p === 'xlink:href') {
+            el.setAttributeNS(XLINKNS, p, val)
+          } else if (/^xmlns($|:)/i.test(p)) {
+            // skip xmlns definitions
+          } else {
+            el.setAttributeNS(null, p, val)
+          }
+        } else {
+          el.setAttribute(p, val)
+        }
+      }
+    }
+  }
+
+  function appendChild (childs) {
+    if (!Array.isArray(childs)) return
+    for (var i = 0; i < childs.length; i++) {
+      var node = childs[i]
+      if (Array.isArray(node)) {
+        appendChild(node)
+        continue
+      }
+
+      if (typeof node === 'number' ||
+        typeof node === 'boolean' ||
+        node instanceof Date ||
+        node instanceof RegExp) {
+        node = node.toString()
+      }
+
+      if (typeof node === 'string') {
+        if (el.lastChild && el.lastChild.nodeName === '#text') {
+          el.lastChild.nodeValue += node
+          continue
+        }
+        node = document.createTextNode(node)
+      }
+
+      if (node && node.nodeType) {
+        el.appendChild(node)
+      }
+    }
+  }
+  appendChild(children)
+
+  return el
+}
+
+module.exports = hyperx(belCreateElement)
+module.exports.default = module.exports
+module.exports.createElement = belCreateElement
+
+},{"global/document":12,"hyperx":15,"on-load":20}],5:[function(require,module,exports){
+
+},{}],6:[function(require,module,exports){
+const padRight = require('pad-right')
+const padLeft = require('pad-left')
+const browser = require('detect-browser')
+
+module.exports = chooLog
+
+// colors from http://clrs.cc/
+const colors = {
+  green: '#2ECC40',
+  red: '#FF4136',
+  blue: '#7FDBFF',
+  lightGray: '#DDDDDD',
+  gray: '#AAAAAA',
+  yellow: '#FFDC00',
+  default: '#293037'
+}
+
+const paddings = {
+  type: 7,
+  actionType: 7
+}
+
+// Development logger for choo
+// null -> obj
+function chooLog () {
+  const startTime = Date.now()
+
+  return {
+    onAction: onAction,
+    onError: onError,
+    onStateChange: onStateChange
+  }
+
+  // handle onAction() calls
+  // (obj, obj, str, str, fn) -> null
+  function onAction (state, data, name, trace, createSend) {
+    const split = trace.split(':')
+    const actionType = split[0].trim()
+    const caller = (split[1] && split[1].trim()) || 'unknown'
+
+    const line = []
+    colorify('lightGray', renderTime(startTime) + ' ', line)
+    colorify('gray', renderType('action') + ' ', line)
+    colorify('gray', renderActionType(actionType) + ' ', line)
+
+    colorify('default', "''" + caller + "''", line)
+    colorify('default', '->', line)
+    colorify('default', "'" + name + "'", line)
+
+    if (groupCollapseSupported()) {
+      logGroup(line)
+      logInner(name, data)
+      console.groupEnd()
+    } else {
+      log(line)
+      logInner(name, data)
+    }
+
+    function logInner (name, action) {
+      console.log('action name:', name)
+      console.log('data:', data)
+    }
+  }
+
+  // handle onError() calls
+  // (str, obj, fn) -> null
+  function onError (err, state, createSend) {
+    const line = []
+    colorify('lightGray', renderTime(startTime) + ' ', line)
+    colorify('red', renderType('error') + ' ', line)
+    colorify('default', err.message + ' ', line)
+
+    if (groupCollapseSupported()) {
+      logGroup(line)
+      logInner(err)
+      console.groupEnd()
+    } else {
+      log(line)
+      logInner(err)
+    }
+
+    function logInner (err) {
+      console.error(err)
+    }
+  }
+
+  // handle onStateChange() calls
+  // (obj, obj, obj, fn) -> null
+  function onStateChange (state, data, prev, createSend) {
+    const line = []
+    colorify('lightGray', renderTime(startTime) + ' ', line)
+    colorify('gray', renderType('state') + ' ', line)
+
+    if (groupCollapseSupported()) {
+      logGroup(line)
+      logInner(prev, state)
+      console.groupEnd()
+    } else {
+      log(line)
+      logInner(prev, state)
+    }
+
+    function logInner (prev, state) {
+      console.log('prev ', prev)
+      console.log('state', state)
+    }
+  }
+}
+
+// create a collapsedGroup log from an array
+// str -> [str, str]
+function logGroup (line) {
+  console.groupCollapsed.apply(console, line)
+}
+
+// create a console log from an array
+// str -> [str, str]
+function log (line) {
+  console.log.apply(console, line)
+}
+
+// indent message types
+// str -> str
+function renderType (msg) {
+  const leftPad = paddings.type
+  const rightPad = paddings.actionType + leftPad + 2
+  return (msg === 'state' || msg === 'error')
+    ? padRight(padLeft(msg, leftPad, ' '), rightPad, ' ')
+    : padLeft(msg, leftPad, ' ')
+}
+
+// indent action types
+// str -> str
+function renderActionType (msg) {
+  const padding = paddings.actionType
+  if (msg === 'subscription') msg = 'subs'
+  return padRight(msg, padding, ' ')
+}
+
+// toHtml + chalk
+// (str, str, [str, ...str]) -> [str, str]
+function colorify (color, line, prev) {
+  var newLine = '%c' + line
+  var newStyle = 'color: ' + colors[color] + ';'
+
+  if (!prev) {
+    prev = [ newLine, newStyle ]
+    return prev
+  }
+
+  if (!prev[0]) prev[0] = ''
+  prev[0] += ' ' + newLine
+
+  if (browser.name === 'firefox') {
+    if (!prev[1]) prev[1] = ''
+    prev[1] += ' ' + newStyle
+  } else {
+    prev.push(newStyle)
+  }
+  return prev
+}
+
+// render the time
+// num -> null
+function renderTime (startTime) {
+  var offset = String(Math.round((Date.now() - startTime) / 1000) % 10000)
+  var msg = '[' + padLeft(offset, 4, '0') + ']'
+  return msg
+}
+
+function groupCollapseSupported () {
+  return console.groupCollapsed && browser.name !== 'firefox'
+}
+
+},{"detect-browser":9,"pad-left":21,"pad-right":22}],7:[function(require,module,exports){
+module.exports = require('yo-yo')
+
+},{"yo-yo":40}],8:[function(require,module,exports){
+const createLocation = require('sheet-router/create-location')
+const onHistoryChange = require('sheet-router/history')
+const sheetRouter = require('sheet-router')
+const onHref = require('sheet-router/href')
+const walk = require('sheet-router/walk')
+const mutate = require('xtend/mutable')
+const barracks = require('barracks')
+const nanoraf = require('nanoraf')
+const assert = require('assert')
+const xtend = require('xtend')
+const yo = require('yo-yo')
+
+module.exports = choo
+
+// framework for creating sturdy web applications
+// null -> fn
+function choo (opts) {
+  opts = opts || {}
+
+  const _store = start._store = barracks()
+  var _router = start._router = null
+  var _routerOpts = null
+  var _rootNode = null
+  var _routes = null
+  var _frame = null
+
+  if (typeof window !== 'undefined') {
+    _store.use({ onStateChange: render })
+  }
+  _store.use(opts)
+
+  start.toString = toString
+  start.router = router
+  start.model = model
+  start.start = start
+  start.stop = _store.stop
+  start.use = use
+
+  return start
+
+  // render the application to a string
+  // (str, obj) -> str
+  function toString (route, serverState) {
+    serverState = serverState || {}
+    assert.equal(typeof route, 'string', 'choo.app.toString: route must be a string')
+    assert.equal(typeof serverState, 'object', 'choo.app.toString: serverState must be an object')
+    _store.start({ subscriptions: false, reducers: false, effects: false })
+
+    const state = _store.state({ state: serverState })
+    const router = createRouter(_routerOpts, _routes, createSend)
+    const tree = router(route, state)
+    return tree.outerHTML || tree.toString()
+
+    function createSend () {
+      return function send () {
+        assert.ok(false, 'choo: send() cannot be called from Node')
+      }
+    }
+  }
+
+  // start the application
+  // (str?, obj?) -> DOMNode
+  function start () {
+    _store.model(createLocationModel(opts))
+    const createSend = _store.start(opts)
+    _router = start._router = createRouter(_routerOpts, _routes, createSend)
+    const state = _store.state({state: {}})
+
+    const tree = _router(state.location.href, state)
+    assert.ok(tree, 'choo.start: the router should always return a valid DOM node')
+    assert.equal(typeof tree, 'object', 'choo.start: the router should always return a valid DOM node')
+    _rootNode = tree
+    tree.done = done
+
+    return tree
+
+    // allow a 'mount' function to return the new node
+    // html -> null
+    function done (newNode) {
+      _rootNode = newNode
+    }
+  }
+
+  // update the DOM after every state mutation
+  // (obj, obj, obj, str, fn) -> null
+  function render (state, data, prev, name, createSend) {
+    if (!_frame) {
+      _frame = nanoraf(function (state, prev) {
+        const newTree = _router(state.location.href, state, prev)
+        _rootNode = yo.update(_rootNode, newTree)
+      })
+    }
+    _frame(state, prev)
+  }
+
+  // register all routes on the router
+  // (str?, [fn|[fn]]) -> obj
+  function router (defaultRoute, routes) {
+    _routerOpts = defaultRoute
+    _routes = routes
+  }
+
+  // create a new model
+  // (str?, obj) -> null
+  function model (model) {
+    _store.model(model)
+  }
+
+  // register a plugin
+  // (obj) -> null
+  function use (hooks) {
+    assert.equal(typeof hooks, 'object', 'choo.use: hooks should be an object')
+    _store.use(hooks)
+  }
+
+  // create a new router with a custom `createRoute()` function
+  // (str?, obj) -> null
+  function createRouter (routerOpts, routes, createSend) {
+    var prev = null
+    if (!routes) {
+      routes = routerOpts
+      routerOpts = {}
+    }
+    routerOpts = mutate({ thunk: 'match' }, routerOpts)
+    const router = sheetRouter(routerOpts, routes)
+    walk(router, wrap)
+
+    return router
+
+    function wrap (route, handler) {
+      const send = createSend('view: ' + route, true)
+      return function chooWrap (params) {
+        return function (state) {
+          // TODO(yw): find a way to wrap handlers so params shows up in state
+          const nwState = xtend(state)
+          nwState.location = xtend(nwState.location, { params: params })
+
+          const nwPrev = prev
+          prev = nwState // save for next time
+
+          if (opts.freeze !== false) Object.freeze(nwState)
+          return handler(nwState, nwPrev, send)
+        }
+      }
+    }
+  }
+}
+
+// application location model
+// obj -> obj
+function createLocationModel (opts) {
+  return {
+    namespace: 'location',
+    state: mutate(createLocation(), { params: {} }),
+    subscriptions: createSubscriptions(opts),
+    effects: { set: setLocation, touch: touchLocation },
+    reducers: { update: updateLocation }
+  }
+
+  // update the location on the state
+  // try and jump to an anchor on the page if it exists
+  // (obj, obj) -> obj
+  function updateLocation (state, data) {
+    if (opts.history !== false && data.hash && data.hash !== state.hash) {
+      try {
+        const el = document.querySelector(data.hash)
+        if (el) el.scrollIntoView(true)
+      } catch (e) {
+        return data
+      }
+    }
+    return data
+  }
+
+  // update internal location only
+  // (str, obj, fn, fn) -> null
+  function touchLocation (state, data, send, done) {
+    const newLocation = createLocation(state, data)
+    send('location:update', newLocation, done)
+  }
+
+  // set a new location e.g. "/foo/bar#baz?beep=boop"
+  // (str, obj, fn, fn) -> null
+  function setLocation (state, data, send, done) {
+    const newLocation = createLocation(state, data)
+
+    // update url bar if it changed
+    if (opts.history !== false && newLocation.href !== state.href) {
+      window.history.pushState({}, null, newLocation.href)
+    }
+
+    send('location:update', newLocation, done)
+  }
+
+  function createSubscriptions (opts) {
+    const subs = {}
+
+    if (opts.history !== false) {
+      subs.handleHistory = function (send, done) {
+        onHistoryChange(function navigate (href) {
+          send('location:touch', href, done)
+        })
+      }
+    }
+
+    if (opts.href !== false) {
+      subs.handleHref = function (send, done) {
+        onHref(function navigate (location) {
+          send('location:set', location, done)
+        })
+      }
+    }
+
+    return subs
+  }
+}
+
+},{"assert":1,"barracks":3,"nanoraf":18,"sheet-router":29,"sheet-router/create-location":26,"sheet-router/history":27,"sheet-router/href":28,"sheet-router/walk":31,"xtend":38,"xtend/mutable":39,"yo-yo":40}],9:[function(require,module,exports){
+var detectBrowser = require('./lib/detectBrowser');
+
+module.exports = detectBrowser(navigator.userAgent);
+
+},{"./lib/detectBrowser":10}],10:[function(require,module,exports){
+module.exports = function detectBrowser(userAgentString) {
+  var browsers = [
+    [ 'edge', /Edge\/([0-9\._]+)/ ],
+    [ 'yandexbrowser', /YaBrowser\/([0-9\._]+)/ ],
+    [ 'chrome', /(?!Chrom.*OPR)Chrom(?:e|ium)\/([0-9\.]+)(:?\s|$)/ ],
+    [ 'crios', /CriOS\/([0-9\.]+)(:?\s|$)/ ],
+    [ 'firefox', /Firefox\/([0-9\.]+)(?:\s|$)/ ],
+    [ 'opera', /Opera\/([0-9\.]+)(?:\s|$)/ ],
+    [ 'opera', /OPR\/([0-9\.]+)(:?\s|$)$/ ],
+    [ 'ie', /Trident\/7\.0.*rv\:([0-9\.]+)\).*Gecko$/ ],
+    [ 'ie', /MSIE\s([0-9\.]+);.*Trident\/[4-7].0/ ],
+    [ 'ie', /MSIE\s(7\.0)/ ],
+    [ 'bb10', /BB10;\sTouch.*Version\/([0-9\.]+)/ ],
+    [ 'android', /Android\s([0-9\.]+)/ ],
+    [ 'ios', /Version\/([0-9\._]+).*Mobile.*Safari.*/ ],
+    [ 'safari', /Version\/([0-9\._]+).*Safari/ ]
+  ];
+
+  return browsers.map(function (rule) {
+      if (rule[1].test(userAgentString)) {
+          var match = rule[1].exec(userAgentString);
+          var version = match && match[1].split(/[._]/).slice(0,3);
+
+          if (version && version.length < 3) {
+              Array.prototype.push.apply(version, (version.length == 1) ? [0, 0] : [0]);
+          }
+
+          return {
+              name: rule[0],
+              version: version.join('.')
+          };
+      }
+  }).filter(Boolean).shift();
+};
+
+},{}],11:[function(require,module,exports){
+;(function () {
+	'use strict';
+
+	/**
+	 * @preserve FastClick: polyfill to remove click delays on browsers with touch UIs.
+	 *
+	 * @codingstandard ftlabs-jsv2
+	 * @copyright The Financial Times Limited [All Rights Reserved]
+	 * @license MIT License (see LICENSE.txt)
+	 */
+
+	/*jslint browser:true, node:true*/
+	/*global define, Event, Node*/
+
+
+	/**
+	 * Instantiate fast-clicking listeners on the specified layer.
+	 *
+	 * @constructor
+	 * @param {Element} layer The layer to listen on
+	 * @param {Object} [options={}] The options to override the defaults
+	 */
+	function FastClick(layer, options) {
+		var oldOnClick;
+
+		options = options || {};
+
+		/**
+		 * Whether a click is currently being tracked.
+		 *
+		 * @type boolean
+		 */
+		this.trackingClick = false;
+
+
+		/**
+		 * Timestamp for when click tracking started.
+		 *
+		 * @type number
+		 */
+		this.trackingClickStart = 0;
+
+
+		/**
+		 * The element being tracked for a click.
+		 *
+		 * @type EventTarget
+		 */
+		this.targetElement = null;
+
+
+		/**
+		 * X-coordinate of touch start event.
+		 *
+		 * @type number
+		 */
+		this.touchStartX = 0;
+
+
+		/**
+		 * Y-coordinate of touch start event.
+		 *
+		 * @type number
+		 */
+		this.touchStartY = 0;
+
+
+		/**
+		 * ID of the last touch, retrieved from Touch.identifier.
+		 *
+		 * @type number
+		 */
+		this.lastTouchIdentifier = 0;
+
+
+		/**
+		 * Touchmove boundary, beyond which a click will be cancelled.
+		 *
+		 * @type number
+		 */
+		this.touchBoundary = options.touchBoundary || 10;
+
+
+		/**
+		 * The FastClick layer.
+		 *
+		 * @type Element
+		 */
+		this.layer = layer;
+
+		/**
+		 * The minimum time between tap(touchstart and touchend) events
+		 *
+		 * @type number
+		 */
+		this.tapDelay = options.tapDelay || 200;
+
+		/**
+		 * The maximum time for a tap
+		 *
+		 * @type number
+		 */
+		this.tapTimeout = options.tapTimeout || 700;
+
+		if (FastClick.notNeeded(layer)) {
+			return;
+		}
+
+		// Some old versions of Android don't have Function.prototype.bind
+		function bind(method, context) {
+			return function() { return method.apply(context, arguments); };
+		}
+
+
+		var methods = ['onMouse', 'onClick', 'onTouchStart', 'onTouchMove', 'onTouchEnd', 'onTouchCancel'];
+		var context = this;
+		for (var i = 0, l = methods.length; i < l; i++) {
+			context[methods[i]] = bind(context[methods[i]], context);
+		}
+
+		// Set up event handlers as required
+		if (deviceIsAndroid) {
+			layer.addEventListener('mouseover', this.onMouse, true);
+			layer.addEventListener('mousedown', this.onMouse, true);
+			layer.addEventListener('mouseup', this.onMouse, true);
+		}
+
+		layer.addEventListener('click', this.onClick, true);
+		layer.addEventListener('touchstart', this.onTouchStart, false);
+		layer.addEventListener('touchmove', this.onTouchMove, false);
+		layer.addEventListener('touchend', this.onTouchEnd, false);
+		layer.addEventListener('touchcancel', this.onTouchCancel, false);
+
+		// Hack is required for browsers that don't support Event#stopImmediatePropagation (e.g. Android 2)
+		// which is how FastClick normally stops click events bubbling to callbacks registered on the FastClick
+		// layer when they are cancelled.
+		if (!Event.prototype.stopImmediatePropagation) {
+			layer.removeEventListener = function(type, callback, capture) {
+				var rmv = Node.prototype.removeEventListener;
+				if (type === 'click') {
+					rmv.call(layer, type, callback.hijacked || callback, capture);
+				} else {
+					rmv.call(layer, type, callback, capture);
+				}
+			};
+
+			layer.addEventListener = function(type, callback, capture) {
+				var adv = Node.prototype.addEventListener;
+				if (type === 'click') {
+					adv.call(layer, type, callback.hijacked || (callback.hijacked = function(event) {
+						if (!event.propagationStopped) {
+							callback(event);
+						}
+					}), capture);
+				} else {
+					adv.call(layer, type, callback, capture);
+				}
+			};
+		}
+
+		// If a handler is already declared in the element's onclick attribute, it will be fired before
+		// FastClick's onClick handler. Fix this by pulling out the user-defined handler function and
+		// adding it as listener.
+		if (typeof layer.onclick === 'function') {
+
+			// Android browser on at least 3.2 requires a new reference to the function in layer.onclick
+			// - the old one won't work if passed to addEventListener directly.
+			oldOnClick = layer.onclick;
+			layer.addEventListener('click', function(event) {
+				oldOnClick(event);
+			}, false);
+			layer.onclick = null;
+		}
+	}
+
+	/**
+	* Windows Phone 8.1 fakes user agent string to look like Android and iPhone.
+	*
+	* @type boolean
+	*/
+	var deviceIsWindowsPhone = navigator.userAgent.indexOf("Windows Phone") >= 0;
+
+	/**
+	 * Android requires exceptions.
+	 *
+	 * @type boolean
+	 */
+	var deviceIsAndroid = navigator.userAgent.indexOf('Android') > 0 && !deviceIsWindowsPhone;
+
+
+	/**
+	 * iOS requires exceptions.
+	 *
+	 * @type boolean
+	 */
+	var deviceIsIOS = /iP(ad|hone|od)/.test(navigator.userAgent) && !deviceIsWindowsPhone;
+
+
+	/**
+	 * iOS 4 requires an exception for select elements.
+	 *
+	 * @type boolean
+	 */
+	var deviceIsIOS4 = deviceIsIOS && (/OS 4_\d(_\d)?/).test(navigator.userAgent);
+
+
+	/**
+	 * iOS 6.0-7.* requires the target element to be manually derived
+	 *
+	 * @type boolean
+	 */
+	var deviceIsIOSWithBadTarget = deviceIsIOS && (/OS [6-7]_\d/).test(navigator.userAgent);
+
+	/**
+	 * BlackBerry requires exceptions.
+	 *
+	 * @type boolean
+	 */
+	var deviceIsBlackBerry10 = navigator.userAgent.indexOf('BB10') > 0;
+
+	/**
+	 * Determine whether a given element requires a native click.
+	 *
+	 * @param {EventTarget|Element} target Target DOM element
+	 * @returns {boolean} Returns true if the element needs a native click
+	 */
+	FastClick.prototype.needsClick = function(target) {
+		switch (target.nodeName.toLowerCase()) {
+
+		// Don't send a synthetic click to disabled inputs (issue #62)
+		case 'button':
+		case 'select':
+		case 'textarea':
+			if (target.disabled) {
+				return true;
+			}
+
+			break;
+		case 'input':
+
+			// File inputs need real clicks on iOS 6 due to a browser bug (issue #68)
+			if ((deviceIsIOS && target.type === 'file') || target.disabled) {
+				return true;
+			}
+
+			break;
+		case 'label':
+		case 'iframe': // iOS8 homescreen apps can prevent events bubbling into frames
+		case 'video':
+			return true;
+		}
+
+		return (/\bneedsclick\b/).test(target.className);
+	};
+
+
+	/**
+	 * Determine whether a given element requires a call to focus to simulate click into element.
+	 *
+	 * @param {EventTarget|Element} target Target DOM element
+	 * @returns {boolean} Returns true if the element requires a call to focus to simulate native click.
+	 */
+	FastClick.prototype.needsFocus = function(target) {
+		switch (target.nodeName.toLowerCase()) {
+		case 'textarea':
+			return true;
+		case 'select':
+			return !deviceIsAndroid;
+		case 'input':
+			switch (target.type) {
+			case 'button':
+			case 'checkbox':
+			case 'file':
+			case 'image':
+			case 'radio':
+			case 'submit':
+				return false;
+			}
+
+			// No point in attempting to focus disabled inputs
+			return !target.disabled && !target.readOnly;
+		default:
+			return (/\bneedsfocus\b/).test(target.className);
+		}
+	};
+
+
+	/**
+	 * Send a click event to the specified element.
+	 *
+	 * @param {EventTarget|Element} targetElement
+	 * @param {Event} event
+	 */
+	FastClick.prototype.sendClick = function(targetElement, event) {
+		var clickEvent, touch;
+
+		// On some Android devices activeElement needs to be blurred otherwise the synthetic click will have no effect (#24)
+		if (document.activeElement && document.activeElement !== targetElement) {
+			document.activeElement.blur();
+		}
+
+		touch = event.changedTouches[0];
+
+		// Synthesise a click event, with an extra attribute so it can be tracked
+		clickEvent = document.createEvent('MouseEvents');
+		clickEvent.initMouseEvent(this.determineEventType(targetElement), true, true, window, 1, touch.screenX, touch.screenY, touch.clientX, touch.clientY, false, false, false, false, 0, null);
+		clickEvent.forwardedTouchEvent = true;
+		targetElement.dispatchEvent(clickEvent);
+	};
+
+	FastClick.prototype.determineEventType = function(targetElement) {
+
+		//Issue #159: Android Chrome Select Box does not open with a synthetic click event
+		if (deviceIsAndroid && targetElement.tagName.toLowerCase() === 'select') {
+			return 'mousedown';
+		}
+
+		return 'click';
+	};
+
+
+	/**
+	 * @param {EventTarget|Element} targetElement
+	 */
+	FastClick.prototype.focus = function(targetElement) {
+		var length;
+
+		// Issue #160: on iOS 7, some input elements (e.g. date datetime month) throw a vague TypeError on setSelectionRange. These elements don't have an integer value for the selectionStart and selectionEnd properties, but unfortunately that can't be used for detection because accessing the properties also throws a TypeError. Just check the type instead. Filed as Apple bug #15122724.
+		if (deviceIsIOS && targetElement.setSelectionRange && targetElement.type.indexOf('date') !== 0 && targetElement.type !== 'time' && targetElement.type !== 'month') {
+			length = targetElement.value.length;
+			targetElement.setSelectionRange(length, length);
+		} else {
+			targetElement.focus();
+		}
+	};
+
+
+	/**
+	 * Check whether the given target element is a child of a scrollable layer and if so, set a flag on it.
+	 *
+	 * @param {EventTarget|Element} targetElement
+	 */
+	FastClick.prototype.updateScrollParent = function(targetElement) {
+		var scrollParent, parentElement;
+
+		scrollParent = targetElement.fastClickScrollParent;
+
+		// Attempt to discover whether the target element is contained within a scrollable layer. Re-check if the
+		// target element was moved to another parent.
+		if (!scrollParent || !scrollParent.contains(targetElement)) {
+			parentElement = targetElement;
+			do {
+				if (parentElement.scrollHeight > parentElement.offsetHeight) {
+					scrollParent = parentElement;
+					targetElement.fastClickScrollParent = parentElement;
+					break;
+				}
+
+				parentElement = parentElement.parentElement;
+			} while (parentElement);
+		}
+
+		// Always update the scroll top tracker if possible.
+		if (scrollParent) {
+			scrollParent.fastClickLastScrollTop = scrollParent.scrollTop;
+		}
+	};
+
+
+	/**
+	 * @param {EventTarget} targetElement
+	 * @returns {Element|EventTarget}
+	 */
+	FastClick.prototype.getTargetElementFromEventTarget = function(eventTarget) {
+
+		// On some older browsers (notably Safari on iOS 4.1 - see issue #56) the event target may be a text node.
+		if (eventTarget.nodeType === Node.TEXT_NODE) {
+			return eventTarget.parentNode;
+		}
+
+		return eventTarget;
+	};
+
+
+	/**
+	 * On touch start, record the position and scroll offset.
+	 *
+	 * @param {Event} event
+	 * @returns {boolean}
+	 */
+	FastClick.prototype.onTouchStart = function(event) {
+		var targetElement, touch, selection;
+
+		// Ignore multiple touches, otherwise pinch-to-zoom is prevented if both fingers are on the FastClick element (issue #111).
+		if (event.targetTouches.length > 1) {
+			return true;
+		}
+
+		targetElement = this.getTargetElementFromEventTarget(event.target);
+		touch = event.targetTouches[0];
+
+		if (deviceIsIOS) {
+
+			// Only trusted events will deselect text on iOS (issue #49)
+			selection = window.getSelection();
+			if (selection.rangeCount && !selection.isCollapsed) {
+				return true;
+			}
+
+			if (!deviceIsIOS4) {
+
+				// Weird things happen on iOS when an alert or confirm dialog is opened from a click event callback (issue #23):
+				// when the user next taps anywhere else on the page, new touchstart and touchend events are dispatched
+				// with the same identifier as the touch event that previously triggered the click that triggered the alert.
+				// Sadly, there is an issue on iOS 4 that causes some normal touch events to have the same identifier as an
+				// immediately preceeding touch event (issue #52), so this fix is unavailable on that platform.
+				// Issue 120: touch.identifier is 0 when Chrome dev tools 'Emulate touch events' is set with an iOS device UA string,
+				// which causes all touch events to be ignored. As this block only applies to iOS, and iOS identifiers are always long,
+				// random integers, it's safe to to continue if the identifier is 0 here.
+				if (touch.identifier && touch.identifier === this.lastTouchIdentifier) {
+					event.preventDefault();
+					return false;
+				}
+
+				this.lastTouchIdentifier = touch.identifier;
+
+				// If the target element is a child of a scrollable layer (using -webkit-overflow-scrolling: touch) and:
+				// 1) the user does a fling scroll on the scrollable layer
+				// 2) the user stops the fling scroll with another tap
+				// then the event.target of the last 'touchend' event will be the element that was under the user's finger
+				// when the fling scroll was started, causing FastClick to send a click event to that layer - unless a check
+				// is made to ensure that a parent layer was not scrolled before sending a synthetic click (issue #42).
+				this.updateScrollParent(targetElement);
+			}
+		}
+
+		this.trackingClick = true;
+		this.trackingClickStart = event.timeStamp;
+		this.targetElement = targetElement;
+
+		this.touchStartX = touch.pageX;
+		this.touchStartY = touch.pageY;
+
+		// Prevent phantom clicks on fast double-tap (issue #36)
+		if ((event.timeStamp - this.lastClickTime) < this.tapDelay) {
+			event.preventDefault();
+		}
+
+		return true;
+	};
+
+
+	/**
+	 * Based on a touchmove event object, check whether the touch has moved past a boundary since it started.
+	 *
+	 * @param {Event} event
+	 * @returns {boolean}
+	 */
+	FastClick.prototype.touchHasMoved = function(event) {
+		var touch = event.changedTouches[0], boundary = this.touchBoundary;
+
+		if (Math.abs(touch.pageX - this.touchStartX) > boundary || Math.abs(touch.pageY - this.touchStartY) > boundary) {
+			return true;
+		}
+
+		return false;
+	};
+
+
+	/**
+	 * Update the last position.
+	 *
+	 * @param {Event} event
+	 * @returns {boolean}
+	 */
+	FastClick.prototype.onTouchMove = function(event) {
+		if (!this.trackingClick) {
+			return true;
+		}
+
+		// If the touch has moved, cancel the click tracking
+		if (this.targetElement !== this.getTargetElementFromEventTarget(event.target) || this.touchHasMoved(event)) {
+			this.trackingClick = false;
+			this.targetElement = null;
+		}
+
+		return true;
+	};
+
+
+	/**
+	 * Attempt to find the labelled control for the given label element.
+	 *
+	 * @param {EventTarget|HTMLLabelElement} labelElement
+	 * @returns {Element|null}
+	 */
+	FastClick.prototype.findControl = function(labelElement) {
+
+		// Fast path for newer browsers supporting the HTML5 control attribute
+		if (labelElement.control !== undefined) {
+			return labelElement.control;
+		}
+
+		// All browsers under test that support touch events also support the HTML5 htmlFor attribute
+		if (labelElement.htmlFor) {
+			return document.getElementById(labelElement.htmlFor);
+		}
+
+		// If no for attribute exists, attempt to retrieve the first labellable descendant element
+		// the list of which is defined here: http://www.w3.org/TR/html5/forms.html#category-label
+		return labelElement.querySelector('button, input:not([type=hidden]), keygen, meter, output, progress, select, textarea');
+	};
+
+
+	/**
+	 * On touch end, determine whether to send a click event at once.
+	 *
+	 * @param {Event} event
+	 * @returns {boolean}
+	 */
+	FastClick.prototype.onTouchEnd = function(event) {
+		var forElement, trackingClickStart, targetTagName, scrollParent, touch, targetElement = this.targetElement;
+
+		if (!this.trackingClick) {
+			return true;
+		}
+
+		// Prevent phantom clicks on fast double-tap (issue #36)
+		if ((event.timeStamp - this.lastClickTime) < this.tapDelay) {
+			this.cancelNextClick = true;
+			return true;
+		}
+
+		if ((event.timeStamp - this.trackingClickStart) > this.tapTimeout) {
+			return true;
+		}
+
+		// Reset to prevent wrong click cancel on input (issue #156).
+		this.cancelNextClick = false;
+
+		this.lastClickTime = event.timeStamp;
+
+		trackingClickStart = this.trackingClickStart;
+		this.trackingClick = false;
+		this.trackingClickStart = 0;
+
+		// On some iOS devices, the targetElement supplied with the event is invalid if the layer
+		// is performing a transition or scroll, and has to be re-detected manually. Note that
+		// for this to function correctly, it must be called *after* the event target is checked!
+		// See issue #57; also filed as rdar://13048589 .
+		if (deviceIsIOSWithBadTarget) {
+			touch = event.changedTouches[0];
+
+			// In certain cases arguments of elementFromPoint can be negative, so prevent setting targetElement to null
+			targetElement = document.elementFromPoint(touch.pageX - window.pageXOffset, touch.pageY - window.pageYOffset) || targetElement;
+			targetElement.fastClickScrollParent = this.targetElement.fastClickScrollParent;
+		}
+
+		targetTagName = targetElement.tagName.toLowerCase();
+		if (targetTagName === 'label') {
+			forElement = this.findControl(targetElement);
+			if (forElement) {
+				this.focus(targetElement);
+				if (deviceIsAndroid) {
+					return false;
+				}
+
+				targetElement = forElement;
+			}
+		} else if (this.needsFocus(targetElement)) {
+
+			// Case 1: If the touch started a while ago (best guess is 100ms based on tests for issue #36) then focus will be triggered anyway. Return early and unset the target element reference so that the subsequent click will be allowed through.
+			// Case 2: Without this exception for input elements tapped when the document is contained in an iframe, then any inputted text won't be visible even though the value attribute is updated as the user types (issue #37).
+			if ((event.timeStamp - trackingClickStart) > 100 || (deviceIsIOS && window.top !== window && targetTagName === 'input')) {
+				this.targetElement = null;
+				return false;
+			}
+
+			this.focus(targetElement);
+			this.sendClick(targetElement, event);
+
+			// Select elements need the event to go through on iOS 4, otherwise the selector menu won't open.
+			// Also this breaks opening selects when VoiceOver is active on iOS6, iOS7 (and possibly others)
+			if (!deviceIsIOS || targetTagName !== 'select') {
+				this.targetElement = null;
+				event.preventDefault();
+			}
+
+			return false;
+		}
+
+		if (deviceIsIOS && !deviceIsIOS4) {
+
+			// Don't send a synthetic click event if the target element is contained within a parent layer that was scrolled
+			// and this tap is being used to stop the scrolling (usually initiated by a fling - issue #42).
+			scrollParent = targetElement.fastClickScrollParent;
+			if (scrollParent && scrollParent.fastClickLastScrollTop !== scrollParent.scrollTop) {
+				return true;
+			}
+		}
+
+		// Prevent the actual click from going though - unless the target node is marked as requiring
+		// real clicks or if it is in the whitelist in which case only non-programmatic clicks are permitted.
+		if (!this.needsClick(targetElement)) {
+			event.preventDefault();
+			this.sendClick(targetElement, event);
+		}
+
+		return false;
+	};
+
+
+	/**
+	 * On touch cancel, stop tracking the click.
+	 *
+	 * @returns {void}
+	 */
+	FastClick.prototype.onTouchCancel = function() {
+		this.trackingClick = false;
+		this.targetElement = null;
+	};
+
+
+	/**
+	 * Determine mouse events which should be permitted.
+	 *
+	 * @param {Event} event
+	 * @returns {boolean}
+	 */
+	FastClick.prototype.onMouse = function(event) {
+
+		// If a target element was never set (because a touch event was never fired) allow the event
+		if (!this.targetElement) {
+			return true;
+		}
+
+		if (event.forwardedTouchEvent) {
+			return true;
+		}
+
+		// Programmatically generated events targeting a specific element should be permitted
+		if (!event.cancelable) {
+			return true;
+		}
+
+		// Derive and check the target element to see whether the mouse event needs to be permitted;
+		// unless explicitly enabled, prevent non-touch click events from triggering actions,
+		// to prevent ghost/doubleclicks.
+		if (!this.needsClick(this.targetElement) || this.cancelNextClick) {
+
+			// Prevent any user-added listeners declared on FastClick element from being fired.
+			if (event.stopImmediatePropagation) {
+				event.stopImmediatePropagation();
+			} else {
+
+				// Part of the hack for browsers that don't support Event#stopImmediatePropagation (e.g. Android 2)
+				event.propagationStopped = true;
+			}
+
+			// Cancel the event
+			event.stopPropagation();
+			event.preventDefault();
+
+			return false;
+		}
+
+		// If the mouse event is permitted, return true for the action to go through.
+		return true;
+	};
+
+
+	/**
+	 * On actual clicks, determine whether this is a touch-generated click, a click action occurring
+	 * naturally after a delay after a touch (which needs to be cancelled to avoid duplication), or
+	 * an actual click which should be permitted.
+	 *
+	 * @param {Event} event
+	 * @returns {boolean}
+	 */
+	FastClick.prototype.onClick = function(event) {
+		var permitted;
+
+		// It's possible for another FastClick-like library delivered with third-party code to fire a click event before FastClick does (issue #44). In that case, set the click-tracking flag back to false and return early. This will cause onTouchEnd to return early.
+		if (this.trackingClick) {
+			this.targetElement = null;
+			this.trackingClick = false;
+			return true;
+		}
+
+		// Very odd behaviour on iOS (issue #18): if a submit element is present inside a form and the user hits enter in the iOS simulator or clicks the Go button on the pop-up OS keyboard the a kind of 'fake' click event will be triggered with the submit-type input element as the target.
+		if (event.target.type === 'submit' && event.detail === 0) {
+			return true;
+		}
+
+		permitted = this.onMouse(event);
+
+		// Only unset targetElement if the click is not permitted. This will ensure that the check for !targetElement in onMouse fails and the browser's click doesn't go through.
+		if (!permitted) {
+			this.targetElement = null;
+		}
+
+		// If clicks are permitted, return true for the action to go through.
+		return permitted;
+	};
+
+
+	/**
+	 * Remove all FastClick's event listeners.
+	 *
+	 * @returns {void}
+	 */
+	FastClick.prototype.destroy = function() {
+		var layer = this.layer;
+
+		if (deviceIsAndroid) {
+			layer.removeEventListener('mouseover', this.onMouse, true);
+			layer.removeEventListener('mousedown', this.onMouse, true);
+			layer.removeEventListener('mouseup', this.onMouse, true);
+		}
+
+		layer.removeEventListener('click', this.onClick, true);
+		layer.removeEventListener('touchstart', this.onTouchStart, false);
+		layer.removeEventListener('touchmove', this.onTouchMove, false);
+		layer.removeEventListener('touchend', this.onTouchEnd, false);
+		layer.removeEventListener('touchcancel', this.onTouchCancel, false);
+	};
+
+
+	/**
+	 * Check whether FastClick is needed.
+	 *
+	 * @param {Element} layer The layer to listen on
+	 */
+	FastClick.notNeeded = function(layer) {
+		var metaViewport;
+		var chromeVersion;
+		var blackberryVersion;
+		var firefoxVersion;
+
+		// Devices that don't support touch don't need FastClick
+		if (typeof window.ontouchstart === 'undefined') {
+			return true;
+		}
+
+		// Chrome version - zero for other browsers
+		chromeVersion = +(/Chrome\/([0-9]+)/.exec(navigator.userAgent) || [,0])[1];
+
+		if (chromeVersion) {
+
+			if (deviceIsAndroid) {
+				metaViewport = document.querySelector('meta[name=viewport]');
+
+				if (metaViewport) {
+					// Chrome on Android with user-scalable="no" doesn't need FastClick (issue #89)
+					if (metaViewport.content.indexOf('user-scalable=no') !== -1) {
+						return true;
+					}
+					// Chrome 32 and above with width=device-width or less don't need FastClick
+					if (chromeVersion > 31 && document.documentElement.scrollWidth <= window.outerWidth) {
+						return true;
+					}
+				}
+
+			// Chrome desktop doesn't need FastClick (issue #15)
+			} else {
+				return true;
+			}
+		}
+
+		if (deviceIsBlackBerry10) {
+			blackberryVersion = navigator.userAgent.match(/Version\/([0-9]*)\.([0-9]*)/);
+
+			// BlackBerry 10.3+ does not require Fastclick library.
+			// https://github.com/ftlabs/fastclick/issues/251
+			if (blackberryVersion[1] >= 10 && blackberryVersion[2] >= 3) {
+				metaViewport = document.querySelector('meta[name=viewport]');
+
+				if (metaViewport) {
+					// user-scalable=no eliminates click delay.
+					if (metaViewport.content.indexOf('user-scalable=no') !== -1) {
+						return true;
+					}
+					// width=device-width (or less than device-width) eliminates click delay.
+					if (document.documentElement.scrollWidth <= window.outerWidth) {
+						return true;
+					}
+				}
+			}
+		}
+
+		// IE10 with -ms-touch-action: none or manipulation, which disables double-tap-to-zoom (issue #97)
+		if (layer.style.msTouchAction === 'none' || layer.style.touchAction === 'manipulation') {
+			return true;
+		}
+
+		// Firefox version - zero for other browsers
+		firefoxVersion = +(/Firefox\/([0-9]+)/.exec(navigator.userAgent) || [,0])[1];
+
+		if (firefoxVersion >= 27) {
+			// Firefox 27+ does not have tap delay if the content is not zoomable - https://bugzilla.mozilla.org/show_bug.cgi?id=922896
+
+			metaViewport = document.querySelector('meta[name=viewport]');
+			if (metaViewport && (metaViewport.content.indexOf('user-scalable=no') !== -1 || document.documentElement.scrollWidth <= window.outerWidth)) {
+				return true;
+			}
+		}
+
+		// IE11: prefixed -ms-touch-action is no longer supported and it's recomended to use non-prefixed version
+		// http://msdn.microsoft.com/en-us/library/windows/apps/Hh767313.aspx
+		if (layer.style.touchAction === 'none' || layer.style.touchAction === 'manipulation') {
+			return true;
+		}
+
+		return false;
+	};
+
+
+	/**
+	 * Factory method for creating a FastClick object
+	 *
+	 * @param {Element} layer The layer to listen on
+	 * @param {Object} [options={}] The options to override the defaults
+	 */
+	FastClick.attach = function(layer, options) {
+		return new FastClick(layer, options);
+	};
+
+
+	if (typeof define === 'function' && typeof define.amd === 'object' && define.amd) {
+
+		// AMD. Register as an anonymous module.
+		define(function() {
+			return FastClick;
+		});
+	} else if (typeof module !== 'undefined' && module.exports) {
+		module.exports = FastClick.attach;
+		module.exports.FastClick = FastClick;
+	} else {
+		window.FastClick = FastClick;
+	}
+}());
+
+},{}],12:[function(require,module,exports){
+(function (global){
+var topLevel = typeof global !== 'undefined' ? global :
+    typeof window !== 'undefined' ? window : {}
+var minDoc = require('min-document');
+
+if (typeof document !== 'undefined') {
+    module.exports = document;
+} else {
+    var doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'];
+
+    if (!doccy) {
+        doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'] = minDoc;
+    }
+
+    module.exports = doccy;
+}
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"min-document":5}],13:[function(require,module,exports){
+(function (global){
+if (typeof window !== "undefined") {
+    module.exports = window;
+} else if (typeof global !== "undefined") {
+    module.exports = global;
+} else if (typeof self !== "undefined"){
+    module.exports = self;
+} else {
+    module.exports = {};
+}
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],14:[function(require,module,exports){
+module.exports = attributeToProperty
+
+var transform = {
+  'class': 'className',
+  'for': 'htmlFor',
+  'http-equiv': 'httpEquiv'
+}
+
+function attributeToProperty (h) {
+  return function (tagName, attrs, children) {
+    for (var attr in attrs) {
+      if (attr in transform) {
+        attrs[transform[attr]] = attrs[attr]
+        delete attrs[attr]
+      }
+    }
+    return h(tagName, attrs, children)
+  }
+}
+
+},{}],15:[function(require,module,exports){
+var attrToProp = require('hyperscript-attribute-to-property')
+
+var VAR = 0, TEXT = 1, OPEN = 2, CLOSE = 3, ATTR = 4
+var ATTR_KEY = 5, ATTR_KEY_W = 6
+var ATTR_VALUE_W = 7, ATTR_VALUE = 8
+var ATTR_VALUE_SQ = 9, ATTR_VALUE_DQ = 10
+var ATTR_EQ = 11, ATTR_BREAK = 12
+
+module.exports = function (h, opts) {
+  h = attrToProp(h)
+  if (!opts) opts = {}
+  var concat = opts.concat || function (a, b) {
+    return String(a) + String(b)
+  }
+
+  return function (strings) {
+    var state = TEXT, reg = ''
+    var arglen = arguments.length
+    var parts = []
+
+    for (var i = 0; i < strings.length; i++) {
+      if (i < arglen - 1) {
+        var arg = arguments[i+1]
+        var p = parse(strings[i])
+        var xstate = state
+        if (xstate === ATTR_VALUE_DQ) xstate = ATTR_VALUE
+        if (xstate === ATTR_VALUE_SQ) xstate = ATTR_VALUE
+        if (xstate === ATTR_VALUE_W) xstate = ATTR_VALUE
+        if (xstate === ATTR) xstate = ATTR_KEY
+        p.push([ VAR, xstate, arg ])
+        parts.push.apply(parts, p)
+      } else parts.push.apply(parts, parse(strings[i]))
+    }
+
+    var tree = [null,{},[]]
+    var stack = [[tree,-1]]
+    for (var i = 0; i < parts.length; i++) {
+      var cur = stack[stack.length-1][0]
+      var p = parts[i], s = p[0]
+      if (s === OPEN && /^\//.test(p[1])) {
+        var ix = stack[stack.length-1][1]
+        if (stack.length > 1) {
+          stack.pop()
+          stack[stack.length-1][0][2][ix] = h(
+            cur[0], cur[1], cur[2].length ? cur[2] : undefined
+          )
+        }
+      } else if (s === OPEN) {
+        var c = [p[1],{},[]]
+        cur[2].push(c)
+        stack.push([c,cur[2].length-1])
+      } else if (s === ATTR_KEY || (s === VAR && p[1] === ATTR_KEY)) {
+        var key = ''
+        var copyKey
+        for (; i < parts.length; i++) {
+          if (parts[i][0] === ATTR_KEY) {
+            key = concat(key, parts[i][1])
+          } else if (parts[i][0] === VAR && parts[i][1] === ATTR_KEY) {
+            if (typeof parts[i][2] === 'object' && !key) {
+              for (copyKey in parts[i][2]) {
+                if (parts[i][2].hasOwnProperty(copyKey) && !cur[1][copyKey]) {
+                  cur[1][copyKey] = parts[i][2][copyKey]
+                }
+              }
+            } else {
+              key = concat(key, parts[i][2])
+            }
+          } else break
+        }
+        if (parts[i][0] === ATTR_EQ) i++
+        var j = i
+        for (; i < parts.length; i++) {
+          if (parts[i][0] === ATTR_VALUE || parts[i][0] === ATTR_KEY) {
+            if (!cur[1][key]) cur[1][key] = strfn(parts[i][1])
+            else cur[1][key] = concat(cur[1][key], parts[i][1])
+          } else if (parts[i][0] === VAR
+          && (parts[i][1] === ATTR_VALUE || parts[i][1] === ATTR_KEY)) {
+            if (!cur[1][key]) cur[1][key] = strfn(parts[i][2])
+            else cur[1][key] = concat(cur[1][key], parts[i][2])
+          } else {
+            if (key.length && !cur[1][key] && i === j
+            && (parts[i][0] === CLOSE || parts[i][0] === ATTR_BREAK)) {
+              // https://html.spec.whatwg.org/multipage/infrastructure.html#boolean-attributes
+              // empty string is falsy, not well behaved value in browser
+              cur[1][key] = key.toLowerCase()
+            }
+            break
+          }
+        }
+      } else if (s === ATTR_KEY) {
+        cur[1][p[1]] = true
+      } else if (s === VAR && p[1] === ATTR_KEY) {
+        cur[1][p[2]] = true
+      } else if (s === CLOSE) {
+        if (selfClosing(cur[0]) && stack.length) {
+          var ix = stack[stack.length-1][1]
+          stack.pop()
+          stack[stack.length-1][0][2][ix] = h(
+            cur[0], cur[1], cur[2].length ? cur[2] : undefined
+          )
+        }
+      } else if (s === VAR && p[1] === TEXT) {
+        if (p[2] === undefined || p[2] === null) p[2] = ''
+        else if (!p[2]) p[2] = concat('', p[2])
+        if (Array.isArray(p[2][0])) {
+          cur[2].push.apply(cur[2], p[2])
+        } else {
+          cur[2].push(p[2])
+        }
+      } else if (s === TEXT) {
+        cur[2].push(p[1])
+      } else if (s === ATTR_EQ || s === ATTR_BREAK) {
+        // no-op
+      } else {
+        throw new Error('unhandled: ' + s)
+      }
+    }
+
+    if (tree[2].length > 1 && /^\s*$/.test(tree[2][0])) {
+      tree[2].shift()
+    }
+
+    if (tree[2].length > 2
+    || (tree[2].length === 2 && /\S/.test(tree[2][1]))) {
+      throw new Error(
+        'multiple root elements must be wrapped in an enclosing tag'
+      )
+    }
+    if (Array.isArray(tree[2][0]) && typeof tree[2][0][0] === 'string'
+    && Array.isArray(tree[2][0][2])) {
+      tree[2][0] = h(tree[2][0][0], tree[2][0][1], tree[2][0][2])
+    }
+    return tree[2][0]
+
+    function parse (str) {
+      var res = []
+      if (state === ATTR_VALUE_W) state = ATTR
+      for (var i = 0; i < str.length; i++) {
+        var c = str.charAt(i)
+        if (state === TEXT && c === '<') {
+          if (reg.length) res.push([TEXT, reg])
+          reg = ''
+          state = OPEN
+        } else if (c === '>' && !quot(state)) {
+          if (state === OPEN) {
+            res.push([OPEN,reg])
+          } else if (state === ATTR_KEY) {
+            res.push([ATTR_KEY,reg])
+          } else if (state === ATTR_VALUE && reg.length) {
+            res.push([ATTR_VALUE,reg])
+          }
+          res.push([CLOSE])
+          reg = ''
+          state = TEXT
+        } else if (state === TEXT) {
+          reg += c
+        } else if (state === OPEN && /\s/.test(c)) {
+          res.push([OPEN, reg])
+          reg = ''
+          state = ATTR
+        } else if (state === OPEN) {
+          reg += c
+        } else if (state === ATTR && /[\w-]/.test(c)) {
+          state = ATTR_KEY
+          reg = c
+        } else if (state === ATTR && /\s/.test(c)) {
+          if (reg.length) res.push([ATTR_KEY,reg])
+          res.push([ATTR_BREAK])
+        } else if (state === ATTR_KEY && /\s/.test(c)) {
+          res.push([ATTR_KEY,reg])
+          reg = ''
+          state = ATTR_KEY_W
+        } else if (state === ATTR_KEY && c === '=') {
+          res.push([ATTR_KEY,reg],[ATTR_EQ])
+          reg = ''
+          state = ATTR_VALUE_W
+        } else if (state === ATTR_KEY) {
+          reg += c
+        } else if ((state === ATTR_KEY_W || state === ATTR) && c === '=') {
+          res.push([ATTR_EQ])
+          state = ATTR_VALUE_W
+        } else if ((state === ATTR_KEY_W || state === ATTR) && !/\s/.test(c)) {
+          res.push([ATTR_BREAK])
+          if (/[\w-]/.test(c)) {
+            reg += c
+            state = ATTR_KEY
+          } else state = ATTR
+        } else if (state === ATTR_VALUE_W && c === '"') {
+          state = ATTR_VALUE_DQ
+        } else if (state === ATTR_VALUE_W && c === "'") {
+          state = ATTR_VALUE_SQ
+        } else if (state === ATTR_VALUE_DQ && c === '"') {
+          res.push([ATTR_VALUE,reg],[ATTR_BREAK])
+          reg = ''
+          state = ATTR
+        } else if (state === ATTR_VALUE_SQ && c === "'") {
+          res.push([ATTR_VALUE,reg],[ATTR_BREAK])
+          reg = ''
+          state = ATTR
+        } else if (state === ATTR_VALUE_W && !/\s/.test(c)) {
+          state = ATTR_VALUE
+          i--
+        } else if (state === ATTR_VALUE && /\s/.test(c)) {
+          res.push([ATTR_VALUE,reg],[ATTR_BREAK])
+          reg = ''
+          state = ATTR
+        } else if (state === ATTR_VALUE || state === ATTR_VALUE_SQ
+        || state === ATTR_VALUE_DQ) {
+          reg += c
+        }
+      }
+      if (state === TEXT && reg.length) {
+        res.push([TEXT,reg])
+        reg = ''
+      } else if (state === ATTR_VALUE && reg.length) {
+        res.push([ATTR_VALUE,reg])
+        reg = ''
+      } else if (state === ATTR_VALUE_DQ && reg.length) {
+        res.push([ATTR_VALUE,reg])
+        reg = ''
+      } else if (state === ATTR_VALUE_SQ && reg.length) {
+        res.push([ATTR_VALUE,reg])
+        reg = ''
+      } else if (state === ATTR_KEY) {
+        res.push([ATTR_KEY,reg])
+        reg = ''
+      }
+      return res
+    }
+  }
+
+  function strfn (x) {
+    if (typeof x === 'function') return x
+    else if (typeof x === 'string') return x
+    else if (x && typeof x === 'object') return x
+    else return concat('', x)
+  }
+}
+
+function quot (state) {
+  return state === ATTR_VALUE_SQ || state === ATTR_VALUE_DQ
+}
+
+var hasOwn = Object.prototype.hasOwnProperty
+function has (obj, key) { return hasOwn.call(obj, key) }
+
+var closeRE = RegExp('^(' + [
+  'area', 'base', 'basefont', 'bgsound', 'br', 'col', 'command', 'embed',
+  'frame', 'hr', 'img', 'input', 'isindex', 'keygen', 'link', 'meta', 'param',
+  'source', 'track', 'wbr',
+  // SVG TAGS
+  'animate', 'animateTransform', 'circle', 'cursor', 'desc', 'ellipse',
+  'feBlend', 'feColorMatrix', 'feComposite',
+  'feConvolveMatrix', 'feDiffuseLighting', 'feDisplacementMap',
+  'feDistantLight', 'feFlood', 'feFuncA', 'feFuncB', 'feFuncG', 'feFuncR',
+  'feGaussianBlur', 'feImage', 'feMergeNode', 'feMorphology',
+  'feOffset', 'fePointLight', 'feSpecularLighting', 'feSpotLight', 'feTile',
+  'feTurbulence', 'font-face-format', 'font-face-name', 'font-face-uri',
+  'glyph', 'glyphRef', 'hkern', 'image', 'line', 'missing-glyph', 'mpath',
+  'path', 'polygon', 'polyline', 'rect', 'set', 'stop', 'tref', 'use', 'view',
+  'vkern'
+].join('|') + ')(?:[\.#][a-zA-Z0-9\u007F-\uFFFF_:-]+)*$')
+function selfClosing (tag) { return closeRE.test(tag) }
+
+},{"hyperscript-attribute-to-property":14}],16:[function(require,module,exports){
+/*! npm.im/intrinsic-scale */
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+function fit(contains) {
+	return function (parentWidth, parentHeight, childWidth, childHeight) {
+		var doRatio = childWidth / childHeight;
+		var cRatio = parentWidth / parentHeight;
+		var width;
+		var height;
+
+		if (contains ? (doRatio > cRatio) : (doRatio < cRatio)) {
+			width = parentWidth;
+			height = width / doRatio;
+		} else {
+			height = parentHeight;
+			width = height * doRatio;
+		}
+
+		return {
+			width: width,
+			height: height,
+			x: (parentWidth - width) / 2,
+			y: (parentHeight - height) / 2
+		};
+	};
+}
+
+var contain = fit(true);
+var cover = fit(false);
+
+exports.contain = contain;
+exports.cover = cover;
+},{}],17:[function(require,module,exports){
+'use strict';
+
+var range; // Create a range object for efficently rendering strings to elements.
+var NS_XHTML = 'http://www.w3.org/1999/xhtml';
+
+var doc = typeof document === 'undefined' ? undefined : document;
+
+var testEl = doc ?
+    doc.body || doc.createElement('div') :
+    {};
+
+// Fixes <https://github.com/patrick-steele-idem/morphdom/issues/32>
+// (IE7+ support) <=IE7 does not support el.hasAttribute(name)
+var actualHasAttributeNS;
+
+if (testEl.hasAttributeNS) {
+    actualHasAttributeNS = function(el, namespaceURI, name) {
+        return el.hasAttributeNS(namespaceURI, name);
+    };
+} else if (testEl.hasAttribute) {
+    actualHasAttributeNS = function(el, namespaceURI, name) {
+        return el.hasAttribute(name);
+    };
+} else {
+    actualHasAttributeNS = function(el, namespaceURI, name) {
+        return el.getAttributeNode(namespaceURI, name) != null;
+    };
+}
+
+var hasAttributeNS = actualHasAttributeNS;
+
+
+function toElement(str) {
+    if (!range && doc.createRange) {
+        range = doc.createRange();
+        range.selectNode(doc.body);
+    }
+
+    var fragment;
+    if (range && range.createContextualFragment) {
+        fragment = range.createContextualFragment(str);
+    } else {
+        fragment = doc.createElement('body');
+        fragment.innerHTML = str;
+    }
+    return fragment.childNodes[0];
+}
+
+/**
+ * Returns true if two node's names are the same.
+ *
+ * NOTE: We don't bother checking `namespaceURI` because you will never find two HTML elements with the same
+ *       nodeName and different namespace URIs.
+ *
+ * @param {Element} a
+ * @param {Element} b The target element
+ * @return {boolean}
+ */
+function compareNodeNames(fromEl, toEl) {
+    var fromNodeName = fromEl.nodeName;
+    var toNodeName = toEl.nodeName;
+
+    if (fromNodeName === toNodeName) {
+        return true;
+    }
+
+    if (toEl.actualize &&
+        fromNodeName.charCodeAt(0) < 91 && /* from tag name is upper case */
+        toNodeName.charCodeAt(0) > 90 /* target tag name is lower case */) {
+        // If the target element is a virtual DOM node then we may need to normalize the tag name
+        // before comparing. Normal HTML elements that are in the "http://www.w3.org/1999/xhtml"
+        // are converted to upper case
+        return fromNodeName === toNodeName.toUpperCase();
+    } else {
+        return false;
+    }
+}
+
+/**
+ * Create an element, optionally with a known namespace URI.
+ *
+ * @param {string} name the element name, e.g. 'div' or 'svg'
+ * @param {string} [namespaceURI] the element's namespace URI, i.e. the value of
+ * its `xmlns` attribute or its inferred namespace.
+ *
+ * @return {Element}
+ */
+function createElementNS(name, namespaceURI) {
+    return !namespaceURI || namespaceURI === NS_XHTML ?
+        doc.createElement(name) :
+        doc.createElementNS(namespaceURI, name);
+}
+
+/**
+ * Copies the children of one DOM element to another DOM element
+ */
+function moveChildren(fromEl, toEl) {
+    var curChild = fromEl.firstChild;
+    while (curChild) {
+        var nextChild = curChild.nextSibling;
+        toEl.appendChild(curChild);
+        curChild = nextChild;
+    }
+    return toEl;
+}
+
+function morphAttrs(fromNode, toNode) {
+    var attrs = toNode.attributes;
+    var i;
+    var attr;
+    var attrName;
+    var attrNamespaceURI;
+    var attrValue;
+    var fromValue;
+
+    for (i = attrs.length - 1; i >= 0; --i) {
+        attr = attrs[i];
+        attrName = attr.name;
+        attrNamespaceURI = attr.namespaceURI;
+        attrValue = attr.value;
+
+        if (attrNamespaceURI) {
+            attrName = attr.localName || attrName;
+            fromValue = fromNode.getAttributeNS(attrNamespaceURI, attrName);
+
+            if (fromValue !== attrValue) {
+                fromNode.setAttributeNS(attrNamespaceURI, attrName, attrValue);
+            }
+        } else {
+            fromValue = fromNode.getAttribute(attrName);
+
+            if (fromValue !== attrValue) {
+                fromNode.setAttribute(attrName, attrValue);
+            }
+        }
+    }
+
+    // Remove any extra attributes found on the original DOM element that
+    // weren't found on the target element.
+    attrs = fromNode.attributes;
+
+    for (i = attrs.length - 1; i >= 0; --i) {
+        attr = attrs[i];
+        if (attr.specified !== false) {
+            attrName = attr.name;
+            attrNamespaceURI = attr.namespaceURI;
+
+            if (attrNamespaceURI) {
+                attrName = attr.localName || attrName;
+
+                if (!hasAttributeNS(toNode, attrNamespaceURI, attrName)) {
+                    fromNode.removeAttributeNS(attrNamespaceURI, attrName);
+                }
+            } else {
+                if (!hasAttributeNS(toNode, null, attrName)) {
+                    fromNode.removeAttribute(attrName);
+                }
+            }
+        }
+    }
+}
+
+function syncBooleanAttrProp(fromEl, toEl, name) {
+    if (fromEl[name] !== toEl[name]) {
+        fromEl[name] = toEl[name];
+        if (fromEl[name]) {
+            fromEl.setAttribute(name, '');
+        } else {
+            fromEl.removeAttribute(name, '');
+        }
+    }
+}
+
+var specialElHandlers = {
+    /**
+     * Needed for IE. Apparently IE doesn't think that "selected" is an
+     * attribute when reading over the attributes using selectEl.attributes
+     */
+    OPTION: function(fromEl, toEl) {
+        syncBooleanAttrProp(fromEl, toEl, 'selected');
+    },
+    /**
+     * The "value" attribute is special for the <input> element since it sets
+     * the initial value. Changing the "value" attribute without changing the
+     * "value" property will have no effect since it is only used to the set the
+     * initial value.  Similar for the "checked" attribute, and "disabled".
+     */
+    INPUT: function(fromEl, toEl) {
+        syncBooleanAttrProp(fromEl, toEl, 'checked');
+        syncBooleanAttrProp(fromEl, toEl, 'disabled');
+
+        if (fromEl.value !== toEl.value) {
+            fromEl.value = toEl.value;
+        }
+
+        if (!hasAttributeNS(toEl, null, 'value')) {
+            fromEl.removeAttribute('value');
+        }
+    },
+
+    TEXTAREA: function(fromEl, toEl) {
+        var newValue = toEl.value;
+        if (fromEl.value !== newValue) {
+            fromEl.value = newValue;
+        }
+
+        if (fromEl.firstChild) {
+            // Needed for IE. Apparently IE sets the placeholder as the
+            // node value and vise versa. This ignores an empty update.
+            if (newValue === '' && fromEl.firstChild.nodeValue === fromEl.placeholder) {
+                return;
+            }
+
+            fromEl.firstChild.nodeValue = newValue;
+        }
+    },
+    SELECT: function(fromEl, toEl) {
+        if (!hasAttributeNS(toEl, null, 'multiple')) {
+            var selectedIndex = -1;
+            var i = 0;
+            var curChild = toEl.firstChild;
+            while(curChild) {
+                var nodeName = curChild.nodeName;
+                if (nodeName && nodeName.toUpperCase() === 'OPTION') {
+                    if (hasAttributeNS(curChild, null, 'selected')) {
+                        selectedIndex = i;
+                        break;
+                    }
+                    i++;
+                }
+                curChild = curChild.nextSibling;
+            }
+
+            fromEl.selectedIndex = i;
+        }
+    }
+};
+
+var ELEMENT_NODE = 1;
+var TEXT_NODE = 3;
+var COMMENT_NODE = 8;
+
+function noop() {}
+
+function defaultGetNodeKey(node) {
+    return node.id;
+}
+
+function morphdomFactory(morphAttrs) {
+
+    return function morphdom(fromNode, toNode, options) {
+        if (!options) {
+            options = {};
+        }
+
+        if (typeof toNode === 'string') {
+            if (fromNode.nodeName === '#document' || fromNode.nodeName === 'HTML') {
+                var toNodeHtml = toNode;
+                toNode = doc.createElement('html');
+                toNode.innerHTML = toNodeHtml;
+            } else {
+                toNode = toElement(toNode);
+            }
+        }
+
+        var getNodeKey = options.getNodeKey || defaultGetNodeKey;
+        var onBeforeNodeAdded = options.onBeforeNodeAdded || noop;
+        var onNodeAdded = options.onNodeAdded || noop;
+        var onBeforeElUpdated = options.onBeforeElUpdated || noop;
+        var onElUpdated = options.onElUpdated || noop;
+        var onBeforeNodeDiscarded = options.onBeforeNodeDiscarded || noop;
+        var onNodeDiscarded = options.onNodeDiscarded || noop;
+        var onBeforeElChildrenUpdated = options.onBeforeElChildrenUpdated || noop;
+        var childrenOnly = options.childrenOnly === true;
+
+        // This object is used as a lookup to quickly find all keyed elements in the original DOM tree.
+        var fromNodesLookup = {};
+        var keyedRemovalList;
+
+        function addKeyedRemoval(key) {
+            if (keyedRemovalList) {
+                keyedRemovalList.push(key);
+            } else {
+                keyedRemovalList = [key];
+            }
+        }
+
+        function walkDiscardedChildNodes(node, skipKeyedNodes) {
+            if (node.nodeType === ELEMENT_NODE) {
+                var curChild = node.firstChild;
+                while (curChild) {
+
+                    var key = undefined;
+
+                    if (skipKeyedNodes && (key = getNodeKey(curChild))) {
+                        // If we are skipping keyed nodes then we add the key
+                        // to a list so that it can be handled at the very end.
+                        addKeyedRemoval(key);
+                    } else {
+                        // Only report the node as discarded if it is not keyed. We do this because
+                        // at the end we loop through all keyed elements that were unmatched
+                        // and then discard them in one final pass.
+                        onNodeDiscarded(curChild);
+                        if (curChild.firstChild) {
+                            walkDiscardedChildNodes(curChild, skipKeyedNodes);
+                        }
+                    }
+
+                    curChild = curChild.nextSibling;
+                }
+            }
+        }
+
+        /**
+         * Removes a DOM node out of the original DOM
+         *
+         * @param  {Node} node The node to remove
+         * @param  {Node} parentNode The nodes parent
+         * @param  {Boolean} skipKeyedNodes If true then elements with keys will be skipped and not discarded.
+         * @return {undefined}
+         */
+        function removeNode(node, parentNode, skipKeyedNodes) {
+            if (onBeforeNodeDiscarded(node) === false) {
+                return;
+            }
+
+            if (parentNode) {
+                parentNode.removeChild(node);
+            }
+
+            onNodeDiscarded(node);
+            walkDiscardedChildNodes(node, skipKeyedNodes);
+        }
+
+        // // TreeWalker implementation is no faster, but keeping this around in case this changes in the future
+        // function indexTree(root) {
+        //     var treeWalker = document.createTreeWalker(
+        //         root,
+        //         NodeFilter.SHOW_ELEMENT);
+        //
+        //     var el;
+        //     while((el = treeWalker.nextNode())) {
+        //         var key = getNodeKey(el);
+        //         if (key) {
+        //             fromNodesLookup[key] = el;
+        //         }
+        //     }
+        // }
+
+        // // NodeIterator implementation is no faster, but keeping this around in case this changes in the future
+        //
+        // function indexTree(node) {
+        //     var nodeIterator = document.createNodeIterator(node, NodeFilter.SHOW_ELEMENT);
+        //     var el;
+        //     while((el = nodeIterator.nextNode())) {
+        //         var key = getNodeKey(el);
+        //         if (key) {
+        //             fromNodesLookup[key] = el;
+        //         }
+        //     }
+        // }
+
+        function indexTree(node) {
+            if (node.nodeType === ELEMENT_NODE) {
+                var curChild = node.firstChild;
+                while (curChild) {
+                    var key = getNodeKey(curChild);
+                    if (key) {
+                        fromNodesLookup[key] = curChild;
+                    }
+
+                    // Walk recursively
+                    indexTree(curChild);
+
+                    curChild = curChild.nextSibling;
+                }
+            }
+        }
+
+        indexTree(fromNode);
+
+        function handleNodeAdded(el) {
+            onNodeAdded(el);
+
+            var curChild = el.firstChild;
+            while (curChild) {
+                var nextSibling = curChild.nextSibling;
+
+                var key = getNodeKey(curChild);
+                if (key) {
+                    var unmatchedFromEl = fromNodesLookup[key];
+                    if (unmatchedFromEl && compareNodeNames(curChild, unmatchedFromEl)) {
+                        curChild.parentNode.replaceChild(unmatchedFromEl, curChild);
+                        morphEl(unmatchedFromEl, curChild);
+                    }
+                }
+
+                handleNodeAdded(curChild);
+                curChild = nextSibling;
+            }
+        }
+
+        function morphEl(fromEl, toEl, childrenOnly) {
+            var toElKey = getNodeKey(toEl);
+            var curFromNodeKey;
+
+            if (toElKey) {
+                // If an element with an ID is being morphed then it is will be in the final
+                // DOM so clear it out of the saved elements collection
+                delete fromNodesLookup[toElKey];
+            }
+
+            if (toNode.isSameNode && toNode.isSameNode(fromNode)) {
+                return;
+            }
+
+            if (!childrenOnly) {
+                if (onBeforeElUpdated(fromEl, toEl) === false) {
+                    return;
+                }
+
+                morphAttrs(fromEl, toEl);
+                onElUpdated(fromEl);
+
+                if (onBeforeElChildrenUpdated(fromEl, toEl) === false) {
+                    return;
+                }
+            }
+
+            if (fromEl.nodeName !== 'TEXTAREA') {
+                var curToNodeChild = toEl.firstChild;
+                var curFromNodeChild = fromEl.firstChild;
+                var curToNodeKey;
+
+                var fromNextSibling;
+                var toNextSibling;
+                var matchingFromEl;
+
+                outer: while (curToNodeChild) {
+                    toNextSibling = curToNodeChild.nextSibling;
+                    curToNodeKey = getNodeKey(curToNodeChild);
+
+                    while (curFromNodeChild) {
+                        fromNextSibling = curFromNodeChild.nextSibling;
+
+                        if (curToNodeChild.isSameNode && curToNodeChild.isSameNode(curFromNodeChild)) {
+                            curToNodeChild = toNextSibling;
+                            curFromNodeChild = fromNextSibling;
+                            continue outer;
+                        }
+
+                        curFromNodeKey = getNodeKey(curFromNodeChild);
+
+                        var curFromNodeType = curFromNodeChild.nodeType;
+
+                        var isCompatible = undefined;
+
+                        if (curFromNodeType === curToNodeChild.nodeType) {
+                            if (curFromNodeType === ELEMENT_NODE) {
+                                // Both nodes being compared are Element nodes
+
+                                if (curToNodeKey) {
+                                    // The target node has a key so we want to match it up with the correct element
+                                    // in the original DOM tree
+                                    if (curToNodeKey !== curFromNodeKey) {
+                                        // The current element in the original DOM tree does not have a matching key so
+                                        // let's check our lookup to see if there is a matching element in the original
+                                        // DOM tree
+                                        if ((matchingFromEl = fromNodesLookup[curToNodeKey])) {
+                                            if (curFromNodeChild.nextSibling === matchingFromEl) {
+                                                // Special case for single element removals. To avoid removing the original
+                                                // DOM node out of the tree (since that can break CSS transitions, etc.),
+                                                // we will instead discard the current node and wait until the next
+                                                // iteration to properly match up the keyed target element with its matching
+                                                // element in the original tree
+                                                isCompatible = false;
+                                            } else {
+                                                // We found a matching keyed element somewhere in the original DOM tree.
+                                                // Let's moving the original DOM node into the current position and morph
+                                                // it.
+
+                                                // NOTE: We use insertBefore instead of replaceChild because we want to go through
+                                                // the `removeNode()` function for the node that is being discarded so that
+                                                // all lifecycle hooks are correctly invoked
+                                                fromEl.insertBefore(matchingFromEl, curFromNodeChild);
+
+                                                fromNextSibling = curFromNodeChild.nextSibling;
+
+                                                if (curFromNodeKey) {
+                                                    // Since the node is keyed it might be matched up later so we defer
+                                                    // the actual removal to later
+                                                    addKeyedRemoval(curFromNodeKey);
+                                                } else {
+                                                    // NOTE: we skip nested keyed nodes from being removed since there is
+                                                    //       still a chance they will be matched up later
+                                                    removeNode(curFromNodeChild, fromEl, true /* skip keyed nodes */);
+                                                }
+
+                                                curFromNodeChild = matchingFromEl;
+                                            }
+                                        } else {
+                                            // The nodes are not compatible since the "to" node has a key and there
+                                            // is no matching keyed node in the source tree
+                                            isCompatible = false;
+                                        }
+                                    }
+                                } else if (curFromNodeKey) {
+                                    // The original has a key
+                                    isCompatible = false;
+                                }
+
+                                isCompatible = isCompatible !== false && compareNodeNames(curFromNodeChild, curToNodeChild);
+                                if (isCompatible) {
+                                    // We found compatible DOM elements so transform
+                                    // the current "from" node to match the current
+                                    // target DOM node.
+                                    morphEl(curFromNodeChild, curToNodeChild);
+                                }
+
+                            } else if (curFromNodeType === TEXT_NODE || curFromNodeType == COMMENT_NODE) {
+                                // Both nodes being compared are Text or Comment nodes
+                                isCompatible = true;
+                                // Simply update nodeValue on the original node to
+                                // change the text value
+                                curFromNodeChild.nodeValue = curToNodeChild.nodeValue;
+                            }
+                        }
+
+                        if (isCompatible) {
+                            // Advance both the "to" child and the "from" child since we found a match
+                            curToNodeChild = toNextSibling;
+                            curFromNodeChild = fromNextSibling;
+                            continue outer;
+                        }
+
+                        // No compatible match so remove the old node from the DOM and continue trying to find a
+                        // match in the original DOM. However, we only do this if the from node is not keyed
+                        // since it is possible that a keyed node might match up with a node somewhere else in the
+                        // target tree and we don't want to discard it just yet since it still might find a
+                        // home in the final DOM tree. After everything is done we will remove any keyed nodes
+                        // that didn't find a home
+                        if (curFromNodeKey) {
+                            // Since the node is keyed it might be matched up later so we defer
+                            // the actual removal to later
+                            addKeyedRemoval(curFromNodeKey);
+                        } else {
+                            // NOTE: we skip nested keyed nodes from being removed since there is
+                            //       still a chance they will be matched up later
+                            removeNode(curFromNodeChild, fromEl, true /* skip keyed nodes */);
+                        }
+
+                        curFromNodeChild = fromNextSibling;
+                    }
+
+                    // If we got this far then we did not find a candidate match for
+                    // our "to node" and we exhausted all of the children "from"
+                    // nodes. Therefore, we will just append the current "to" node
+                    // to the end
+                    if (curToNodeKey && (matchingFromEl = fromNodesLookup[curToNodeKey]) && compareNodeNames(matchingFromEl, curToNodeChild)) {
+                        fromEl.appendChild(matchingFromEl);
+                        morphEl(matchingFromEl, curToNodeChild);
+                    } else {
+                        var onBeforeNodeAddedResult = onBeforeNodeAdded(curToNodeChild);
+                        if (onBeforeNodeAddedResult !== false) {
+                            if (onBeforeNodeAddedResult) {
+                                curToNodeChild = onBeforeNodeAddedResult;
+                            }
+
+                            if (curToNodeChild.actualize) {
+                                curToNodeChild = curToNodeChild.actualize(fromEl.ownerDocument || doc);
+                            }
+                            fromEl.appendChild(curToNodeChild);
+                            handleNodeAdded(curToNodeChild);
+                        }
+                    }
+
+                    curToNodeChild = toNextSibling;
+                    curFromNodeChild = fromNextSibling;
+                }
+
+                // We have processed all of the "to nodes". If curFromNodeChild is
+                // non-null then we still have some from nodes left over that need
+                // to be removed
+                while (curFromNodeChild) {
+                    fromNextSibling = curFromNodeChild.nextSibling;
+                    if ((curFromNodeKey = getNodeKey(curFromNodeChild))) {
+                        // Since the node is keyed it might be matched up later so we defer
+                        // the actual removal to later
+                        addKeyedRemoval(curFromNodeKey);
+                    } else {
+                        // NOTE: we skip nested keyed nodes from being removed since there is
+                        //       still a chance they will be matched up later
+                        removeNode(curFromNodeChild, fromEl, true /* skip keyed nodes */);
+                    }
+                    curFromNodeChild = fromNextSibling;
+                }
+            }
+
+            var specialElHandler = specialElHandlers[fromEl.nodeName];
+            if (specialElHandler) {
+                specialElHandler(fromEl, toEl);
+            }
+        } // END: morphEl(...)
+
+        var morphedNode = fromNode;
+        var morphedNodeType = morphedNode.nodeType;
+        var toNodeType = toNode.nodeType;
+
+        if (!childrenOnly) {
+            // Handle the case where we are given two DOM nodes that are not
+            // compatible (e.g. <div> --> <span> or <div> --> TEXT)
+            if (morphedNodeType === ELEMENT_NODE) {
+                if (toNodeType === ELEMENT_NODE) {
+                    if (!compareNodeNames(fromNode, toNode)) {
+                        onNodeDiscarded(fromNode);
+                        morphedNode = moveChildren(fromNode, createElementNS(toNode.nodeName, toNode.namespaceURI));
+                    }
+                } else {
+                    // Going from an element node to a text node
+                    morphedNode = toNode;
+                }
+            } else if (morphedNodeType === TEXT_NODE || morphedNodeType === COMMENT_NODE) { // Text or comment node
+                if (toNodeType === morphedNodeType) {
+                    morphedNode.nodeValue = toNode.nodeValue;
+                    return morphedNode;
+                } else {
+                    // Text node to something else
+                    morphedNode = toNode;
+                }
+            }
+        }
+
+        if (morphedNode === toNode) {
+            // The "to node" was not compatible with the "from node" so we had to
+            // toss out the "from node" and use the "to node"
+            onNodeDiscarded(fromNode);
+        } else {
+            morphEl(morphedNode, toNode, childrenOnly);
+
+            // We now need to loop over any keyed nodes that might need to be
+            // removed. We only do the removal if we know that the keyed node
+            // never found a match. When a keyed node is matched up we remove
+            // it out of fromNodesLookup and we use fromNodesLookup to determine
+            // if a keyed node has been matched up or not
+            if (keyedRemovalList) {
+                for (var i=0, len=keyedRemovalList.length; i<len; i++) {
+                    var elToRemove = fromNodesLookup[keyedRemovalList[i]];
+                    if (elToRemove) {
+                        removeNode(elToRemove, elToRemove.parentNode, false);
+                    }
+                }
+            }
+        }
+
+        if (!childrenOnly && morphedNode !== fromNode && fromNode.parentNode) {
+            if (morphedNode.actualize) {
+                morphedNode = morphedNode.actualize(fromNode.ownerDocument || doc);
+            }
+            // If we had to swap out the from node with a new node because the old
+            // node was not compatible with the target node then we need to
+            // replace the old DOM node in the original DOM tree. This is only
+            // possible if the original DOM node was part of a DOM tree which
+            // we know is the case if it has a parent node.
+            fromNode.parentNode.replaceChild(morphedNode, fromNode);
+        }
+
+        return morphedNode;
+    };
+}
+
+var morphdom = morphdomFactory(morphAttrs);
+
+module.exports = morphdom;
+
+},{}],18:[function(require,module,exports){
+var window = require('global/window')
+var assert = require('assert')
+
+module.exports = nanoraf
+
+// Only call RAF when needed
+// (fn, fn?) -> fn
+function nanoraf (render, raf) {
+  assert.equal(typeof render, 'function', 'nanoraf: render should be a function')
+  assert.ok(typeof raf === 'function' || typeof raf === 'undefined', 'nanoraf: raf should be a function or undefined')
+
+  raf = raf || window.requestAnimationFrame
+
+  var inRenderingTransaction = false
+  var redrawScheduled = false
+  var currentState = null
+
+  // pass new state to be rendered
+  // (obj, obj?) -> null
+  return function frame (state, prev) {
+    assert.equal(typeof state, 'object', 'nanoraf: state should be an object')
+    assert.equal(typeof prev, 'object', 'nanoraf: prev should be an object')
+    assert.equal(inRenderingTransaction, false, 'nanoraf: new frame was created before previous frame finished')
+
+    // request a redraw for next frame
+    if (currentState === null && !redrawScheduled) {
+      redrawScheduled = true
+
+      raf(function redraw () {
+        redrawScheduled = false
+        if (!currentState) return
+
+        inRenderingTransaction = true
+        render(currentState, prev)
+        inRenderingTransaction = false
+
+        currentState = null
+      })
+    }
+
+    // update data for redraw
+    currentState = state
+  }
+}
+
+},{"assert":1,"global/window":13}],19:[function(require,module,exports){
+/* eslint-disable no-eval */
+var assert = require('assert')
+
+module.exports = nanotick
+var delay = (typeof window !== 'undefined' && window.document)
+  ? (typeof setImmediate !== 'undefined')
+    ? setImmediate
+    : setTimeout
+  : eval('process.nextTick')
+
+// Process.nextTick() batching ulity
+// null -> fn(any) -> fn(any)
+function nanotick () {
+  var callbacks = []
+  var interval = false
+
+  return function tick (cb) {
+    assert.equal(typeof cb, 'function', 'nanotick.tick: cb should be a function')
+
+    var isAsync = false
+
+    executeAsync(function () {
+      isAsync = true
+    })
+
+    return function wrappedTick () {
+      var length = arguments.length
+      var args = new Array(length)
+      for (var i = 0; i < length; i++) args[i] = arguments[i]
+
+      if (isAsync) {
+        cb.apply(cb, args)
+      } else {
+        executeAsync(function () {
+          cb.apply(cb, args)
+        })
+      }
+    }
+  }
+
+  function executeAsync (cb) {
+    callbacks.push(cb)
+
+    if (!interval) {
+      interval = true
+      delay(function () {
+        while (callbacks.length > 0) {
+          callbacks.shift()()
+        }
+        interval = false
+      })
+    }
+  }
+}
+
+},{"assert":1}],20:[function(require,module,exports){
+/* global MutationObserver */
+var document = require('global/document')
+var window = require('global/window')
+var watch = Object.create(null)
+var KEY_ID = 'onloadid' + (new Date() % 9e6).toString(36)
+var KEY_ATTR = 'data-' + KEY_ID
+var INDEX = 0
+
+if (window && window.MutationObserver) {
+  var observer = new MutationObserver(function (mutations) {
+    if (Object.keys(watch).length < 1) return
+    for (var i = 0; i < mutations.length; i++) {
+      if (mutations[i].attributeName === KEY_ATTR) {
+        eachAttr(mutations[i], turnon, turnoff)
+        continue
+      }
+      eachMutation(mutations[i].removedNodes, turnoff)
+      eachMutation(mutations[i].addedNodes, turnon)
+    }
+  })
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeOldValue: true,
+    attributeFilter: [KEY_ATTR]
+  })
+}
+
+module.exports = function onload (el, on, off, caller) {
+  on = on || function () {}
+  off = off || function () {}
+  el.setAttribute(KEY_ATTR, 'o' + INDEX)
+  watch['o' + INDEX] = [on, off, 0, caller || onload.caller]
+  INDEX += 1
+  return el
+}
+
+function turnon (index, el) {
+  if (watch[index][0] && watch[index][2] === 0) {
+    watch[index][0](el)
+    watch[index][2] = 1
+  }
+}
+
+function turnoff (index, el) {
+  if (watch[index][1] && watch[index][2] === 1) {
+    watch[index][1](el)
+    watch[index][2] = 0
+  }
+}
+
+function eachAttr (mutation, on, off) {
+  var newValue = mutation.target.getAttribute(KEY_ATTR)
+  if (sameOrigin(mutation.oldValue, newValue)) {
+    watch[newValue] = watch[mutation.oldValue]
+    return
+  }
+  if (watch[mutation.oldValue]) {
+    off(mutation.oldValue, mutation.target)
+  }
+  if (watch[newValue]) {
+    on(newValue, mutation.target)
+  }
+}
+
+function sameOrigin (oldValue, newValue) {
+  if (!oldValue || !newValue) return false
+  return watch[oldValue][3] === watch[newValue][3]
+}
+
+function eachMutation (nodes, fn) {
+  var keys = Object.keys(watch)
+  for (var i = 0; i < nodes.length; i++) {
+    if (nodes[i] && nodes[i].getAttribute && nodes[i].getAttribute(KEY_ATTR)) {
+      var onloadid = nodes[i].getAttribute(KEY_ATTR)
+      keys.forEach(function (k) {
+        if (onloadid === k) {
+          fn(k, nodes[i])
+        }
+      })
+    }
+    if (nodes[i].childNodes.length > 0) {
+      eachMutation(nodes[i].childNodes, fn)
+    }
+  }
+}
+
+},{"global/document":12,"global/window":13}],21:[function(require,module,exports){
+/*!
+ * pad-left <https://github.com/jonschlinkert/pad-left>
+ *
+ * Copyright (c) 2014-2015, Jon Schlinkert.
+ * Licensed under the MIT license.
+ */
+
+'use strict';
+
+var repeat = require('repeat-string');
+
+module.exports = function padLeft(str, num, ch) {
+  str = str.toString();
+
+  if (typeof num === 'undefined') {
+    return str;
+  }
+
+  if (ch === 0) {
+    ch = '0';
+  } else if (ch) {
+    ch = ch.toString();
+  } else {
+    ch = ' ';
+  }
+
+  return repeat(ch, num - str.length) + str;
+};
+
+},{"repeat-string":24}],22:[function(require,module,exports){
+'use strict';
+
+var repeat = require('repeat-string');
+
+module.exports = function padLeft(val, num, str) {
+  var padding = '';
+  var diff = num - val.length;
+
+  // Breakpoints based on benchmarks to use the fastest approach
+  // for the given number of zeros
+  if (diff <= 5 && !str) {
+    padding = '00000';
+  } else if (diff <= 25 && !str) {
+    padding = '000000000000000000000000000';
+  } else {
+    return val + repeat(str || '0', diff);
+  }
+
+  return val + padding.slice(0, diff);
+};
+
+},{"repeat-string":24}],23:[function(require,module,exports){
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],24:[function(require,module,exports){
+/*!
+ * repeat-string <https://github.com/jonschlinkert/repeat-string>
+ *
+ * Copyright (c) 2014-2015, Jon Schlinkert.
+ * Licensed under the MIT License.
+ */
+
+'use strict';
+
+/**
+ * Results cache
+ */
+
+var res = '';
+var cache;
+
+/**
+ * Expose `repeat`
+ */
+
+module.exports = repeat;
+
+/**
+ * Repeat the given `string` the specified `number`
+ * of times.
+ *
+ * **Example:**
+ *
+ * ```js
+ * var repeat = require('repeat-string');
+ * repeat('A', 5);
+ * //=> AAAAA
+ * ```
+ *
+ * @param {String} `string` The string to repeat
+ * @param {Number} `number` The number of times to repeat the string
+ * @return {String} Repeated string
+ * @api public
+ */
+
+function repeat(str, num) {
+  if (typeof str !== 'string') {
+    throw new TypeError('expected a string');
+  }
+
+  // cover common, quick use cases
+  if (num === 1) return str;
+  if (num === 2) return str + str;
+
+  var max = str.length * num;
+  if (cache !== str || typeof cache === 'undefined') {
+    cache = str;
+    res = '';
+  } else if (res.length >= max) {
+    return res.substr(0, max);
+  }
+
+  while (max > res.length && num > 1) {
+    if (num & 1) {
+      res += str;
+    }
+
+    num >>= 1;
+    str += str;
+  }
+
+  res += str;
+  res = res.substr(0, max);
+  return res;
+}
+
+},{}],25:[function(require,module,exports){
+/* eslint-disable no-useless-escape */
+var electron = '^(file:\/\/|\/)(.*\.html?\/?)?'
+var protocol = '^(http(s)?(:\/\/))?(www\.)?'
+var domain = '[a-zA-Z0-9-_\.]+(:[0-9]{1,5})?(\/{1})?'
+var qs = '[\?].*$'
+/* eslint-enable no-useless-escape */
+
+var stripElectron = new RegExp(electron)
+var prefix = new RegExp(protocol + domain)
+var normalize = new RegExp('#')
+var suffix = new RegExp(qs)
+
+module.exports = pathname
+
+// replace everything in a route but the pathname and hash
+// TODO(yw): ditch 'suffix' and allow qs routing
+// (str, bool) -> str
+function pathname (route, isElectron) {
+  if (isElectron) route = route.replace(stripElectron, '')
+  else route = route.replace(prefix, '')
+  return route.replace(suffix, '').replace(normalize, '/')
+}
+
+},{}],26:[function(require,module,exports){
+var document = require('global/document')
+var assert = require('assert')
+var xtend = require('xtend')
+
+var qs = require('./qs')
+
+module.exports = createLocation
+
+// takes an initial representation of the location state
+// and then synchronize a mutation across all fields
+//
+// scenarios:
+// - create a state object from document.location; we got no state yet
+// - create a new state object from a string we pass in; full override mode
+// - patch a state object with some value we pass in - lil patchy stuff
+//
+// (obj?, str?) -> obj
+function createLocation (state, patch) {
+  if (!state) {
+    return {
+      pathname: document.location.pathname,
+      search: (document.location.search) ? qs(document.location.search) : {},
+      hash: document.location.hash,
+      href: document.location.href
+    }
+  } else {
+    assert.equal(typeof state, 'object', 'sheet-router/create-location: state should be an object')
+    if (typeof patch === 'string') {
+      return parseUrl(patch)
+    } else {
+      assert.equal(typeof patch, 'object', 'sheet-router/create-location: patch should be an object')
+      return xtend(state, patch)
+    }
+  }
+
+  // parse a URL into a kv object inside the browser
+  // str -> obj
+  function parseUrl (url) {
+    var a = document.createElement('a')
+    a.href = url
+
+    return {
+      href: a.href,
+      pathname: a.pathname,
+      search: (a.search) ? qs(a.search) : {},
+      hash: a.hash
+    }
+  }
+}
+
+},{"./qs":30,"assert":1,"global/document":12,"xtend":38}],27:[function(require,module,exports){
+var document = require('global/document')
+var window = require('global/window')
+var assert = require('assert')
+
+module.exports = history
+
+// listen to html5 pushstate events
+// and update router accordingly
+// fn(str) -> null
+function history (cb) {
+  assert.equal(typeof cb, 'function', 'sheet-router/history: cb must be a function')
+  window.onpopstate = function () {
+    cb({
+      pathname: document.location.pathname,
+      search: document.location.search,
+      href: document.location.href,
+      hash: document.location.hash
+    })
+  }
+}
+
+},{"assert":1,"global/document":12,"global/window":13}],28:[function(require,module,exports){
+var window = require('global/window')
+var assert = require('assert')
+
+var qs = require('./qs')
+
+module.exports = href
+
+var noRoutingAttrName = 'data-no-routing'
+
+// handle a click if is anchor tag with an href
+// and url lives on the same domain. Replaces
+// trailing '#' so empty links work as expected.
+// (fn(str), obj?) -> undefined
+function href (cb, root) {
+  assert.equal(typeof cb, 'function', 'sheet-router/href: cb must be a function')
+
+  window.onclick = function (e) {
+    if ((e.button && e.button !== 0) || e.ctrlKey || e.metaKey || e.altKey || e.shiftKey) return
+
+    var node = (function traverse (node) {
+      if (!node || node === root) return
+      if (node.localName !== 'a') return traverse(node.parentNode)
+      if (node.href === undefined) return traverse(node.parentNode)
+      if (window.location.host !== node.host) return traverse(node.parentNode)
+      return node
+    })(e.target)
+
+    if (!node) return
+
+    var isRoutingDisabled = node.hasAttribute(noRoutingAttrName)
+    if (isRoutingDisabled) return
+
+    e.preventDefault()
+    cb({
+      pathname: node.pathname,
+      search: (node.search) ? qs(node.search) : {},
+      href: node.href,
+      hash: node.hash
+    })
+  }
+}
+
+},{"./qs":30,"assert":1,"global/window":13}],29:[function(require,module,exports){
+var pathname = require('./_pathname')
+var wayfarer = require('wayfarer')
+var assert = require('assert')
+
+var isLocalFile = (/file:\/\//.test(typeof window === 'object' &&
+  window.location && window.location.origin)) // electron support
+
+module.exports = sheetRouter
+
+// Fast, modular client router
+// fn(str, any[..]) -> fn(str, any[..])
+function sheetRouter (opts, tree) {
+  if (!tree) {
+    tree = opts
+    opts = {}
+  }
+
+  assert.equal(typeof opts, 'object', 'sheet-router: opts must be a object')
+  assert.ok(Array.isArray(tree), 'sheet-router: tree must be an array')
+
+  var dft = opts.default || '/404'
+  assert.equal(typeof dft, 'string', 'sheet-router: dft must be a string')
+
+  var router = wayfarer(dft)
+  var prevCallback = null
+  var prevRoute = null
+
+  match._router = router
+
+  // register tree in router
+  // tree[0] is a string, thus a route
+  // tree[0] is an array, thus not a route
+  // tree[1] is a function
+    // tree[2] is an array
+    // tree[2] is not an array
+  // tree[1] is an array
+  ;(function walk (tree, fullRoute) {
+    if (typeof tree[0] === 'string') {
+      var route = tree[0].replace(/^[#/]/, '')
+    } else {
+      var rootArr = tree[0]
+    }
+
+    var cb = (typeof tree[1] === 'function') ? tree[1] : null
+    var children = (Array.isArray(tree[1]))
+      ? tree[1]
+      : Array.isArray(tree[2]) ? tree[2] : null
+
+    if (rootArr) {
+      tree.forEach(function (node) {
+        walk(node, fullRoute)
+      })
+    }
+
+    if (cb) {
+      var innerRoute = route
+        ? fullRoute.concat(route).join('/')
+        : fullRoute.length ? fullRoute.join('/') : route
+
+      // if opts.thunk is false or only enabled for match, don't thunk
+      var handler = (opts.thunk === false || opts.thunk === 'match')
+        ? cb
+        : thunkify(cb)
+      router.on(innerRoute, handler)
+    }
+
+    if (Array.isArray(children)) {
+      walk(children, fullRoute.concat(route))
+    }
+  })(tree, [])
+
+  return match
+
+  // match a route on the router
+  //
+  // no thunking -> call route with all arguments
+  // thunking only for match -> call route with all arguments
+  // thunking and route is same -> call prev cb with new args
+  // thunking and route is diff -> create cb and call with new args
+  //
+  // (str, [any..]) -> any
+  function match (route, arg1, arg2, arg3, arg4, arg5) {
+    assert.equal(typeof route, 'string', 'sheet-router: route must be a string')
+
+    if (opts.thunk === false) {
+      return router(pathname(route, isLocalFile), arg1, arg2, arg3, arg4, arg5)
+    } else if (route === prevRoute) {
+      return prevCallback(arg1, arg2, arg3, arg4, arg5)
+    } else {
+      prevRoute = pathname(route, isLocalFile)
+      prevCallback = router(prevRoute)
+      return prevCallback(arg1, arg2, arg3, arg4, arg5)
+    }
+  }
+}
+
+// wrap a function in a function so it can be called at a later time
+// fn -> obj -> (any, any, any, any, any)
+function thunkify (cb) {
+  return function (params) {
+    return function (arg1, arg2, arg3, arg4, arg5) {
+      return cb(params, arg1, arg2, arg3, arg4, arg5)
+    }
+  }
+}
+
+},{"./_pathname":25,"assert":1,"wayfarer":35}],30:[function(require,module,exports){
+var window = require('global/window')
+
+var decodeURIComponent = window.decodeURIComponent
+var reg = new RegExp('([^?=&]+)(=([^&]*))?', 'g')
+
+module.exports = qs
+
+// decode a uri into a kv representation :: str -> obj
+function qs (uri) {
+  var obj = {}
+  uri.replace(/^.*\?/, '').replace(reg, map)
+  return obj
+
+  function map (a0, a1, a2, a3) {
+    obj[decodeURIComponent(a1)] = decodeURIComponent(a3)
+  }
+}
+
+},{"global/window":13}],31:[function(require,module,exports){
+const walk = require('wayfarer/walk')
+const assert = require('assert')
+
+module.exports = walkSheetRouter
+
+function walkSheetRouter (router, cb) {
+  assert.equal(typeof router, 'function', 'sheet-router/walk: router should be a function')
+  assert.equal(typeof cb, 'function', 'sheet-router/walk: cb should be a function')
+
+  router = router._router
+  return walk(router, cb)
+}
+
+},{"assert":1,"wayfarer/walk":37}],32:[function(require,module,exports){
+if (typeof Object.create === 'function') {
+  // implementation from standard node.js 'util' module
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    ctor.prototype = Object.create(superCtor.prototype, {
+      constructor: {
+        value: ctor,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+  };
+} else {
+  // old school shim for old browsers
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    var TempCtor = function () {}
+    TempCtor.prototype = superCtor.prototype
+    ctor.prototype = new TempCtor()
+    ctor.prototype.constructor = ctor
+  }
+}
+
+},{}],33:[function(require,module,exports){
+module.exports = function isBuffer(arg) {
+  return arg && typeof arg === 'object'
+    && typeof arg.copy === 'function'
+    && typeof arg.fill === 'function'
+    && typeof arg.readUInt8 === 'function';
+}
+},{}],34:[function(require,module,exports){
+(function (process,global){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+var formatRegExp = /%[sdj%]/g;
+exports.format = function(f) {
+  if (!isString(f)) {
+    var objects = [];
+    for (var i = 0; i < arguments.length; i++) {
+      objects.push(inspect(arguments[i]));
+    }
+    return objects.join(' ');
+  }
+
+  var i = 1;
+  var args = arguments;
+  var len = args.length;
+  var str = String(f).replace(formatRegExp, function(x) {
+    if (x === '%%') return '%';
+    if (i >= len) return x;
+    switch (x) {
+      case '%s': return String(args[i++]);
+      case '%d': return Number(args[i++]);
+      case '%j':
+        try {
+          return JSON.stringify(args[i++]);
+        } catch (_) {
+          return '[Circular]';
+        }
+      default:
+        return x;
+    }
+  });
+  for (var x = args[i]; i < len; x = args[++i]) {
+    if (isNull(x) || !isObject(x)) {
+      str += ' ' + x;
+    } else {
+      str += ' ' + inspect(x);
+    }
+  }
+  return str;
+};
+
+
+// Mark that a method should not be used.
+// Returns a modified function which warns once by default.
+// If --no-deprecation is set, then it is a no-op.
+exports.deprecate = function(fn, msg) {
+  // Allow for deprecating things in the process of starting up.
+  if (isUndefined(global.process)) {
+    return function() {
+      return exports.deprecate(fn, msg).apply(this, arguments);
+    };
+  }
+
+  if (process.noDeprecation === true) {
+    return fn;
+  }
+
+  var warned = false;
+  function deprecated() {
+    if (!warned) {
+      if (process.throwDeprecation) {
+        throw new Error(msg);
+      } else if (process.traceDeprecation) {
+        console.trace(msg);
+      } else {
+        console.error(msg);
+      }
+      warned = true;
+    }
+    return fn.apply(this, arguments);
+  }
+
+  return deprecated;
+};
+
+
+var debugs = {};
+var debugEnviron;
+exports.debuglog = function(set) {
+  if (isUndefined(debugEnviron))
+    debugEnviron = process.env.NODE_DEBUG || '';
+  set = set.toUpperCase();
+  if (!debugs[set]) {
+    if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
+      var pid = process.pid;
+      debugs[set] = function() {
+        var msg = exports.format.apply(exports, arguments);
+        console.error('%s %d: %s', set, pid, msg);
+      };
+    } else {
+      debugs[set] = function() {};
+    }
+  }
+  return debugs[set];
+};
+
+
+/**
+ * Echos the value of a value. Trys to print the value out
+ * in the best way possible given the different types.
+ *
+ * @param {Object} obj The object to print out.
+ * @param {Object} opts Optional options object that alters the output.
+ */
+/* legacy: obj, showHidden, depth, colors*/
+function inspect(obj, opts) {
+  // default options
+  var ctx = {
+    seen: [],
+    stylize: stylizeNoColor
+  };
+  // legacy...
+  if (arguments.length >= 3) ctx.depth = arguments[2];
+  if (arguments.length >= 4) ctx.colors = arguments[3];
+  if (isBoolean(opts)) {
+    // legacy...
+    ctx.showHidden = opts;
+  } else if (opts) {
+    // got an "options" object
+    exports._extend(ctx, opts);
+  }
+  // set default options
+  if (isUndefined(ctx.showHidden)) ctx.showHidden = false;
+  if (isUndefined(ctx.depth)) ctx.depth = 2;
+  if (isUndefined(ctx.colors)) ctx.colors = false;
+  if (isUndefined(ctx.customInspect)) ctx.customInspect = true;
+  if (ctx.colors) ctx.stylize = stylizeWithColor;
+  return formatValue(ctx, obj, ctx.depth);
+}
+exports.inspect = inspect;
+
+
+// http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
+inspect.colors = {
+  'bold' : [1, 22],
+  'italic' : [3, 23],
+  'underline' : [4, 24],
+  'inverse' : [7, 27],
+  'white' : [37, 39],
+  'grey' : [90, 39],
+  'black' : [30, 39],
+  'blue' : [34, 39],
+  'cyan' : [36, 39],
+  'green' : [32, 39],
+  'magenta' : [35, 39],
+  'red' : [31, 39],
+  'yellow' : [33, 39]
+};
+
+// Don't use 'blue' not visible on cmd.exe
+inspect.styles = {
+  'special': 'cyan',
+  'number': 'yellow',
+  'boolean': 'yellow',
+  'undefined': 'grey',
+  'null': 'bold',
+  'string': 'green',
+  'date': 'magenta',
+  // "name": intentionally not styling
+  'regexp': 'red'
+};
+
+
+function stylizeWithColor(str, styleType) {
+  var style = inspect.styles[styleType];
+
+  if (style) {
+    return '\u001b[' + inspect.colors[style][0] + 'm' + str +
+           '\u001b[' + inspect.colors[style][1] + 'm';
+  } else {
+    return str;
+  }
+}
+
+
+function stylizeNoColor(str, styleType) {
+  return str;
+}
+
+
+function arrayToHash(array) {
+  var hash = {};
+
+  array.forEach(function(val, idx) {
+    hash[val] = true;
+  });
+
+  return hash;
+}
+
+
+function formatValue(ctx, value, recurseTimes) {
+  // Provide a hook for user-specified inspect functions.
+  // Check that value is an object with an inspect function on it
+  if (ctx.customInspect &&
+      value &&
+      isFunction(value.inspect) &&
+      // Filter out the util module, it's inspect function is special
+      value.inspect !== exports.inspect &&
+      // Also filter out any prototype objects using the circular check.
+      !(value.constructor && value.constructor.prototype === value)) {
+    var ret = value.inspect(recurseTimes, ctx);
+    if (!isString(ret)) {
+      ret = formatValue(ctx, ret, recurseTimes);
+    }
+    return ret;
+  }
+
+  // Primitive types cannot have properties
+  var primitive = formatPrimitive(ctx, value);
+  if (primitive) {
+    return primitive;
+  }
+
+  // Look up the keys of the object.
+  var keys = Object.keys(value);
+  var visibleKeys = arrayToHash(keys);
+
+  if (ctx.showHidden) {
+    keys = Object.getOwnPropertyNames(value);
+  }
+
+  // IE doesn't make error fields non-enumerable
+  // http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
+  if (isError(value)
+      && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
+    return formatError(value);
+  }
+
+  // Some type of object without properties can be shortcutted.
+  if (keys.length === 0) {
+    if (isFunction(value)) {
+      var name = value.name ? ': ' + value.name : '';
+      return ctx.stylize('[Function' + name + ']', 'special');
+    }
+    if (isRegExp(value)) {
+      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+    }
+    if (isDate(value)) {
+      return ctx.stylize(Date.prototype.toString.call(value), 'date');
+    }
+    if (isError(value)) {
+      return formatError(value);
+    }
+  }
+
+  var base = '', array = false, braces = ['{', '}'];
+
+  // Make Array say that they are Array
+  if (isArray(value)) {
+    array = true;
+    braces = ['[', ']'];
+  }
+
+  // Make functions say that they are functions
+  if (isFunction(value)) {
+    var n = value.name ? ': ' + value.name : '';
+    base = ' [Function' + n + ']';
+  }
+
+  // Make RegExps say that they are RegExps
+  if (isRegExp(value)) {
+    base = ' ' + RegExp.prototype.toString.call(value);
+  }
+
+  // Make dates with properties first say the date
+  if (isDate(value)) {
+    base = ' ' + Date.prototype.toUTCString.call(value);
+  }
+
+  // Make error with message first say the error
+  if (isError(value)) {
+    base = ' ' + formatError(value);
+  }
+
+  if (keys.length === 0 && (!array || value.length == 0)) {
+    return braces[0] + base + braces[1];
+  }
+
+  if (recurseTimes < 0) {
+    if (isRegExp(value)) {
+      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+    } else {
+      return ctx.stylize('[Object]', 'special');
+    }
+  }
+
+  ctx.seen.push(value);
+
+  var output;
+  if (array) {
+    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
+  } else {
+    output = keys.map(function(key) {
+      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
+    });
+  }
+
+  ctx.seen.pop();
+
+  return reduceToSingleString(output, base, braces);
+}
+
+
+function formatPrimitive(ctx, value) {
+  if (isUndefined(value))
+    return ctx.stylize('undefined', 'undefined');
+  if (isString(value)) {
+    var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '')
+                                             .replace(/'/g, "\\'")
+                                             .replace(/\\"/g, '"') + '\'';
+    return ctx.stylize(simple, 'string');
+  }
+  if (isNumber(value))
+    return ctx.stylize('' + value, 'number');
+  if (isBoolean(value))
+    return ctx.stylize('' + value, 'boolean');
+  // For some reason typeof null is "object", so special case here.
+  if (isNull(value))
+    return ctx.stylize('null', 'null');
+}
+
+
+function formatError(value) {
+  return '[' + Error.prototype.toString.call(value) + ']';
+}
+
+
+function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
+  var output = [];
+  for (var i = 0, l = value.length; i < l; ++i) {
+    if (hasOwnProperty(value, String(i))) {
+      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
+          String(i), true));
+    } else {
+      output.push('');
+    }
+  }
+  keys.forEach(function(key) {
+    if (!key.match(/^\d+$/)) {
+      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
+          key, true));
+    }
+  });
+  return output;
+}
+
+
+function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
+  var name, str, desc;
+  desc = Object.getOwnPropertyDescriptor(value, key) || { value: value[key] };
+  if (desc.get) {
+    if (desc.set) {
+      str = ctx.stylize('[Getter/Setter]', 'special');
+    } else {
+      str = ctx.stylize('[Getter]', 'special');
+    }
+  } else {
+    if (desc.set) {
+      str = ctx.stylize('[Setter]', 'special');
+    }
+  }
+  if (!hasOwnProperty(visibleKeys, key)) {
+    name = '[' + key + ']';
+  }
+  if (!str) {
+    if (ctx.seen.indexOf(desc.value) < 0) {
+      if (isNull(recurseTimes)) {
+        str = formatValue(ctx, desc.value, null);
+      } else {
+        str = formatValue(ctx, desc.value, recurseTimes - 1);
+      }
+      if (str.indexOf('\n') > -1) {
+        if (array) {
+          str = str.split('\n').map(function(line) {
+            return '  ' + line;
+          }).join('\n').substr(2);
+        } else {
+          str = '\n' + str.split('\n').map(function(line) {
+            return '   ' + line;
+          }).join('\n');
+        }
+      }
+    } else {
+      str = ctx.stylize('[Circular]', 'special');
+    }
+  }
+  if (isUndefined(name)) {
+    if (array && key.match(/^\d+$/)) {
+      return str;
+    }
+    name = JSON.stringify('' + key);
+    if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
+      name = name.substr(1, name.length - 2);
+      name = ctx.stylize(name, 'name');
+    } else {
+      name = name.replace(/'/g, "\\'")
+                 .replace(/\\"/g, '"')
+                 .replace(/(^"|"$)/g, "'");
+      name = ctx.stylize(name, 'string');
+    }
+  }
+
+  return name + ': ' + str;
+}
+
+
+function reduceToSingleString(output, base, braces) {
+  var numLinesEst = 0;
+  var length = output.reduce(function(prev, cur) {
+    numLinesEst++;
+    if (cur.indexOf('\n') >= 0) numLinesEst++;
+    return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
+  }, 0);
+
+  if (length > 60) {
+    return braces[0] +
+           (base === '' ? '' : base + '\n ') +
+           ' ' +
+           output.join(',\n  ') +
+           ' ' +
+           braces[1];
+  }
+
+  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
+}
+
+
+// NOTE: These type checking functions intentionally don't use `instanceof`
+// because it is fragile and can be easily faked with `Object.create()`.
+function isArray(ar) {
+  return Array.isArray(ar);
+}
+exports.isArray = isArray;
+
+function isBoolean(arg) {
+  return typeof arg === 'boolean';
+}
+exports.isBoolean = isBoolean;
+
+function isNull(arg) {
+  return arg === null;
+}
+exports.isNull = isNull;
+
+function isNullOrUndefined(arg) {
+  return arg == null;
+}
+exports.isNullOrUndefined = isNullOrUndefined;
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+exports.isNumber = isNumber;
+
+function isString(arg) {
+  return typeof arg === 'string';
+}
+exports.isString = isString;
+
+function isSymbol(arg) {
+  return typeof arg === 'symbol';
+}
+exports.isSymbol = isSymbol;
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
+exports.isUndefined = isUndefined;
+
+function isRegExp(re) {
+  return isObject(re) && objectToString(re) === '[object RegExp]';
+}
+exports.isRegExp = isRegExp;
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg !== null;
+}
+exports.isObject = isObject;
+
+function isDate(d) {
+  return isObject(d) && objectToString(d) === '[object Date]';
+}
+exports.isDate = isDate;
+
+function isError(e) {
+  return isObject(e) &&
+      (objectToString(e) === '[object Error]' || e instanceof Error);
+}
+exports.isError = isError;
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+exports.isFunction = isFunction;
+
+function isPrimitive(arg) {
+  return arg === null ||
+         typeof arg === 'boolean' ||
+         typeof arg === 'number' ||
+         typeof arg === 'string' ||
+         typeof arg === 'symbol' ||  // ES6 symbol
+         typeof arg === 'undefined';
+}
+exports.isPrimitive = isPrimitive;
+
+exports.isBuffer = require('./support/isBuffer');
+
+function objectToString(o) {
+  return Object.prototype.toString.call(o);
+}
+
+
+function pad(n) {
+  return n < 10 ? '0' + n.toString(10) : n.toString(10);
+}
+
+
+var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
+              'Oct', 'Nov', 'Dec'];
+
+// 26 Feb 16:19:34
+function timestamp() {
+  var d = new Date();
+  var time = [pad(d.getHours()),
+              pad(d.getMinutes()),
+              pad(d.getSeconds())].join(':');
+  return [d.getDate(), months[d.getMonth()], time].join(' ');
+}
+
+
+// log is just a thin wrapper to console.log that prepends a timestamp
+exports.log = function() {
+  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
+};
+
+
+/**
+ * Inherit the prototype methods from one constructor into another.
+ *
+ * The Function.prototype.inherits from lang.js rewritten as a standalone
+ * function (not on Function.prototype). NOTE: If this file is to be loaded
+ * during bootstrapping this function needs to be rewritten using some native
+ * functions as prototype setup using normal JavaScript does not work as
+ * expected during bootstrapping (see mirror.js in r114903).
+ *
+ * @param {function} ctor Constructor function which needs to inherit the
+ *     prototype.
+ * @param {function} superCtor Constructor function to inherit prototype from.
+ */
+exports.inherits = require('inherits');
+
+exports._extend = function(origin, add) {
+  // Don't do anything if add isn't an object
+  if (!add || !isObject(add)) return origin;
+
+  var keys = Object.keys(add);
+  var i = keys.length;
+  while (i--) {
+    origin[keys[i]] = add[keys[i]];
+  }
+  return origin;
+};
+
+function hasOwnProperty(obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop);
+}
+
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./support/isBuffer":33,"_process":23,"inherits":32}],35:[function(require,module,exports){
+var assert = require('assert')
+var trie = require('./trie')
+
+module.exports = Wayfarer
+
+// create a router
+// str -> obj
+function Wayfarer (dft) {
+  if (!(this instanceof Wayfarer)) return new Wayfarer(dft)
+
+  var _default = (dft || '').replace(/^\//, '')
+  var _trie = trie()
+
+  emit._trie = _trie
+  emit.emit = emit
+  emit.on = on
+  emit._wayfarer = true
+
+  return emit
+
+  // define a route
+  // (str, fn) -> obj
+  function on (route, cb) {
+    assert.equal(typeof route, 'string')
+    assert.equal(typeof cb, 'function')
+
+    route = route || '/'
+
+    if (cb && cb._wayfarer && cb._trie) {
+      _trie.mount(route, cb._trie.trie)
+    } else {
+      var node = _trie.create(route)
+      node.cb = cb
+    }
+
+    return emit
+  }
+
+  // match and call a route
+  // (str, obj?) -> null
+  function emit (route) {
+    assert.notEqual(route, undefined, "'route' must be defined")
+    var args = new Array(arguments.length)
+    for (var i = 1; i < args.length; i++) {
+      args[i] = arguments[i]
+    }
+
+    var node = _trie.match(route)
+    if (node && node.cb) {
+      args[0] = node.params
+      return node.cb.apply(null, args)
+    }
+
+    var dft = _trie.match(_default)
+    if (dft && dft.cb) {
+      args[0] = dft.params
+      return dft.cb.apply(null, args)
+    }
+
+    throw new Error("route '" + route + "' did not match")
+  }
+}
+
+},{"./trie":36,"assert":1}],36:[function(require,module,exports){
+var mutate = require('xtend/mutable')
+var assert = require('assert')
+var xtend = require('xtend')
+
+module.exports = Trie
+
+// create a new trie
+// null -> obj
+function Trie () {
+  if (!(this instanceof Trie)) return new Trie()
+  this.trie = { nodes: {} }
+}
+
+// create a node on the trie at route
+// and return a node
+// str -> null
+Trie.prototype.create = function (route) {
+  assert.equal(typeof route, 'string', 'route should be a string')
+  // strip leading '/' and split routes
+  var routes = route.replace(/^\//, '').split('/')
+  return (function createNode (index, trie) {
+    var thisRoute = routes[index]
+
+    if (thisRoute === undefined) return trie
+
+    var node = null
+    if (/^:/.test(thisRoute)) {
+      // if node is a name match, set name and append to ':' node
+      if (!trie.nodes['$$']) {
+        node = { nodes: {} }
+        trie.nodes['$$'] = node
+      } else {
+        node = trie.nodes['$$']
+      }
+      trie.name = thisRoute.replace(/^:/, '')
+    } else if (!trie.nodes[thisRoute]) {
+      node = { nodes: {} }
+      trie.nodes[thisRoute] = node
+    } else {
+      node = trie.nodes[thisRoute]
+    }
+
+    // we must recurse deeper
+    return createNode(index + 1, node)
+  })(0, this.trie)
+}
+
+// match a route on the trie
+// and return the node
+// str -> obj
+Trie.prototype.match = function (route) {
+  assert.equal(typeof route, 'string', 'route should be a string')
+
+  var routes = route.replace(/^\//, '').split('/')
+  var params = {}
+
+  var node = (function search (index, trie) {
+    // either there's no match, or we're done searching
+    if (trie === undefined) return undefined
+    var thisRoute = routes[index]
+    if (thisRoute === undefined) return trie
+
+    if (trie.nodes[thisRoute]) {
+      // match regular routes first
+      return search(index + 1, trie.nodes[thisRoute])
+    } else if (trie.name) {
+      // match named routes
+      params[trie.name] = decodeURIComponent(thisRoute)
+      return search(index + 1, trie.nodes['$$'])
+    } else {
+      // no matches found
+      return search(index + 1)
+    }
+  })(0, this.trie)
+
+  if (!node) return undefined
+  node = xtend(node)
+  node.params = params
+  return node
+}
+
+// mount a trie onto a node at route
+// (str, obj) -> null
+Trie.prototype.mount = function (route, trie) {
+  assert.equal(typeof route, 'string', 'route should be a string')
+  assert.equal(typeof trie, 'object', 'trie should be a object')
+
+  var split = route.replace(/^\//, '').split('/')
+  var node = null
+  var key = null
+
+  if (split.length === 1) {
+    key = split[0]
+    node = this.create(key)
+  } else {
+    var headArr = split.splice(0, split.length - 1)
+    var head = headArr.join('/')
+    key = split[0]
+    node = this.create(head)
+  }
+
+  mutate(node.nodes, trie.nodes)
+  if (trie.name) node.name = trie.name
+
+  // delegate properties from '/' to the new node
+  // '/' cannot be reached once mounted
+  if (node.nodes['']) {
+    Object.keys(node.nodes['']).forEach(function (key) {
+      if (key === 'nodes') return
+      node[key] = node.nodes[''][key]
+    })
+    mutate(node.nodes, node.nodes[''].nodes)
+    delete node.nodes[''].nodes
+  }
+}
+
+},{"assert":1,"xtend":38,"xtend/mutable":39}],37:[function(require,module,exports){
+var assert = require('assert')
+
+module.exports = walk
+
+// walk a wayfarer trie
+// (obj, fn) -> null
+function walk (router, transform) {
+  assert.equal(typeof router, 'function', 'wayfarer.walk: router should be an function')
+  assert.equal(typeof transform, 'function', 'wayfarer.walk: transform should be a function')
+
+  var trie = router._trie
+  assert.equal(typeof trie, 'object', 'wayfarer.walk: trie should be an object')
+
+  // (str, obj) -> null
+  ;(function walk (route, trie) {
+    if (trie.cb) {
+      trie.cb = transform(route, trie.cb)
+    }
+
+    if (trie.nodes) {
+      var nodes = trie.nodes
+      Object.keys(nodes).forEach(function (key) {
+        var node = nodes[key]
+        var newRoute = (key === '$$')
+          ? route + '/:' + trie.name
+          : route + '/' + key
+        walk(newRoute, node)
+      })
+    }
+  })('', trie.trie)
+}
+
+},{"assert":1}],38:[function(require,module,exports){
+module.exports = extend
+
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+function extend() {
+    var target = {}
+
+    for (var i = 0; i < arguments.length; i++) {
+        var source = arguments[i]
+
+        for (var key in source) {
+            if (hasOwnProperty.call(source, key)) {
+                target[key] = source[key]
+            }
+        }
+    }
+
+    return target
+}
+
+},{}],39:[function(require,module,exports){
+module.exports = extend
+
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+function extend(target) {
+    for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i]
+
+        for (var key in source) {
+            if (hasOwnProperty.call(source, key)) {
+                target[key] = source[key]
+            }
+        }
+    }
+
+    return target
+}
+
+},{}],40:[function(require,module,exports){
+var bel = require('bel') // turns template tag into DOM elements
+var morphdom = require('morphdom') // efficiently diffs + morphs two DOM elements
+var defaultEvents = require('./update-events.js') // default events to be copied when dom elements update
+
+module.exports = bel
+
+// TODO move this + defaultEvents to a new module once we receive more feedback
+module.exports.update = function (fromNode, toNode, opts) {
+  if (!opts) opts = {}
+  if (opts.events !== false) {
+    if (!opts.onBeforeElUpdated) opts.onBeforeElUpdated = copier
+  }
+
+  return morphdom(fromNode, toNode, opts)
+
+  // morphdom only copies attributes. we decided we also wanted to copy events
+  // that can be set via attributes
+  function copier (f, t) {
+    // copy events:
+    var events = opts.events || defaultEvents
+    for (var i = 0; i < events.length; i++) {
+      var ev = events[i]
+      if (t[ev]) { // if new element has a whitelisted attribute
+        f[ev] = t[ev] // update existing element
+      } else if (f[ev]) { // if existing element has it and new one doesnt
+        f[ev] = undefined // remove it from existing element
+      }
+    }
+    var oldValue = f.value
+    var newValue = t.value
+    // copy values for form elements
+    if ((f.nodeName === 'INPUT' && f.type !== 'file') || f.nodeName === 'SELECT') {
+      if (!newValue) {
+        t.value = f.value
+      } else if (newValue !== oldValue) {
+        f.value = newValue
+      }
+    } else if (f.nodeName === 'TEXTAREA') {
+      if (t.getAttribute('value') === null) f.value = t.value
+    }
+  }
+}
+
+},{"./update-events.js":41,"bel":4,"morphdom":17}],41:[function(require,module,exports){
+module.exports = [
+  // attribute events (can be set with attributes)
+  'onclick',
+  'ondblclick',
+  'onmousedown',
+  'onmouseup',
+  'onmouseover',
+  'onmousemove',
+  'onmouseout',
+  'ondragstart',
+  'ondrag',
+  'ondragenter',
+  'ondragleave',
+  'ondragover',
+  'ondrop',
+  'ondragend',
+  'onkeydown',
+  'onkeypress',
+  'onkeyup',
+  'onunload',
+  'onabort',
+  'onerror',
+  'onresize',
+  'onscroll',
+  'onselect',
+  'onchange',
+  'onsubmit',
+  'onreset',
+  'onfocus',
+  'onblur',
+  'oninput',
+  // other common events
+  'oncontextmenu',
+  'onfocusin',
+  'onfocusout'
+]
+
+},{}],42:[function(require,module,exports){
+(function (process){
+'use strict';
+
+var _templateObject = _taggedTemplateLiteral(['\n    <div class="app">\n        <div class="pinWheelsContainer">\n            ', '\n        </div>\n        <div class="appContent">\n          <div class="contentContainer"  style="width: ', 'px; height: ', 'px; ">\n            ', '\n            ', '\n          </div>\n        </div>\n    </div>\n  '], ['\n    <div class="app">\n        <div class="pinWheelsContainer">\n            ', '\n        </div>\n        <div class="appContent">\n          <div class="contentContainer"  style="width: ', 'px; height: ', 'px; ">\n            ', '\n            ', '\n          </div>\n        </div>\n    </div>\n  ']);
+
+var _intrinsicScale = require('intrinsic-scale');
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var IS_PROD = void 0;
+if (process.env.NODE_ENV === 'development') {
+  IS_PROD = false;
+} else {
+  IS_PROD = true;
+}
+
+require('fastclick')(document.body);
+var html = require('choo/html');
+var log = require('choo-log');
+var choo = require('choo');
+
+var app = choo();
+app.use(log());
+
+//VIEWS
+var mapView = require('./views/map');
+var tourView = require('./views/tour');
+var pinWheelsView = require('./views/pin_wheels');
+
+var Locations = require('./locations');
+console.log(Locations);
+
+//APP MODEL
+app.model({
+  state: {
+    locations: Locations,
+    map: {
+      width: 0,
+      height: 0
+    }
+  },
+  reducers: {
+    resize: function resize(state, data) {
+      var appEl = document.querySelector('.appContent');
+
+      var _contain = (0, _intrinsicScale.contain)(appEl.offsetWidth, appEl.offsetHeight * .75, 1731, 1300),
+          width = _contain.width,
+          height = _contain.height,
+          x = _contain.x,
+          y = _contain.y;
+      //update model state
+
+
+      return { map: { width: width, height: height } };
+    }
+  },
+  effects: {},
+  subscriptions: {
+    'called-once-when-the-app-loads': function calledOnceWhenTheAppLoads(send, done) {
+      window.addEventListener('resize', function () {
+        return send('resize', done);
+      }, false);
+      //calls reducer resize
+      send('resize', done);
+    }
+  }
+});
+
+console.log(process.env);
+
+function mainView(state, prev, send) {
+  return html(_templateObject, pinWheelsView(state, prev, send), state.map.width, state.map.height, mapView(state, prev, send), tourView(state, prev, send));
+}
+
+/*app.router({ default: '/alhambra-desktop' }, [
+  [ '/alhambra-desktop', require('./views/empty') ],
+])
+
+*/
+var baseRoute = IS_PROD ? "alhambra-desktop" : "";
+app.router(['/' + baseRoute, mainView]);
+
+var tree = app.start();
+document.body.appendChild(tree);
+
+}).call(this,require('_process'))
+},{"./locations":43,"./views/map":44,"./views/pin_wheels":46,"./views/tour":47,"_process":23,"choo":8,"choo-log":6,"choo/html":7,"fastclick":11,"intrinsic-scale":16}],43:[function(require,module,exports){
+"use strict";
+
+var LOCATIONS = 17;
+
+var arr = new Array(LOCATIONS).fill(0);
+
+var Locations = arr.map(function (l, i) {
+  return {
+    id: i,
+    even: i % 2 === 0,
+    rotation: i % 2 === 0 ? 15 : 25
+  };
+});
+
+module.exports = Locations;
+
+},{}],44:[function(require,module,exports){
+'use strict';
+
+var _templateObject = _taggedTemplateLiteral(['\n        <span class="map--image"></span>\n  '], ['\n        <span class="map--image"></span>\n  ']);
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var html = require('choo/html');
+function Map(state, prev, send) {
+  return html(_templateObject);
+}
+
+module.exports = Map;
+
+},{"choo/html":7}],45:[function(require,module,exports){
+'use strict';
+
+var _templateObject = _taggedTemplateLiteral(['\n        <div class="pinwheel--image" style="', '"></div>\n  '], ['\n        <div class="pinwheel--image" style="', '"></div>\n  ']);
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var html = require('choo/html');
+function Map(state, prev, send) {
+
+  var rotation = 'transform:rotate(' + state.rotation + 'deg);-webkit-transform:rotate(' + state.rotation + 'deg);';
+  console.log(rotation);
+  return html(_templateObject, rotation);
+}
+
+module.exports = Map;
+
+},{"choo/html":7}],46:[function(require,module,exports){
+'use strict';
+
+var _templateObject = _taggedTemplateLiteral(['\n        <div class="pinwheels">\n          <div class="pinwheel--column">\n            ', '\n          </div>\n        <div class="pinwheel--column">\n          ', '\n        </div>\n      </div>\n  '], ['\n        <div class="pinwheels">\n          <div class="pinwheel--column">\n            ', '\n          </div>\n        <div class="pinwheel--column">\n          ', '\n        </div>\n      </div>\n  ']);
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var html = require('choo/html');
+var pinWheelView = require('./pin_wheel');
+
+function PinWheels(state, prev, send) {
+  var colModelsEven = state.locations.filter(function (l, i) {
+    return l.even;
+  });
+  var colModelsOdd = state.locations.filter(function (l, i) {
+    return !l.even;
+  });
+
+  var wheelsEven = colModelsEven.map(function (l) {
+    return pinWheelView(l, prev, send);
+  });
+  var wheelsOdd = colModelsOdd.map(function (l) {
+    return pinWheelView(l, prev, send);
+  });
+
+  return html(_templateObject, wheelsEven, wheelsOdd);
+}
+
+module.exports = PinWheels;
+
+},{"./pin_wheel":45,"choo/html":7}],47:[function(require,module,exports){
+'use strict';
+
+var _templateObject = _taggedTemplateLiteral(['\n    <iframe class="tour--frame" src="https://rad.wtf/alhambra-web/" width="667" height="375">\n    </iframe>\n  '], ['\n    <iframe class="tour--frame" src="https://rad.wtf/alhambra-web/" width="667" height="375">\n    </iframe>\n  ']);
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var html = require('choo/html');
+function Tour(state, prev, send) {
+  return html(_templateObject);
+}
+
+module.exports = Tour;
+
+},{"choo/html":7}]},{},[42]);
