@@ -76,6 +76,7 @@ function mainView(state, prev, send) {
 
 */
 const baseRoute = IS_PROD ? "alhambra-desktop/" : ""
+console.log(baseRoute);
 app.router([`/${baseRoute}`, mainView])
 
 var tree = app.start()
