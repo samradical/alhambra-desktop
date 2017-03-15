@@ -25,6 +25,7 @@ var pinWheelsView = require('./views/pin_wheels')
 app.model({
   state: {
     locations:require('./locations'),
+    activeLocation:0,
     map: {
       width: 0,
       height: 0

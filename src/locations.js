@@ -1,10 +1,11 @@
+import { assign } from 'lodash';
 const LOCATIONS = 17
 
 const arr = new Array(LOCATIONS).fill(0)
 
 const PinWheels = arr.map((l, i) => {
   return {
-    id: i,
+    index: i,
     even: i % 2 === 0,
     top: (i % 2 === 0) ? -2 : 0,
     left: (i % 2 === 0) ? 8 : 0,
@@ -13,7 +14,7 @@ const PinWheels = arr.map((l, i) => {
 })
 
 const MapPositions = [{
-  x: 1.1,
+  x: .9,
   y: 3.2,
 }, {
   x: 8.5,
@@ -37,7 +38,7 @@ const MapPositions = [{
   x: 52.2,
   y: 48.4,
 }, {
-  x: 58.9,
+  x: 58.7,
   y: 48.4,
 }, {
   x: 79.1,
@@ -64,6 +65,7 @@ const MapPositions = [{
   x: 87.4,
   y: 62.1,
 }]
+.map((pos,i)=>(assign({},pos,{index:i})))
 
 
 module.exports = { PinWheels,MapPositions }
