@@ -10,6 +10,7 @@
     "url": "https://github.com/samelie"
   },
   "dependencies": {
+    "aphrodite": "^1.2.0",
     "choo": "^4.1.0",
     "choo-log": "^3.0.1",
     "fastclick": "^1.0.6",

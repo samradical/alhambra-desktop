@@ -14,58 +14,96 @@ const PinWheels = arr.map((l, i) => {
 })
 
 const MapPositions = [{
-  x: .9,
-  y: 3.2,
+    x: .9,
+    y: 3.2,
+  }, {
+    x: 8.5,
+    y: 22.1,
+  }, {
+    x: 8.5,
+    y: 36.1,
+  }, {
+    x: 13.7,
+    y: 48.1,
+  }, {
+    x: 15.3,
+    y: 62.1,
+  }, {
+    x: 27.1,
+    y: 62.1,
+  }, {
+    x: 44.1,
+    y: 62.1,
+  }, {
+    x: 52.2,
+    y: 48.4,
+  }, {
+    x: 58.7,
+    y: 48.4,
+  }, {
+    x: 79.1,
+    y: 62.1,
+  }, {
+    x: 82.8,
+    y: 48.6,
+  }, {
+    x: 87.4,
+    y: 40.6,
+  }, {
+    x: 87.4,
+    y: 19.6,
+  }, {
+    x: 87.4,
+    y: 3.1,
+  }, {
+    x: 95.3,
+    y: 91.4,
+  }, {
+    x: 77.4,
+    y: 91.4,
+  }, {
+    x: 87.4,
+    y: 62.1,
+  }]
+  .map((pos, i) => (assign({}, pos, { index: i })))
+
+
+const Locations = [{
+  color: "#fe0000"
 }, {
-  x: 8.5,
-  y: 22.1,
+  color: "#00a6d3"
 }, {
-  x: 8.5,
-  y: 36.1,
+  color: "#fb7130"
 }, {
-  x: 13.7,
-  y: 48.1,
+  color: "#3bc901"
 }, {
-  x: 15.3,
-  y: 62.1,
+  color: "#fef200"
 }, {
-  x: 27.1,
-  y: 62.1,
+  color: "#c51a20"
 }, {
-  x: 44.1,
-  y: 62.1,
+  color: "#fdb813"
 }, {
-  x: 52.2,
-  y: 48.4,
+  color: "#ebdebb"
 }, {
-  x: 58.7,
-  y: 48.4,
+  color: "#561801"
 }, {
-  x: 79.1,
-  y: 62.1,
+  color: "#40fff5"
 }, {
-  x: 82.8,
-  y: 48.6,
+  color: "#134199"
 }, {
-  x: 87.4,
-  y: 40.6,
+  color: "#ff000a"
 }, {
-  x: 87.4,
-  y: 19.6,
+  color: "#b6c3d6"
 }, {
-  x: 87.4,
-  y: 3.1,
+  color: "#dd725e"
 }, {
-  x: 95.3,
-  y: 91.4,
+  color: "#ffffff"
 }, {
-  x: 77.4,
-  y: 91.4,
+  color: "#ff6c7e"
 }, {
-  x: 87.4,
-  y: 62.1,
+  color: "#99f7d5"
 }]
-.map((pos,i)=>(assign({},pos,{index:i})))
 
 
-module.exports = { PinWheels,MapPositions }
+
+module.exports = { PinWheels, MapPositions, Locations }

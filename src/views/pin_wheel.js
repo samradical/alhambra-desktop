@@ -8,6 +8,8 @@ function Map (state, prev, send) {
 
   const clazz = state.activeLocation === state.index ? "pinwheel--active" : "";
 
+
+
   return html`
         <div class="pinwheel__image ${clazz}" style="${rotation}">
           <img src="assets/pinwheel.svg">

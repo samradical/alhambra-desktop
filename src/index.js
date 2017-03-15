@@ -1,4 +1,5 @@
 import { cover, contain } from 'intrinsic-scale';
+import { StyleSheet, css } from 'aphrodite';
 
 let IS_PROD;
 if (process.env.NODE_ENV === 'development') {
@@ -57,8 +58,17 @@ app.model({
 console.log(process.env);
 
 function mainView(state, prev, send) {
+
+  const {Locations} = require('./locations');
+  const styles = StyleSheet.create({
+    bgColor: {
+      backgroundColor: Locations[state.activeLocation].color
+    }
+  });
+
+
   return html `
-    <div class="app">
+    <div class="app ${css(styles.bgColor)}">
         <div class="pinWheelsContainer">
             ${pinWheelsView(state, prev, send)}
         </div>

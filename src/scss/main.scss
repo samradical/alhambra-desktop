@@ -10,6 +10,15 @@
     }
 }
 
+@keyframes rotate-back-even {
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}
+
 $map-aspect:70.640545%;
 
 @mixin aspect-ratio($width, $height) {
@@ -134,7 +143,6 @@ $map-aspect:70.640545%;
     img {
       transform: scale(1.24);
     }
-
 
 
     &.pinwheel--active{
