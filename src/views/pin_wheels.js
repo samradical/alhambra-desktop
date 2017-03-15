@@ -2,8 +2,9 @@ var html = require('choo/html')
 var pinWheelView = require('./pin_wheel')
 
 function PinWheels(state, prev, send) {
-  const colModelsEven = state.locations.filter((l, i) => (l.even))
-  const colModelsOdd = state.locations.filter((l, i) => (!l.even))
+  const {PinWheels} = state.locations;
+  const colModelsEven = PinWheels.filter((l, i) => (l.even))
+  const colModelsOdd = PinWheels.filter((l, i) => (!l.even))
 
   const wheelsEven = colModelsEven.map(l => (pinWheelView(l, prev, send)))
   const wheelsOdd = colModelsOdd.map(l => (pinWheelView(l, prev, send)))

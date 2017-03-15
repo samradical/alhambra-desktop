@@ -17,16 +17,14 @@ app.use(log())
 
 //VIEWS
 var mapView = require('./views/map')
+var mapLocationsView = require('./views/map_locations')
 var tourView = require('./views/tour')
 var pinWheelsView = require('./views/pin_wheels')
-
-var Locations = require('./locations')
-console.log(Locations);
 
 //APP MODEL
 app.model({
   state: {
-    locations:Locations,
+    locations:require('./locations'),
     map: {
       width: 0,
       height: 0
@@ -63,6 +61,7 @@ function mainView(state, prev, send) {
           <div class="contentContainer"  style="width: ${state.map.width}px; height: ${state.map.height}px; ">
             ${mapView(state, prev, send)}
             ${tourView(state, prev, send)}
+            ${mapLocationsView(state, prev, send)}
           </div>
         </div>
     </div>

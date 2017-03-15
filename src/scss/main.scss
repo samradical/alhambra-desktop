@@ -1,6 +1,8 @@
 @import "reset";
 @import "breakpoints";
 
+$map-aspect:70.640545%;
+
 @mixin aspect-ratio($width, $height) {
   position: relative;
   &:before {
@@ -59,6 +61,23 @@
 
 }
 
+.map--locations {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: $map-aspect;
+}
+
+.map--marker {
+  position:absolute;
+  background-color: rgba(20, 20, 20, 0.9);
+  height:6.8%;
+  width:3.7%;
+  border-radius: 50%;
+}
+
+
 .pinWheelsContainer {
     position: relative;
     height: 100vh;
@@ -76,13 +95,13 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
 }
 
 .pinwheel--column{
   position:relative;
-  width: 50%;
+  width: 44%;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -93,8 +112,16 @@
 .pinwheel--image {
     position: relative;
     width: 100%;
-    @include aspect-ratio(396,385);
+    transform-origin: 50% 50%;
+    @include aspect-ratio(536,536);
+    &:before{
+      position:absolute;
+    }
+    img {
+      transform: scale(1.24);
+    }
     //width: 50%;
-    background: url("images/pinwheel.svg");
-    background-repeat: no-repeat;
+    /* background: url("images/pinwheel.svg") center center;
+    background-size: 120%;
+    background-repeat: no-repeat; */
 }
