@@ -3,10 +3,10 @@
 
 @keyframes rotating {
     from{
-        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
     }
     to{
-        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
     }
 }
 
@@ -43,7 +43,7 @@ $map-aspect:70.640545%;
     align-items: center;
     justify-content: center;
     width: 100%;
-    background-color: rgba(70, 255, 0, 0.3);
+    //background-color: rgba(70, 255, 0, 0.3);
 }
 
 .contentContainer {
@@ -99,7 +99,7 @@ $map-aspect:70.640545%;
     min-width: 100px;
     display:flex;
     align-items:center;
-    background-color: rgba(255, 0, 0, 0.3);
+    //background-color: rgba(255, 0, 0, 0.3);
 }
 
 
@@ -135,11 +135,10 @@ $map-aspect:70.640545%;
       transform: scale(1.24);
     }
 
+
+
     &.pinwheel--active{
-    animation: rotating 3s linear infinite;
+      animation: rotating 3s linear infinite;
     }
-    //width: 50%;
-    /* background: url("images/pinwheel.svg") center center;
-    background-size: 120%;
-    background-repeat: no-repeat; */
+
 }

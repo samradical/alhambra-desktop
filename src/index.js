@@ -24,27 +24,31 @@ var pinWheelsView = require('./views/pin_wheels')
 //APP MODEL
 app.model({
   state: {
-    locations:require('./locations'),
-    activeLocation:0,
+    locations: require('./locations'),
+    activeLocation: 0,
     map: {
       width: 0,
       height: 0
     }
   },
   reducers: {
-    resize: function (state, data) {
+    resize: function(state, data) {
       const appEl = document.querySelector('.appContent')
       let { width, height, x, y } = contain(appEl.offsetWidth, appEl.offsetHeight * .75, 1731, 1300);
       //update model state
       return { map: { width: width, height: height } }
+    },
+    mapMarkerClicked: function(state, data) {
+      return {
+        activeLocation: data.index
+      }
     }
   },
-  effects: {
-  },
+  effects: {},
   subscriptions: {
     'called-once-when-the-app-loads': function(send, done) {
-      window.addEventListener('resize', ()=>(send('resize', done)), false)
-      //calls reducer resize
+      window.addEventListener('resize', () => (send('resize', done)), false)
+        //calls reducer resize
       send('resize', done)
     }
   }

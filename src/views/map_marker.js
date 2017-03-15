@@ -1,5 +1,6 @@
 var html = require('choo/html')
-function MapMarker (state, prev, send) {
+
+function MapMarker(state, prev, send) {
 
 
   const style = `
@@ -7,8 +8,14 @@ function MapMarker (state, prev, send) {
   `
   const clazz = state.activeLocation === state.index ? "map--active" : "";
 
-  return html`
-        <div class="map__marker ${clazz}" style="${style}" >
+  function mapMarkerClicked() {
+    send('mapMarkerClicked', state)
+  }
+
+  return html `
+        <div class="map__marker ${clazz}" style="${style}"
+          onclick=${mapMarkerClicked}
+        >
 
         </div>
   `

@@ -1,5 +1,4 @@
 var html = require('choo/html')
-var Animation = require('../animation')
 
 function Map (state, prev, send) {
 
