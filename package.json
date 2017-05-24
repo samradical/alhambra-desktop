@@ -11,15 +11,20 @@
   },
   "dependencies": {
     "aphrodite": "^1.2.0",
+    "bluebird": "^3.5.0",
     "choo": "^4.1.0",
     "choo-log": "^3.0.1",
     "fastclick": "^1.0.6",
     "intrinsic-scale": "^3.0.3",
     "lodash": "^4.17.4",
-    "raf-loop": "^1.1.3"
+    "raf-loop": "^1.1.3",
+    "sono": "^2.0.2",
+    "xhr-request": "^1.0.1"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.18.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-preset-stage-1": "^6.24.1",
     "babelify": "^7.3.0",
     "browserify": "^13.1.1",
     "budo": "^9.2.2",
@@ -36,9 +41,23 @@
     "uglifyify": "^3.0.4"
   },
   "scripts": {
-    "start:js": "NODE_ENV=development budo src/index.js:bundle.js --live --dir app -- -t babelify -t envify",
+    "start:js": "NODE_ENV=development budo src/index.js:bundle.js --live --dir app -- -t babelify --presets [ es2015 stage-0 stage-1 ] -t envify",
     "start:css": "gulp watch",
-    "build": "NODE_ENV=production browserify src/index.js -t babelify | envify | uglifyjs > app/bundle.js && gulp sass --production"
+    "build": "NODE_ENV=production browserify src/index.js -t babelify --presets [ es2015 stage-0 stage-1 ] | envify | uglifyjs > app/bundle.js && gulp sass --production"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            "es2015",
+            "stage-0",
+            "stage-1"
+          ]
+        }
+      ]
+    ]
   },
   "keywords": [],
   "repository": {

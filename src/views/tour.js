@@ -1,8 +1,24 @@
 var html = require('choo/html')
-function Tour (state, prev, send) {
-  return html`
-    <iframe class="tour--frame" src="https://rad.wtf/alhambra-web/" width="667" height="375">
-    </iframe>
+import { ALHAMBRA } from '../locations'
+import Sound from './Sound'
+
+function Tour(state, prev, send) {
+
+
+  const prevLocation = !!prev ? prev.activeLocation : -1;
+  if (prevLocation !== state.activeLocation) {
+    //CHANGE THE ALHAMBRA APP
+    setTimeout(() => {
+      Sound.updateMap({
+        latitude: ALHAMBRA[state.activeLocation].latitude,
+        longitude: ALHAMBRA[state.activeLocation].longitude
+      })
+    }, 3000)
+  }
+
+
+  return html `
+  <div></div>
   `
 }
 
