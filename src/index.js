@@ -6,7 +6,7 @@ import Loader from "./loader"
 let baseRoute = ""
 if (process.env.NODE_ENV === "production") {
   baseRoute = "/"
-  //baseRoute = "desktop-tour/"
+  baseRoute = "desktop-tour/"
 } else if (process.env.NODE_ENV === "github") {
   baseRoute = "thealhambraproject.com/desktop-tour/"
 }
