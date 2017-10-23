@@ -43,7 +43,8 @@
   "scripts": {
     "start:js": "NODE_ENV=development budo src/index.js:bundle.js --live --dir app -- -t babelify --presets [ es2015 stage-0 stage-1 ] -t envify",
     "start:css": "gulp watch",
-    "build": "NODE_ENV=production browserify src/index.js -t babelify --presets [ es2015 stage-0 stage-1 ] | envify | uglifyjs > app/bundle.js && gulp sass --production"
+    "build": "browserify src/index.js -t [ envify --NODE_ENV production ] -t babelify --presets [ es2015 stage-0 stage-1 ] | uglifyjs > app/bundle.js && gulp sass --production",
+    "build:gh": "browserify src/index.js -t [ envify --NODE_ENV github ] -t babelify --presets [ es2015 stage-0 stage-1 ] | uglifyjs > app/bundle.js && gulp sass --production"
   },
   "browserify": {
     "transform": [

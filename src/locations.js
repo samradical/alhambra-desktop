@@ -93,10 +93,10 @@ const Locations = [{
   color: "#fe0000"
 }, {
   name:"alhambra",
-  color: "#00a6d3"
+  color: "rgb(0,188,255)"
 }, {
   name:"folie",
-  color: "#fb7130"
+  color: "rgb(255,89,10)"
 }, {
   name:"bricks",
   color: "#3bc901"

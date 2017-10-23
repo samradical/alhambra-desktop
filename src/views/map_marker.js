@@ -9,14 +9,15 @@ function MapMarker(state, prev, send) {
   const clazz = state.activeLocation === state.index ? "map--active" : "";
 
   function mapMarkerClicked() {
-    send('mapMarkerClicked', state)
+    if(window.ALHAMBRA_API && state.allow){
+      send('mapMarkerClicked', state)
+    }
   }
 
   return html `
         <div class="map__marker ${clazz}" style="${style}"
           onclick=${mapMarkerClicked}
         >
-
         </div>
   `
 }
